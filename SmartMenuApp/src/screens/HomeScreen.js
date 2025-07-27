@@ -1,49 +1,86 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  const [permission, requestPermission] = useCameraPermissions();
+  const cameraRef = useRef(null);
+
+  const handleCapture = () => {
+    navigation.navigate('Results');
+  };
+
+  if (!permission) {
+    // Camera permissions are still loading
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <SafeAreaView style={styles.safeArea}>
+          <Text style={styles.loadingText}>Loading camera...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
+
+  if (!permission.granted) {
+    // Camera permissions not granted yet
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <SafeAreaView style={styles.safeArea}>
+          <Text style={styles.noPermissionText}>We need your permission to show the camera</Text>
+          <TouchableOpacity 
+            style={styles.permissionButton}
+            onPress={requestPermission}
+          >
+            <Text style={styles.permissionButtonText}>Grant Permission</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView style={styles.safeArea}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.menuButton}>
-            <Ionicons name="menu" size={28} color="white" />
-          </TouchableOpacity>
-          <Text style={styles.title}>ThaiMenu Translator</Text>
-          <TouchableOpacity style={styles.currencyButton}>
-            <Ionicons name="globe-outline" size={24} color="white" />
-            <Text style={styles.currencyText}>USD</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Camera View */}
-        <View style={styles.cameraContainer}>
-          <View style={styles.cameraContent}>
-            <View style={styles.cameraIconContainer}>
-              <Ionicons name="camera" size={80} color="white" />
-            </View>
-            <Text style={styles.cameraText}>Take a photo of a Thai menu</Text>
-            <Text style={styles.cameraSubtext}>
-              Position the menu within the frame and make sure the text is clearly visible
-            </Text>
+      <CameraView style={styles.camera} facing="back" ref={cameraRef}>
+        <SafeAreaView style={styles.safeArea}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.menuButton}>
+              <Ionicons name="menu" size={28} color="white" />
+            </TouchableOpacity>
+            <Text style={styles.title}>ThaiMenu Translator</Text>
+            <TouchableOpacity style={styles.currencyButton}>
+              <Ionicons name="globe-outline" size={24} color="white" />
+              <Text style={styles.currencyText}>USD</Text>
+            </TouchableOpacity>
           </View>
-        </View>
 
-        {/* Bottom Controls */}
-        <View style={styles.controlsContainer}>
-          <TouchableOpacity style={styles.galleryButton}>
-            <MaterialIcons name="photo-library" size={28} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.captureButton}>
-            <View style={styles.captureButtonInner}></View>
-          </TouchableOpacity>
-          <View style={styles.placeholder}></View>
-        </View>
-      </SafeAreaView>
+          {/* Camera View */}
+          <View style={styles.cameraContainer}>
+            <View style={styles.overlayInstructions}>
+              <Text style={styles.cameraText}>Position menu in frame</Text>
+            </View>
+          </View>
+
+          {/* Bottom Controls */}
+          <View style={styles.controlsContainer}>
+            <TouchableOpacity style={styles.galleryButton}>
+              <MaterialIcons name="photo-library" size={28} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.captureButton}
+              onPress={handleCapture}
+            >
+              <View style={styles.captureButtonInner}></View>
+            </TouchableOpacity>
+            <View style={styles.placeholder}></View>
+          </View>
+        </SafeAreaView>
+      </CameraView>
     </View>
   );
 };
@@ -54,6 +91,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   safeArea: {
+    flex: 1,
+  },
+  camera: {
     flex: 1,
   },
   header: {
@@ -90,26 +130,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cameraContent: {
-    alignItems: 'center',
-    padding: 20,
-  },
-  cameraIconContainer: {
-    marginBottom: 20,
+  overlayInstructions: {
+    padding: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
   },
   cameraText: {
     color: 'white',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 16,
-  },
-  cameraSubtext: {
-    color: 'white',
-    opacity: 0.7,
-    fontSize: 16,
-    textAlign: 'center',
-    maxWidth: 300,
   },
   controlsContainer: {
     flexDirection: 'row',
@@ -133,6 +165,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 3,
+    borderColor: 'white',
   },
   captureButtonInner: {
     width: 70,
@@ -143,6 +177,31 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     width: 60,
+  },
+  noPermissionText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 100,
+    marginBottom: 20,
+  },
+  loadingText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 100,
+  },
+  permissionButton: {
+    backgroundColor: '#3366FF',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignSelf: 'center',
+  },
+  permissionButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
