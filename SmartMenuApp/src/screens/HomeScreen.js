@@ -1,9 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -13,7 +23,7 @@ const HomeScreen = () => {
           <TouchableOpacity style={styles.menuButton}>
             <Ionicons name="menu" size={28} color="white" />
           </TouchableOpacity>
-          <Text style={styles.title}>ThaiMenu Translator</Text>
+          <Text style={styles.title}>SmartMenu</Text>
           <TouchableOpacity style={styles.currencyButton}>
             <Ionicons name="globe-outline" size={24} color="white" />
             <Text style={styles.currencyText}>USD</Text>
@@ -38,9 +48,17 @@ const HomeScreen = () => {
           <TouchableOpacity style={styles.galleryButton}>
             <MaterialIcons name="photo-library" size={28} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.captureButton}>
+
+          {/* CAMERA BUTTON */}
+          <TouchableOpacity
+            style={styles.captureButton}
+            onPress={() => {
+              navigation.navigate('Results');
+            }}
+          >
             <View style={styles.captureButtonInner}></View>
           </TouchableOpacity>
+
           <View style={styles.placeholder}></View>
         </View>
       </SafeAreaView>
@@ -146,4 +164,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen; 
+export default HomeScreen;
