@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
+  const navigation = useNavigation();
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef(null);
 
@@ -15,90 +17,79 @@ const HomeScreen = ({ navigation }) => {
   if (!permission) {
     // Camera permissions are still loading
     return (
-      <SafeAreaProvider>
-        <View style={styles.container}>
-          <StatusBar barStyle="light-content" backgroundColor="#3366FF" />
-          <SafeAreaView style={styles.safeArea}>
-            <Text style={styles.loadingText}>Loading camera...</Text>
-          </SafeAreaView>
-        </View>
-      </SafeAreaProvider>
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#3366FF" />
+        <SafeAreaView style={styles.safeArea}>
+          <Text style={styles.loadingText}>Loading camera...</Text>
+        </SafeAreaView>
+      </View>
     );
   }
 
   if (!permission.granted) {
     // Camera permissions not granted yet
     return (
-      <SafeAreaProvider>
-        <View style={styles.container}>
-          <StatusBar barStyle="light-content" backgroundColor="#3366FF" />
-          <SafeAreaView style={styles.safeArea}>
-            <Text style={styles.noPermissionText}>We need your permission to show the camera</Text>
-            <TouchableOpacity 
-              style={styles.permissionButton}
-              onPress={requestPermission}
-            >
-              <Text style={styles.permissionButtonText}>Grant Permission</Text>
-            </TouchableOpacity>
-          </SafeAreaView>
-        </View>
-      </SafeAreaProvider>
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#3366FF" />
+        <SafeAreaView style={styles.safeArea}>
+          <Text style={styles.noPermissionText}>We need your permission to show the camera</Text>
+          <TouchableOpacity 
+            style={styles.permissionButton}
+            onPress={requestPermission}
+          >
+            <Text style={styles.permissionButtonText}>Grant Permission</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle="light-content" backgroundColor="#3366FF" />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       
-      {/* Header with SafeAreaView to handle notch/status bar */}
-      <View style={styles.headerContainer}>
-        <SafeAreaView edges={['top']} style={styles.headerSafeArea}>
-          <View style={styles.header}>
-            <TouchableOpacity style={styles.menuButton}>
-              <Ionicons name="menu" size={28} color="white" />
-            </TouchableOpacity>
-            <Text style={styles.title}>SmartMenu</Text>
-            <TouchableOpacity style={styles.currencyButton}>
-              <Ionicons name="globe-outline" size={24} color="white" />
-              <Text style={styles.currencyText}>USD</Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </View>
-      
-      {/* Camera View */}
-      <View style={styles.container}>
-        <CameraView style={styles.camera} facing="back" ref={cameraRef}>
-          {/* Main content */}
-          <View style={styles.mainContent}>
-            {/* Camera View */}
-            <View style={styles.cameraContainer}>
-              {/* Empty space for camera view */}
-            </View>
-
-            {/* Bottom Controls with instruction text above */}
-            <SafeAreaView style={styles.bottomSection} edges={['bottom']}>
+      <SafeAreaView style={styles.safeArea}>
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.menuButton}>
+            <Ionicons name="menu" size={28} color="white" />
+          </TouchableOpacity>
+          <Text style={styles.title}>SmartMenu</Text>
+          <TouchableOpacity style={styles.currencyButton}>
+            <Ionicons name="globe-outline" size={24} color="white" />
+            <Text style={styles.currencyText}>USD</Text>
+          </TouchableOpacity>
+        </View>
+        
+        {/* Camera View */}
+        <View style={styles.cameraContainer}>
+          <CameraView style={styles.camera} facing="back" ref={cameraRef}>
+            <View style={styles.cameraContent}>
               <View style={styles.overlayInstructions}>
                 <Text style={styles.cameraText}>Position menu in frame</Text>
               </View>
-              
-              <View style={styles.controlsContainer}>
-                <TouchableOpacity style={styles.galleryButton}>
-                  <MaterialIcons name="photo-library" size={28} color="white" />
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={styles.captureButton}
-                  onPress={handleCapture}
-                >
-                  <View style={styles.captureButtonInner}></View>
-                </TouchableOpacity>
-                <View style={styles.placeholder}></View>
-              </View>
-            </SafeAreaView>
-          </View>
-        </CameraView>
-      </View>
-    </SafeAreaProvider>
+            </View>
+          </CameraView>
+        </View>
+
+        {/* Bottom Controls */}
+        <View style={styles.controlsContainer}>
+          <TouchableOpacity style={styles.galleryButton}>
+            <MaterialIcons name="photo-library" size={28} color="white" />
+          </TouchableOpacity>
+
+          {/* CAMERA BUTTON */}
+          <TouchableOpacity
+            style={styles.captureButton}
+            onPress={handleCapture}
+          >
+            <View style={styles.captureButtonInner}></View>
+          </TouchableOpacity>
+
+          <View style={styles.placeholder}></View>
+        </View>
+      </SafeAreaView>
+    </View>
   );
 };
 
@@ -113,15 +104,6 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  headerContainer: {
-    width: '100%',
-    backgroundColor: '#3366FF',
-    zIndex: 10,
-  },
-  headerSafeArea: {
-    width: '100%',
-    backgroundColor: '#3366FF',
-  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -129,9 +111,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     height: 50,
     backgroundColor: '#3366FF',
-  },
-  mainContent: {
-    flex: 1,
   },
   menuButton: {
     padding: 8,
@@ -157,9 +136,10 @@ const styles = StyleSheet.create({
   cameraContainer: {
     flex: 1,
   },
-  bottomSection: {
+  cameraContent: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
   },
   overlayInstructions: {
     padding: 8,
@@ -181,6 +161,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 30,
+    paddingBottom: 20,
   },
   galleryButton: {
     width: 60,
@@ -237,4 +218,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen; 
+export default HomeScreen;
