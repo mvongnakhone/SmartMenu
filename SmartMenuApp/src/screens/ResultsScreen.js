@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -13,18 +13,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/Header';
-
-const exchangeRates = {
-  USD: 0.0282,
-  GBP: 0.022,
-  EUR: 0.0257,
-  JPY: 4.47,
-  CNY: 0.204,
-  THB: 1,
-};
+import { useCurrency } from '../context/CurrencyContext';
 
 const ResultsScreen = ({ route }) => {
   const navigation = useNavigation();
+  const { currency, exchangeRates } = useCurrency();
 
   const translatedDishes = route?.params?.translatedDishes || [
     {
@@ -58,12 +51,6 @@ const ResultsScreen = ({ route }) => {
       image: require('../../assets/somtum.jpg'),
     },
   ];
-
-  const [currency, setCurrency] = useState('USD');
-
-  const handleCurrencyChange = (newCurrency) => {
-    setCurrency(newCurrency);
-  };
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -99,11 +86,7 @@ const ResultsScreen = ({ route }) => {
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       
       {/* Header Component */}
-      <Header
-        leftIconType="back"
-        currency={currency}
-        onCurrencyChange={handleCurrencyChange}
-      />
+      <Header leftIconType="back" />
 
       <SafeAreaView style={styles.safeArea}>
         {/* Dish list */}

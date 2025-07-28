@@ -4,18 +4,21 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from './src/screens/HomeScreen';
 import ResultsScreen from './src/screens/ResultsScreen';
+import { CurrencyProvider } from './src/context/CurrencyContext';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Results" component={ResultsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <CurrencyProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Results" component={ResultsScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </CurrencyProvider>
     </SafeAreaProvider>
   );
 }

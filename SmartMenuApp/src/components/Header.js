@@ -2,20 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Modal, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useCurrency, exchangeRates } from '../context/CurrencyContext';
 
-// Exchange rates for currency conversion
-const exchangeRates = {
-  USD: 0.0282,
-  GBP: 0.022,
-  EUR: 0.0257,
-  JPY: 4.47,
-  CNY: 0.204,
-  THB: 1,
-};
-
-const Header = ({ leftIconType = 'menu', currency = 'USD', onCurrencyChange }) => {
+const Header = ({ leftIconType = 'menu' }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const { currency, setCurrency } = useCurrency();
 
   const handleLeftIconPress = () => {
     if (leftIconType === 'back') {
@@ -30,9 +22,7 @@ const Header = ({ leftIconType = 'menu', currency = 'USD', onCurrencyChange }) =
 
   const handleCurrencySelect = (selectedCurrency) => {
     setModalVisible(false);
-    if (onCurrencyChange) {
-      onCurrencyChange(selectedCurrency);
-    }
+    setCurrency(selectedCurrency);
   };
 
   return (

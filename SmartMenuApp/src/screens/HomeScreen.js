@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -11,14 +11,9 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef(null);
-  const [currency, setCurrency] = useState('USD');
 
   const handleCapture = () => {
     navigation.navigate('Results');
-  };
-
-  const handleCurrencyChange = (newCurrency) => {
-    setCurrency(newCurrency);
   };
 
   if (!permission) {
@@ -58,11 +53,7 @@ const HomeScreen = () => {
       <StatusBar barStyle="light-content" backgroundColor="#000" />
 
       {/* Header Component */}
-      <Header 
-        leftIconType="menu" 
-        currency={currency} 
-        onCurrencyChange={handleCurrencyChange}
-      />
+      <Header leftIconType="menu" />
 
       {/* Camera View */}
       <View style={styles.cameraWrapper}>
