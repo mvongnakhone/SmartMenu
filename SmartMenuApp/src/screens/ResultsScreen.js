@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,21 @@ import { useCurrency } from '../context/CurrencyContext';
 const ResultsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { currency, exchangeRates } = useCurrency();
+  const [loading, setLoading] = useState(false);
+  const photoUri = route?.params?.photoUri;
+
+  // This would be where we'd process the image with Google Cloud Vision API
+  useEffect(() => {
+    if (photoUri) {
+      setLoading(true);
+      // Simulate API call delay
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [photoUri]);
 
   const translatedDishes = route?.params?.translatedDishes || [
     {
@@ -90,9 +105,10 @@ const ResultsScreen = ({ route }) => {
 
       <SafeAreaView style={styles.safeArea}>
         {/* Dish list */}
-        {translatedDishes.length === 0 ? (
+        {loading ? (
           <View style={styles.loader}>
             <ActivityIndicator size="large" color="#3366FF" />
+            <Text style={styles.loadingText}>Processing menu...</Text>
           </View>
         ) : (
           <FlatList
@@ -180,7 +196,13 @@ const styles = StyleSheet.create({
   loader: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#666',
+  }
 });
 
 export default ResultsScreen;
