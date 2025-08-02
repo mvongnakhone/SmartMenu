@@ -4,26 +4,44 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useCurrency, exchangeRates } from '../context/CurrencyContext';
 
-const Header = ({ leftIconType = 'menu' }) => {
+const Header = ({ leftIconType = 'menu', title = 'SmartMenu' }) => {
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [currencyModalVisible, setCurrencyModalVisible] = useState(false);
+  const [menuModalVisible, setMenuModalVisible] = useState(false);
   const { currency, setCurrency } = useCurrency();
 
   const handleLeftIconPress = () => {
     if (leftIconType === 'back') {
       navigation.goBack();
+    } else {
+      // Show menu when hamburger icon is pressed
+      setMenuModalVisible(true);
     }
-    // Menu icon doesn't have any action for now
   };
 
   const handleCurrencyPress = () => {
-    setModalVisible(true);
+    setCurrencyModalVisible(true);
   };
 
   const handleCurrencySelect = (selectedCurrency) => {
-    setModalVisible(false);
+    setCurrencyModalVisible(false);
     setCurrency(selectedCurrency);
   };
+
+  const handleMenuItemPress = (screenName) => {
+    setMenuModalVisible(false);
+    navigation.navigate(screenName);
+  };
+
+  const menuItems = [
+    {
+      id: 'vision_test',
+      title: 'Vision API Test',
+      icon: 'eye-outline',
+      screen: 'VisionTest'
+    },
+    // Add more menu items here as needed
+  ];
 
   return (
     <>
@@ -38,25 +56,56 @@ const Header = ({ leftIconType = 'menu' }) => {
             color="white" 
           />
         </TouchableOpacity>
-        <Text style={styles.title}>SmartMenu</Text>
+        <Text style={styles.title}>{title}</Text>
         <TouchableOpacity style={styles.currencyButton} onPress={handleCurrencyPress}>
           <Ionicons name="globe-outline" size={24} color="white" />
           <Text style={styles.currencyText}>{currency}</Text>
         </TouchableOpacity>
       </View>
 
+      {/* Menu modal */}
+      <Modal
+        transparent
+        animationType="fade"
+        visible={menuModalVisible}
+        onRequestClose={() => setMenuModalVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          onPress={() => setMenuModalVisible(false)}
+          activeOpacity={1}
+        >
+          <View style={styles.menuContainer}>
+            <FlatList
+              data={menuItems}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.menuItem}
+                  onPress={() => handleMenuItemPress(item.screen)}
+                >
+                  <Ionicons name={item.icon} size={24} color="#3366FF" style={styles.menuIcon} />
+                  <Text style={styles.menuText}>{item.title}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
       {/* Currency selector modal */}
       <Modal
         transparent
         animationType="fade"
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        visible={currencyModalVisible}
+        onRequestClose={() => setCurrencyModalVisible(false)}
       >
         <TouchableOpacity
-          style={styles.modalOverlay}
-          onPress={() => setModalVisible(false)}
+          style={styles.currencyModalOverlay}
+          onPress={() => setCurrencyModalVisible(false)}
+          activeOpacity={1}
         >
-          <View style={styles.modalContainer}>
+          <View style={styles.currencyModalContainer}>
             <FlatList
               data={Object.keys(exchangeRates)}
               keyExtractor={(item) => item}
@@ -116,17 +165,57 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: '#00000066',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  currencyModalOverlay: {
+    flex: 1,
+    backgroundColor: '#00000066',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContainer: {
+  menuContainer: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10,
+    width: 250,
+    marginTop: 100,
+    marginLeft: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  currencyModalContainer: {
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 20,
     width: 200,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  menuIcon: {
+    marginRight: 15,
+  },
+  menuText: {
+    fontSize: 16,
+    color: '#333',
   },
   option: {
     paddingVertical: 10,
+    alignItems: 'center',
   },
   optionText: {
     fontSize: 16,
