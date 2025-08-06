@@ -121,9 +121,10 @@ const HomeScreen = () => {
             </View>
           </View>
         ) : (
-          <CameraView style={styles.camera} facing="back" ref={cameraRef}>
+          <View style={styles.cameraContainer}>
+            <CameraView style={styles.camera} facing="back" ref={cameraRef} />
             <View style={styles.mainContent}>
-              <View style={styles.cameraContainer} />
+              <View style={styles.cameraOverlay} />
               <View style={styles.bottomSection}>
                 <View style={styles.overlayInstructions}>
                   <Text style={styles.cameraText}>Position menu in frame</Text>
@@ -143,7 +144,7 @@ const HomeScreen = () => {
                 </View>
               </View>
             </View>
-          </CameraView>
+          </View>
         )}
       </View>
     </SafeAreaProvider>
@@ -165,12 +166,21 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   mainContent: {
     flex: 1,
     justifyContent: 'space-between',
   },
   cameraContainer: {
+    flex: 1,
+    position: 'relative',
+  },
+  cameraOverlay: {
     flex: 1,
   },
   bottomSection: {

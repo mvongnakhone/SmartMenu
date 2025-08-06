@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "ThaiMenu Translator",
+    "name": "SmartMenu",
     "slug": "SmartMenuApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,7 @@
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#3366FF"
     },

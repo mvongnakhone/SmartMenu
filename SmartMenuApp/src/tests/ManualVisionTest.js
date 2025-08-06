@@ -10,6 +10,8 @@ export default function ManualVisionTest() {
   const [loading, setLoading] = useState(false);
   const [detectedText, setDetectedText] = useState("");
   const [error, setError] = useState(null);
+  const [currentImageName, setCurrentImageName] = useState("");
+  const [lastImageIndex, setLastImageIndex] = useState(-1); // Track the last used image index
 
   // Function to pick an image from gallery
   const pickImage = async () => {
@@ -41,38 +43,56 @@ export default function ManualVisionTest() {
     }
   };
 
-  // Function to use a test image from assets
+  // Function to use a test image from assets>test_menus
   const useTestImage = async () => {
     try {
-      // For testing with a local asset
-      // First, we need to get the asset's local URI
+      // For testing with menu images from test_menus directory
+      // Get asset's local URI
       const testImages = [
-        require('../../assets/padthai.jpg'),
-        require('../../assets/tomyum.jpg'),
-        require('../../assets/greencurry.jpg')
+        require('../../assets/test_menus/ThaiMenu1.jpg'),
+        require('../../assets/test_menus/ThaiMenu2.jpg'),
+        require('../../assets/test_menus/ThaiMenu3.jpg'),
+        require('../../assets/test_menus/ThaiMenu4.jpg'),
       ];
       
-      // Select a random test image
-      const randomImage = testImages[Math.floor(Math.random() * testImages.length)];
+      // Select a random test image that's different from the last one
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * testImages.length);
+      } while (randomIndex === lastImageIndex && testImages.length > 1);
+      
+      // Update the last image index
+      setLastImageIndex(randomIndex);
+      
+      const randomImage = testImages[randomIndex];
+      if (!randomImage) {
+        throw new Error('Failed to load test image');
+      }
+      
+      const imageName = `ThaiMenu${randomIndex + 1}`;
+      
       const assetInfo = Image.resolveAssetSource(randomImage);
       
       // For iOS, we need to handle the asset URI differently
       if (Platform.OS === 'ios') {
-        // Create a temporary file from the asset
-        const tempUri = FileSystem.cacheDirectory + 'temp_test_image.jpg';
+        // Create a temporary file with a unique name based on timestamp
+        const timestamp = new Date().getTime();
+        const tempUri = `${FileSystem.cacheDirectory}temp_menu_${randomIndex + 1}_${timestamp}.jpg`;
         
         // Copy the asset to the temp file
         await FileSystem.downloadAsync(assetInfo.uri, tempUri);
         setImage(tempUri);
       } else {
         // On Android, we can use the asset URI directly
-        setImage(assetInfo.uri);
+        // Add a timestamp to force the Image component to update
+        setImage(`${assetInfo.uri}?timestamp=${new Date().getTime()}`);
       }
       
       setDetectedText("");
       setError(null);
+      setCurrentImageName(imageName);
       
-      Alert.alert('Test Image', 'Test image loaded successfully. Press "Process with Vision API" to test.');
+      Alert.alert(imageName, 'Test menu image loaded successfully. Press "Process with Vision API" to detect text.');
     } catch (err) {
       setError(`Error using test image: ${err.message}`);
       console.error(err);
@@ -127,7 +147,14 @@ export default function ManualVisionTest() {
       
       {image && (
         <View style={styles.imageContainer}>
-          <Image source={{ uri: image }} style={styles.image} />
+          <Image 
+            source={{ uri: image }} 
+            style={styles.image} 
+            key={image} // Add key to force re-render
+          />
+          {currentImageName ? (
+            <Text style={styles.imageNameText}>{currentImageName}</Text>
+          ) : null}
           <Text style={styles.imagePathText}>{image}</Text>
         </View>
       )}
@@ -178,6 +205,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300,
     resizeMode: 'contain',
+  },
+  imageNameText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    padding: 5,
+    textAlign: 'center',
   },
   imagePathText: {
     fontSize: 10,
