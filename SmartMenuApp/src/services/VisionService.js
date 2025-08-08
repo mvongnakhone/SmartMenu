@@ -1,8 +1,8 @@
 import * as FileSystem from 'expo-file-system';
-import { GOOGLE_CLOUD_API_KEY } from '@env';
+import { GOOGLE_VISION_API_KEY } from '@env';
 
 // Use environment variable for API key
-const API_KEY = GOOGLE_CLOUD_API_KEY;
+const API_KEY = GOOGLE_VISION_API_KEY;
 const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
 
 /**
