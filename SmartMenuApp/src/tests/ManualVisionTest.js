@@ -3,13 +3,15 @@ import { View, Text, StyleSheet, Button, Image, ScrollView, ActivityIndicator, A
 import * as ImagePicker from 'expo-image-picker';
 import { detectText, getDetectedText } from '../services/VisionService';
 import { translateText } from '../services/TranslationService';
+import { parseMenuWithAI } from '../services/AIParsingService';
 import * as FileSystem from 'expo-file-system';
 
 export default function ManualVisionTest() {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [detectedText, setDetectedText] = useState("");
-  const [translatedText, setTranslatedText] = useState(""); // NEW
+  const [translatedText, setTranslatedText] = useState("");
+  const [parsedText, setParsedText] = useState(""); 
   const [error, setError] = useState(null);
   const [currentImageName, setCurrentImageName] = useState("");
   const [lastImageIndex, setLastImageIndex] = useState(-1);
@@ -32,7 +34,8 @@ export default function ManualVisionTest() {
       if (!result.canceled) {
         setImage(result.assets[0].uri);
         setDetectedText("");
-        setTranslatedText(""); // NEW
+        setTranslatedText("");
+        setParsedText("");
         setError(null);
       }
     } catch (err) {
@@ -70,7 +73,8 @@ export default function ManualVisionTest() {
       }
 
       setDetectedText("");
-      setTranslatedText(""); // NEW
+      setTranslatedText("");
+      setParsedText(""); 
       setError(null);
       setCurrentImageName(imageName);
 
@@ -90,7 +94,8 @@ export default function ManualVisionTest() {
     setLoading(true);
     setError(null);
     setDetectedText("");
-    setTranslatedText(""); // NEW
+    setTranslatedText("");
+    setParsedText("");
 
     try {
       console.log('Processing image:', image);
@@ -102,11 +107,14 @@ export default function ManualVisionTest() {
         Alert.alert('No Text Found', 'No text was detected in the image.');
       } else {
         const translated = await translateText(text);
-        setTranslatedText(translated); // NEW
+        setTranslatedText(translated);
+        
+        const parsed = await parseMenuWithAI(translated);
+        setParsedText(parsed);
       }
     } catch (err) {
       setError(`Error processing image: ${err.message}`);
-      console.error('Vision/Translation error:', err);
+      console.error('Vision/Translation/Parsing error:', err);
     } finally {
       setLoading(false);
     }
@@ -159,6 +167,13 @@ export default function ManualVisionTest() {
               <Text style={styles.detectedText}>{translatedText}</Text>
             </>
           ) : null}
+          
+          {parsedText ? (
+            <>
+              <Text style={styles.sectionTitle}>AI-Parsed Menu:</Text>
+              <Text style={styles.parsedText}>{parsedText}</Text>
+            </>
+          ) : null}
         </View>
       )}
     </ScrollView>
@@ -185,4 +200,5 @@ const styles = StyleSheet.create({
   resultsContainer: { marginTop: 16, padding: 10, backgroundColor: '#fff', borderRadius: 5, borderWidth: 1, borderColor: '#ddd' },
   sectionTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
   detectedText: { fontSize: 16, lineHeight: 24 },
+  parsedText: { fontSize: 16, lineHeight: 24, color: '#0066cc', fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace' },
 });
