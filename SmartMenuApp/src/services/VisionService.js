@@ -41,7 +41,7 @@ export const detectText = async (imageUri) => {
           },
           features: [
             {
-              type: 'TEXT_DETECTION'
+              type: 'DOCUMENT_TEXT_DETECTION'
             },
           ],
           imageContext: {
@@ -98,3 +98,47 @@ export const getDetectedText = (visionResponse) => {
     return "Error extracting text";
   }
 }; 
+
+/**
+ * Detects text with position information in a single step
+ * @param {string} imageUri - The file URI of the image
+ * @returns {Promise<Object>} - Simplified structure with text and positions
+ */
+export const detectTextWithPositions = async (imageUri) => {
+  try {
+    // Get the full API response
+    const visionResponse = await detectText(imageUri);
+    
+    // Extract the full text for display purposes
+    const fullText = getDetectedText(visionResponse);
+    
+    // Extract text elements with positions
+    const textElements = [];
+    
+    if (visionResponse?.responses?.[0]?.textAnnotations) {
+      // Skip the first annotation (which is the full text)
+      const annotations = visionResponse.responses[0].textAnnotations.slice(1);
+      
+      // Process each text element
+      for (const annotation of annotations) {
+        textElements.push({
+          text: annotation.description,
+          position: annotation.boundingPoly.vertices,
+          center: {
+            x: annotation.boundingPoly.vertices.reduce((sum, v) => sum + v.x, 0) / 4,
+            y: annotation.boundingPoly.vertices.reduce((sum, v) => sum + v.y, 0) / 4
+          }
+        });
+      }
+    }
+    
+    // Return both the full text and the structured text elements
+    return {
+      fullText,
+      textElements
+    };
+  } catch (error) {
+    console.error('Error detecting text with positions:', error);
+    throw error;
+  }
+};

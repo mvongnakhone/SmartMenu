@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, Image, ScrollView, ActivityIndicator, Alert, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { detectText, getDetectedText } from '../services/VisionService';
+import { detectText, getDetectedText, detectTextWithPositions } from '../services/VisionService';
 import { translateText } from '../services/TranslationService';
-import { parseMenuWithAI } from '../services/AIParsingService';
+import { parseMenuWithAI, parseWithChatGPT } from '../services/AIParsingService';
 import * as FileSystem from 'expo-file-system';
 
 export default function ManualVisionTest() {
@@ -15,6 +15,7 @@ export default function ManualVisionTest() {
   const [error, setError] = useState(null);
   const [currentImageName, setCurrentImageName] = useState("");
   const [lastImageIndex, setLastImageIndex] = useState(-1);
+  const [usePositionData, setUsePositionData] = useState(true); // Default to using position data
 
   const pickImage = async () => {
     try {
@@ -99,22 +100,50 @@ export default function ManualVisionTest() {
 
     try {
       console.log('Processing image:', image);
-      const visionResponse = await detectText(image);
-      const text = getDetectedText(visionResponse);
-      setDetectedText(text);
-
-      if (text === "No text detected") {
-        Alert.alert('No Text Found', 'No text was detected in the image.');
-      } else {
-        const translated = await translateText(text);
-        setTranslatedText(translated);
+      
+      if (usePositionData) {
+        // Simplified position-aware processing pipeline
+        const textData = await detectTextWithPositions(image);
         
-        const parsed = await parseMenuWithAI(translated);
-        setParsedText(parsed);
+        // Display the full text
+        setDetectedText(textData.fullText);
+        console.log('Detected OCR Text:', textData.fullText);
+        
+        if (textData.textElements.length === 0) {
+          Alert.alert('No Text Found', 'No text was detected in the image.');
+          setLoading(false);
+          return;
+        }
+        
+        // Send directly to ChatGPT for parsing with position data
+        const parsed = await parseWithChatGPT(textData);
+        
+        // Translate the parsed menu from Thai to English
+        const translatedParsed = await translateText(parsed, "en");
+        setParsedText(translatedParsed);
+        console.log('AI-Parsed Menu (translated to English):', translatedParsed);
+      } else {
+        // Original processing pipeline (without position data)
+        const visionResponse = await detectText(image);
+        const text = getDetectedText(visionResponse);
+        setDetectedText(text);
+        console.log('Detected OCR Text:', text);
+
+        if (text === "No text detected") {
+          Alert.alert('No Text Found', 'No text was detected in the image.');
+        } else {
+          const translated = await translateText(text);
+          setTranslatedText(translated);
+          console.log('Translated Text:', translated);
+          
+          const parsed = await parseMenuWithAI(translated);
+          setParsedText(parsed);
+          console.log('AI-Parsed Menu:', parsed);
+        }
       }
     } catch (err) {
       setError(`Error processing image: ${err.message}`);
-      console.error('Vision/Translation/Parsing error:', err);
+      console.error('Vision/Parsing/Translation error:', err);
     } finally {
       setLoading(false);
     }
@@ -127,9 +156,19 @@ export default function ManualVisionTest() {
         <Button title="Use Test Image" onPress={useTestImage} />
       </View>
 
+      <View style={styles.switchContainer}>
+        <Text style={styles.switchLabel}>
+          {usePositionData ? "Using Position Data (Direct to AI)" : "Using Traditional Pipeline"}
+        </Text>
+        <Button 
+          title={usePositionData ? "Switch to Traditional" : "Switch to Position Data"} 
+          onPress={() => setUsePositionData(!usePositionData)}
+        />
+      </View>
+
       <View style={styles.buttonContainer}>
         <Button
-          title="Process with Vision API"
+          title="Process Menu"
           onPress={processImage}
           disabled={!image || loading}
         />
@@ -170,7 +209,7 @@ export default function ManualVisionTest() {
           
           {parsedText ? (
             <>
-              <Text style={styles.sectionTitle}>AI-Parsed Menu:</Text>
+              <Text style={styles.sectionTitle}>AI-Parsed Menu (English):</Text>
               <Text style={styles.parsedText}>{parsedText}</Text>
             </>
           ) : null}
@@ -183,6 +222,8 @@ export default function ManualVisionTest() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, backgroundColor: '#f5f5f5' },
   buttonContainer: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 16 },
+  switchContainer: { alignItems: 'center', marginBottom: 16 },
+  switchLabel: { fontSize: 16, fontWeight: 'bold', marginBottom: 8 },
   imageContainer: {
     alignItems: 'center',
     marginBottom: 16,
