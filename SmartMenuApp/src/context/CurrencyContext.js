@@ -1,38 +1,56 @@
-import React, { createContext, useState, useContext } from 'react';
+// src/context/CurrencyContext.js
+import React, { createContext, useState, useContext, useMemo } from 'react';
 
-// Create the currency context
 const CurrencyContext = createContext();
 
-// Exchange rates for currency conversion
 export const exchangeRates = {
-  USD: 0.0282,
-  GBP: 0.022,
-  EUR: 0.0257,
-  JPY: 4.47,
-  CNY: 0.204,
-  THB: 1,
+  USD: 0.03083,
+  GBP: 0.02297,
+  EUR: 0.02645,
+  JPY: 4.53,
+  CNY: 0.22210,
+  THB: 1
 };
 
-// Provider component that wraps your app and makes currency object available to any
-// child component that calls useCurrency().
 export const CurrencyProvider = ({ children }) => {
   const [currency, setCurrency] = useState('USD');
 
-  // The value that will be given to the context
-  const currencyValue = {
-    currency,
-    setCurrency,
-    exchangeRates
-  };
+  const value = useMemo(() => {
+    const convertFromTHB = (thb) => {
+      const rate = exchangeRates[currency] ?? 1;
+      const val = thb * rate;
 
-  return (
-    <CurrencyContext.Provider value={currencyValue}>
-      {children}
-    </CurrencyContext.Provider>
-  );
+      // Keep whole yen
+      return currency === 'JPY' ? Math.round(val) : Number(val.toFixed(2));
+    };
+
+    const formatPrice = (amount) => {
+      try {
+        return new Intl.NumberFormat(undefined, {
+          style: 'currency',
+          currency,
+          maximumFractionDigits: currency === 'JPY' ? 0 : 2,
+          minimumFractionDigits: currency === 'JPY' ? 0 : 2,
+        }).format(amount);
+      } catch {
+        const dp = currency === 'JPY' ? 0 : 2;
+        return `${currency} ${amount.toFixed(dp)}`;
+      }
+    };
+
+    const displayFromTHB = (thb) => formatPrice(convertFromTHB(thb));
+
+    return {
+      currency,
+      setCurrency,
+      exchangeRates,
+      convertFromTHB,
+      formatPrice,
+      displayFromTHB,
+    };
+  }, [currency]);
+
+  return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
 };
 
-// Custom hook that shorthands the context
-export const useCurrency = () => {
-  return useContext(CurrencyContext);
-}; 
+export const useCurrency = () => useContext(CurrencyContext);
