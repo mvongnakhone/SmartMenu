@@ -5,6 +5,7 @@ import { detectText, getDetectedText } from '../services/VisionService';
 import { translateText } from '../services/TranslationService';
 import { parseMenuWithAI } from '../services/AIParsingService';
 import * as FileSystem from 'expo-file-system';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ManualVisionTest() {
   const [image, setImage] = useState(null);
@@ -15,6 +16,7 @@ export default function ManualVisionTest() {
   const [error, setError] = useState(null);
   const [currentImageName, setCurrentImageName] = useState("");
   const [lastImageIndex, setLastImageIndex] = useState(-1);
+  const navigation = useNavigation();
 
   const pickImage = async () => {
     try {
@@ -106,11 +108,23 @@ export default function ManualVisionTest() {
       if (text === "No text detected") {
         Alert.alert('No Text Found', 'No text was detected in the image.');
       } else {
-        const translated = await translateText(text);
+        
+        const parsed = await parseMenuWithAI(text);
+        setParsedText(parsed);
+        
+        // Display AI parsed results in terminal
+        console.log('\n=== AI PARSED RESPONSE ===');
+        console.log(parsed);
+        console.log('=========================\n');
+
+        const translated = await translateText(parsed);
         setTranslatedText(translated);
         
-        const parsed = await parseMenuWithAI(translated);
-        setParsedText(parsed);
+        // Display translated text in terminal
+        console.log('\n=== TRANSLATED TEXT ===');
+        console.log(translated);
+        console.log('======================\n');
+
       }
     } catch (err) {
       setError(`Error processing image: ${err.message}`);
@@ -132,6 +146,14 @@ export default function ManualVisionTest() {
           title="Process with Vision API"
           onPress={processImage}
           disabled={!image || loading}
+        />
+      </View>
+      
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Run Accuracy Test"
+          onPress={() => navigation.navigate('MenuAccuracyTest')}
+          color="#28a745"
         />
       </View>
 
