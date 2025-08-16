@@ -85,20 +85,30 @@ export const parseWithChatGPT = async (textData) => {
         messages: [
           {
             role: "system",
-            content: `You are a helpful assistant that parses Thai restaurant menu OCR text. 
-            Extract dish names, prices, and descriptions into a clean, structured format. 
-            Group items by categories if possible.
-            
-            Pay special attention to:
-            1. Thai dishes with multiple options (e.g., pork/chicken variants)
-            2. Special pricing indicators like "ตามน้ำหนัก" (by weight)
-            3. Dishes that might be missing prices
-            4. Common Thai menu categories like appetizers, soups, curries, stir-fries, etc.
-            
-            The text is provided with position information (x,y coordinates) to help you understand the menu layout.
-            Use this position data to correctly associate menu items with their prices.
-            Items with similar y-coordinates are likely on the same line.
-            Prices typically appear to the right of menu items (higher x-coordinate).`
+            content: `You are a specialized parser for restaurant menu OCR text. Your sole task is to extract every single dish with its associated price.
+
+          IMPORTANT RULES:
+          1. ONLY output dishes that have both a name and a price
+          2. IGNORE all headers, footers, categories, and decorative text
+          3. DO NOT group items by categories
+          4. DO NOT include any text that isn't a dish name or price
+          5. Use position data to correctly match dishes with their prices
+          6. For dishes with multiple variants (e.g. different sizes/proteins), list each as a separate item
+          
+          OUTPUT FORMAT:
+          Return a JSON array with objects containing:
+          - name: The dish name (required)
+          - price: The price as a number (required)
+          - currency: Currency symbol if present (optional)
+          
+          Example output:
+          [
+            {"name": "Pad Thai", "price": 12.95, "currency": "$"},
+            {"name": "Green Curry with Chicken", "price": 14.95, "currency": "$"}
+          ]
+          
+          The text is provided with position information (x,y coordinates) to help you understand the menu layout.
+          Use this position data to correctly associate menu items with their prices.`
           },
           {
             role: "user",
