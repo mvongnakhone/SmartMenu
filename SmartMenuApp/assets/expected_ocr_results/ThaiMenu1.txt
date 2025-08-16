@@ -1,0 +1,149 @@
+ปลาแรด (110)
+* เป็นชิ้นเนะไม่ได้เป็นตัว
+* ปลานรดทอดกระเทียม
+* ปลานรดผัดพริกเกลือ
+* ปลานรดซอสมะขาม
+* ผัดฉ่า/ผัดขี้เมาปลานรด
+* ต้มยำปลานรด
+* แกงป่าปลานรด
+* แกงปลานรดใบยอ
+ปลาคัง (130)
+* ต้มยำปลาคัง
+* ปลาคังผัดพริกเกลือ
+* ปลาคังทอดกระเทียม
+* ผัดฉ่า/ผัดขี้เมาปลาคัง
+* ปลาคังลวกจิ้ม
+* แกงป่าปลาคัง
+* เขียวหวาน
+* ปลาคังต้มแห้ง
+ทะเล (130)
+* ต้มยำทะเลใส, ข้น
+* กุ้งผัดกะปิ
+* ทะเลผัดผงกะหรี่
+* กุ้งทอดกระเทียม
+* กุ้งผัดพริกเกลือ
+* กุ้งทอดซอสมะขาม
+* เขียวหวานทะเลแห้ง
+* คะน้าไชโตผัดกุ้ง
+ยำ, ลาบ
+* ยำปลาแรด (110)
+* ยำปลาคัง (130)
+* ลาบทะเล (130)
+* ยำมาม่าทะเล (130)
+* ลาบหมูกรอบ (110)
+* ยำหมูหมัก (85)
+* ลาบหมูคั่ว (85)
+* หมูมะนาว (90)
+ห้ามพลาด
+* ไข่เจียวใบยอ (75)
+* แกงส้มไข่ทอดใบยอกุ้ง (100)
+* เต้าหู้ไข่ผัดผงกะหรี่ (85)
+* ต้มยำปลาย่างเห็ดรวม (85)
+* นกอกมะอร่อยรวมมิตร (100)
+น้ำพริก (ชุด) (100)
+* น้ำพริกกุ้งสด
+* น้ำพริกเผาหมูกรอบ
+* หลนเห็ด
+* หลนหน่อไม้กุ้ง
+* น้ำพริกแจ่วหมู
+หมูกรอบ (110)
+* หมูกรอบผัดพริกเกลือ
+* หมูกรอบผัดผงกะหรี่
+* ฉู่ฉี่หมูกรอบ
+* พริกเผาหมูกรอบ
+* คะน้าไชโตหมูกรอบ
+หมูสามชั้น (100)
+* สามชั้นทอดน้ำปลา
+* สามชั้นผัดกะปิ
+* ต้มยำหมูสามชั้น
+หมูป่า (100)
+* ผัดเผ็ดหมูป่าไม่ใส่ถั่ว
+* กระเพราหมูป่า
+* แกงป่าหมูป่า
+* ฉู่ฉี่หมูป่า
+ไข่เจียว
+* ไข่เจียวหมูสับ (75)
+* ไข่เจียวหมู (75)
+* ไข่เจียวเห็ด (75)
+* ไข่เจียวกุ้ง (90)
+ข้าว
+* ข้าวจาน (15)
+* หม้อเล็ก (50)
+* หม้อกลาง (75)
+* หม้อใหญ่ (100)
+* ข้าวกล้องถ้วยใหญ่ (150)
+
+
+Pla Rad 110
+Pieces not whole //parse out?
+ 	Fried Pla Rad with Garlic
+	Stir-fried Pla Rad with Chili and Salt
+	Pla Rad with Tamarind Sauce
+	Stir-fried Pla Rad with Chili Paste/Stir-fried Drunken Pla Rad
+	Tom Yum Pla Rad
+	Jungle Curry with Pla Rad
+	Pla Rad with Cha-O-Cha and Cha-O-Cha ...
+Catfish 130
+	Tom Yum Catfish
+	Stir-fried Catfish with Chili and Salt
+	Fried Catfish with Garlic
+	Stir-fried Catfish with Chili Paste/Stir-fried Drunken Catfish
+	Boiled Catfish with Dipping Sauce
+	Jungle Catfish Curry
+	Green Curry
+	Dry Boiled Catfish
+Seafood 130
+	Clear and Thick Tom Yum Seafood Soup
+	Shrimp Stir-Fried with Shrimp Paste
+	Seafood Stir-Fried with Curry Powder
+	Fried Shrimp with Garlic
+	Stir-Fried Shrimp with Chili and Salt
+	Fried Shrimp with Tamarind Sauce
+	Dried Seafood Green Curry
+	Stir-Fried Kale and Shrimp with Chinese Broccoli
+Spicy Salad, Laab
+	Striped Catfish Salad — 110
+	Catfish Salad — 130
+	Seafood Laab — 130
+	Seafood Mama Salad — 130
+	Crispy Pork Salad — 110
+	Marinated Pork Salad — 85
+	Roasted Pork Salad — 85
+	Pork with Lime — 90
+Don't Miss It!
+	Cha-om Omelet — 75
+	Cha-om Omelet with Shrimp and Fried Eggs — 100
+	Stir-fried Egg Tofu with Curry Powder — 85
+	Grilled Fish and Mushroom Tom Yum Soup — 85
+	Delicious Mixed Chicken — 85
+Chili Paste (Set) 100
+	Fresh Shrimp Chili Paste
+	Crispy Pork Chili Paste
+	Mushroom Curry
+	Shrimp and Bamboo Shoot Curry
+	Pork Chili Paste
+Crispy Pork 110
+	Crispy Pork Stir-Fried with Chili and Salt
+	Crispy Pork Stir-Fried with Curry Powder
+	Crispy Pork in Red Curry Sauce
+	Crispy Pork in Chili Paste
+	Kale and Chinese Broccoli with Crispy Pork
+Pork Belly 100
+	Fried Pork Belly with Fish Sauce
+	Stir-fried Pork Belly with Shrimp Paste
+	Pork Belly Tom Yum Soup
+Wild Boar 100
+	Stir-fried Wild Boar with Chili Paste (No Beans)
+	Stir-fried Wild Boar with Holy Basil
+	Wild Boar Curry
+	Wild Boar in Red Curry Sauce
+Omelet
+	Minced Pork Omelet — 75
+	Sausage Omelet — 75
+	Shrimp Omelet — 90
+Rice //chatgpt pulled this with visual context parsing
+	Rice Plate — 15
+	Small Pot — 50
+	Medium Pot — 75
+	Large Pot — 100
+	Large Bowl of Brown Rice — 150

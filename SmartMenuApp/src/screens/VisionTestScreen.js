@@ -3,7 +3,11 @@ import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import ManualVisionTest from '../tests/ManualVisionTest';
+import { GOOGLE_VISION_API_KEY } from '@env';
+import { GOOGLE_TRANSLATE_API_KEY } from '@env';
 
+const visionApiKey = GOOGLE_VISION_API_KEY;
+const translateApiKey = GOOGLE_TRANSLATE_API_KEY;
 /**
  * Screen for testing the Google Cloud Vision API
  */
