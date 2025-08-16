@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, Image, ScrollView, ActivityIndicator, A
 import * as ImagePicker from 'expo-image-picker';
 import { detectText, getDetectedText } from '../services/VisionService';
 import { translateText } from '../services/TranslationService';
+import { parseMenuWithAI } from '../services/AIParsingService';
 import * as FileSystem from 'expo-file-system';
 
 export default function ManualVisionTest() {
@@ -10,6 +11,7 @@ export default function ManualVisionTest() {
   const [loading, setLoading] = useState(false);
   const [detectedText, setDetectedText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
+  const [parsedText, setParsedText] = useState(""); 
   const [error, setError] = useState(null);
   const [currentImageName, setCurrentImageName] = useState("");
   const [lastImageIndex, setLastImageIndex] = useState(-1);
@@ -31,6 +33,7 @@ export default function ManualVisionTest() {
         setImage(result.assets[0].uri);
         setDetectedText("");
         setTranslatedText("");
+        setParsedText("");
         setError(null);
       }
     } catch (err) {
@@ -63,11 +66,14 @@ export default function ManualVisionTest() {
       } else {
         setImage(`${assetInfo.uri}?timestamp=${new Date().getTime()}`);
       }
+
       setDetectedText("");
       setTranslatedText("");
+      setParsedText(""); 
       setError(null);
       setCurrentImageName(imageName);
-      Alert.alert(imageName, 'Test menu image loaded successfully. Press "Process with Vision API" to detect text.');
+
+      Alert.alert(imageName, 'Test menu image loaded. Press "Process" to detect text.');
     } catch (err) {
       setError(`Error using test image: ${err.message}`);
       console.error(err);
@@ -79,21 +85,31 @@ export default function ManualVisionTest() {
       setError('Please select an image first');
       return;
     }
+
     setLoading(true);
     setError(null);
+    setDetectedText("");
+    setTranslatedText("");
+    setParsedText("");
+
     try {
+      console.log('Processing image:', image);
       const visionResponse = await detectText(image);
       const text = getDetectedText(visionResponse);
       setDetectedText(text);
+
       if (text === "No text detected") {
         Alert.alert('No Text Found', 'No text was detected in the image.');
       } else {
-        const translated = await translateText(text, 'en');
+        const translated = await translateText(text);
         setTranslatedText(translated);
+        
+        const parsed = await parseMenuWithAI(translated);
+        setParsedText(parsed);
       }
     } catch (err) {
       setError(`Error processing image: ${err.message}`);
-      console.error('Vision/Translation error:', err);
+      console.error('Vision/Translation/Parsing error:', err);
     } finally {
       setLoading(false);
     }
@@ -105,16 +121,23 @@ export default function ManualVisionTest() {
         <Button title="Pick Image" onPress={pickImage} />
         <Button title="Use Test Image" onPress={useTestImage} />
       </View>
+
       <View style={styles.buttonContainer}>
-        <Button title="Process with Vision API" onPress={processImage} disabled={!image || loading} />
+        <Button
+          title="Process with Vision API"
+          onPress={processImage}
+          disabled={!image || loading}
+        />
       </View>
+
       {image && (
         <View style={styles.imageContainer}>
           <Image source={{ uri: image }} style={styles.image} key={image} />
-          {currentImageName ? <Text style={styles.imageNameText}>{currentImageName}</Text> : null}
+          {currentImageName && <Text style={styles.imageNameText}>{currentImageName}</Text>}
           <Text style={styles.imagePathText}>{image}</Text>
         </View>
       )}
+
       {loading && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
@@ -136,6 +159,13 @@ export default function ManualVisionTest() {
               <Text style={styles.detectedText}>{translatedText}</Text>
             </>
           ) : null}
+          
+          {parsedText ? (
+            <>
+              <Text style={styles.sectionTitle}>AI-Parsed Menu:</Text>
+              <Text style={styles.parsedText}>{parsedText}</Text>
+            </>
+          ) : null}
         </View>
       )}
     </ScrollView>
@@ -145,7 +175,14 @@ export default function ManualVisionTest() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, backgroundColor: '#f5f5f5' },
   buttonContainer: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 16 },
-  imageContainer: { alignItems: 'center', marginBottom: 16, borderRadius: 10, overflow: 'hidden', borderWidth: 1, borderColor: '#ddd' },
+  imageContainer: {
+    alignItems: 'center',
+    marginBottom: 16,
+    borderRadius: 10,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
   image: { width: '100%', height: 300, resizeMode: 'contain' },
   imageNameText: { fontSize: 16, fontWeight: 'bold', color: '#333', padding: 5, textAlign: 'center' },
   imagePathText: { fontSize: 10, color: '#666', padding: 5, textAlign: 'center' },
@@ -155,4 +192,5 @@ const styles = StyleSheet.create({
   resultsContainer: { marginTop: 16, padding: 10, backgroundColor: '#fff', borderRadius: 5, borderWidth: 1, borderColor: '#ddd' },
   sectionTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
   detectedText: { fontSize: 16, lineHeight: 24 },
+  parsedText: { fontSize: 16, lineHeight: 24, color: '#0066cc', fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace' },
 });
