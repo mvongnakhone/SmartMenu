@@ -41,7 +41,7 @@ export const detectText = async (imageUri) => {
           },
           features: [
             {
-              type: 'TEXT_DETECTION'
+              type: 'DOCUMENT_TEXT_DETECTION'
             },
           ],
           imageContext: {

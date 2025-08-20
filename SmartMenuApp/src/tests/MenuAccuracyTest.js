@@ -4,6 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import { detectText, getDetectedText } from '../services/VisionService';
 import { parseMenuWithAI } from '../services/AIParsingService';
 import { Image } from 'react-native';
+import stringSimilarity from 'string-similarity';
 
 // Static imports for test menu images
 const TEST_MENU_IMAGES = {
@@ -14,13 +15,15 @@ const TEST_MENU_IMAGES = {
 };
 
 // Import expected parse data
-// Note: Create these files in the src/tests/expected_parse directory
 const EXPECTED_PARSE_DATA = {
   'ThaiMenu4': require('./expected_parse/ThaiMenu4.json')
 };
 
+// Similarity threshold for name matching
+const NAME_SIMILARITY_THRESHOLD = 0.85;
+
 /**
- * Compares the parsed menu items with the expected menu items
+ * Compares the parsed menu items with the expected menu items using string similarity
  * @param {Array} parsedItems - The parsed menu items from AI
  * @param {Array} expectedItems - The expected menu items from reference file
  * @returns {Object} - Scores for name, price, and overall accuracy
@@ -58,47 +61,56 @@ export const compareMenuItems = (parsedItems, expectedItems) => {
   const parsedItemsCopy = [...parsedArray];
   const expectedItemsCopy = [...expectedArray];
   
-  // First, match by name and then check if price is also correct
+  // First, match by name using string similarity and then check if price is also correct
   for (let i = expectedItemsCopy.length - 1; i >= 0; i--) {
     const expected = expectedItemsCopy[i];
-    let nameMatchFound = false;
+    let bestMatchIndex = -1;
+    let bestSimilarity = 0;
     
-    for (let j = parsedItemsCopy.length - 1; j >= 0; j--) {
+    // Find the best name match using string similarity
+    for (let j = 0; j < parsedItemsCopy.length; j++) {
       const parsed = parsedItemsCopy[j];
+      const similarity = stringSimilarity.compareTwoStrings(parsed.name, expected.name);
       
-      if (parsed.name === expected.name) {
-        // Name match found
-        nameMatchFound = true;
-        correctNames++;
-        
-        // Check if price also matches
-        const priceMatches = parsed.price === expected.price;
-        if (priceMatches) {
-          correctPrices++;
-          exactMatches++;
-          
-          details.push({
-            expected,
-            parsed,
-            nameMatch: true,
-            priceMatch: true,
-            exactMatch: true
-          });
-        } else {
-          details.push({
-            expected,
-            parsed,
-            nameMatch: true,
-            priceMatch: false,
-            exactMatch: false
-          });
-        }
-        
-        // Remove matched items to avoid double counting
-        expectedItemsCopy.splice(i, 1);
-        parsedItemsCopy.splice(j, 1);
-        break;
+      if (similarity > bestSimilarity && similarity >= NAME_SIMILARITY_THRESHOLD) {
+        bestSimilarity = similarity;
+        bestMatchIndex = j;
       }
+    }
+    
+    // If a good match was found
+    if (bestMatchIndex !== -1) {
+      const parsed = parsedItemsCopy[bestMatchIndex];
+      correctNames++;
+      
+      // Check if price also matches
+      const priceMatches = parsed.price === expected.price;
+      if (priceMatches) {
+        correctPrices++;
+        exactMatches++;
+        
+        details.push({
+          expected,
+          parsed,
+          nameMatch: true,
+          priceMatch: true,
+          exactMatch: true,
+          similarity: bestSimilarity
+        });
+      } else {
+        details.push({
+          expected,
+          parsed,
+          nameMatch: true,
+          priceMatch: false,
+          exactMatch: false,
+          similarity: bestSimilarity
+        });
+      }
+      
+      // Remove matched items to avoid double counting
+      expectedItemsCopy.splice(i, 1);
+      parsedItemsCopy.splice(bestMatchIndex, 1);
     }
   }
 
@@ -294,7 +306,7 @@ export default function MenuAccuracyTest() {
             <View style={styles.scoreItem}>
               <Text style={styles.scoreLabel}>Price Accuracy:</Text>
               <Text style={styles.scoreValue}>{results.priceScore}%</Text>
-              <Text style={styles.scoreDetail}>({results.correctPrices}/{results.totalExpected})</Text>
+              <Text style={styles.scoreDetail}>({results.correctPrices}/{results.correctNames})</Text>
             </View>
             
             <View style={styles.scoreItem}>
@@ -312,26 +324,32 @@ export default function MenuAccuracyTest() {
           
           <Text style={styles.summaryText}>
             Parsed {results.totalParsed} items, expected {results.totalExpected} items.
+            Using similarity threshold: {NAME_SIMILARITY_THRESHOLD * 100}%
           </Text>
           
           <Text style={styles.sectionSubtitle}>Detailed Results:</Text>
           {results.details.map((item, index) => (
             <View key={index} style={styles.detailItem}>
               {item.exactMatch ? (
-                <Text style={styles.matchText}>✓ Exact Match: {item.expected.name} - {item.expected.price}</Text>
+                <View>
+                  <Text style={styles.matchText}>✓ Exact Match: {item.expected.name} - {item.expected.price}</Text>
+                  {item.similarity < 1 && (
+                    <Text style={styles.similarityText}>Similarity: {Math.round(item.similarity * 100)}%</Text>
+                  )}
+                </View>
               ) : item.nameMatch && item.priceMatch ? (
-                <Text style={styles.matchText}>✓ Match: {item.expected.name} - {item.expected.price}</Text>
+                <View>
+                  <Text style={styles.matchText}>✓ Match: {item.expected.name} - {item.expected.price}</Text>
+                  {item.similarity < 1 && (
+                    <Text style={styles.similarityText}>Similarity: {Math.round(item.similarity * 100)}%</Text>
+                  )}
+                </View>
               ) : item.nameMatch ? (
                 <View>
                   <Text style={styles.partialMatchText}>~ Name Match Only:</Text>
                   <Text>Expected: {item.expected.name} - {item.expected.price}</Text>
                   <Text>Parsed: {item.parsed.name} - {item.parsed.price}</Text>
-                </View>
-              ) : item.priceMatch ? (
-                <View>
-                  <Text style={styles.partialMatchText}>~ Price Match Only:</Text>
-                  <Text>Expected: {item.expected.name} - {item.expected.price}</Text>
-                  <Text>Parsed: {item.parsed.name} - {item.parsed.price}</Text>
+                  <Text style={styles.similarityText}>Similarity: {Math.round(item.similarity * 100)}%</Text>
                 </View>
               ) : item.expected && !item.parsed ? (
                 <Text style={styles.missingText}>✗ Missing: {item.expected.name} - {item.expected.price}</Text>
@@ -462,5 +480,10 @@ const styles = StyleSheet.create({
   },
   extraText: {
     color: 'blue'
+  },
+  similarityText: {
+    fontSize: 12,
+    color: '#888',
+    fontStyle: 'italic'
   }
 }); 
