@@ -112,17 +112,36 @@ export default function ManualVisionTest() {
         const parsed = await parseMenuWithAI(text);
         setParsedText(parsed);
         
-        // Display AI parsed results in terminal
+        // Display AI parsed results in terminal with each item on a single line
         console.log('\n=== AI PARSED RESPONSE ===');
-        console.log(parsed);
+        if (Array.isArray(parsed)) {
+          let formattedOutput = "[\n";
+          parsed.forEach((item, index) => {
+            formattedOutput += `  ${JSON.stringify(item)}${index < parsed.length - 1 ? ',' : ''}\n`;
+          });
+          formattedOutput += "]";
+          console.log(formattedOutput);
+        } else {
+          console.log(parsed);
+        }
         console.log('=========================\n');
 
+        // Translate the parsed menu items
         const translated = await translateText(parsed);
         setTranslatedText(translated);
         
         // Display translated text in terminal
         console.log('\n=== TRANSLATED TEXT ===');
-        console.log(translated);
+        if (Array.isArray(translated)) {
+          let formattedOutput = "[\n";
+          translated.forEach((item, index) => {
+            formattedOutput += `  ${JSON.stringify(item)}${index < translated.length - 1 ? ',' : ''}\n`;
+          });
+          formattedOutput += "]";
+          console.log(formattedOutput);
+        } else {
+          console.log(translated);
+        }
         console.log('======================\n');
 
       }
@@ -186,14 +205,28 @@ export default function ManualVisionTest() {
           {translatedText ? (
             <>
               <Text style={styles.sectionTitle}>Translated Text (English):</Text>
-              <Text style={styles.detectedText}>{translatedText}</Text>
+              <Text style={styles.detectedText}>
+                {Array.isArray(translatedText) 
+                  ? "[\n" + translatedText.map((item, index) => 
+                      `  ${JSON.stringify(item)}${index < translatedText.length - 1 ? ',' : ''}`
+                    ).join("\n") + "\n]"
+                  : translatedText}
+              </Text>
             </>
           ) : null}
           
           {parsedText ? (
             <>
               <Text style={styles.sectionTitle}>AI-Parsed Menu:</Text>
-              <Text style={styles.parsedText}>{parsedText}</Text>
+              <Text style={styles.parsedText}>
+                {Array.isArray(parsedText) 
+                  ? "[\n" + parsedText.map((item, index) => 
+                      `  ${JSON.stringify(item)}${index < parsedText.length - 1 ? ',' : ''}`
+                    ).join("\n") + "\n]"
+                  : typeof parsedText === 'object'
+                    ? JSON.stringify(parsedText)
+                    : parsedText}
+              </Text>
             </>
           ) : null}
         </View>

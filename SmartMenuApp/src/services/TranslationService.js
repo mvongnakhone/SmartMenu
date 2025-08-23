@@ -1,27 +1,28 @@
 // services/TranslationService.js
-import { GOOGLE_TRANSLATE_API_KEY } from '@env';
+import Constants from 'expo-constants';
 
-// Use environment variable for API key
-const API_KEY = GOOGLE_TRANSLATE_API_KEY;
-const API_URL = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+// Get the backend API URL from environment or use a default
+const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:5000';
 
 /**
- * Translates a given string into the target language.
- * @param {string} text - The text to translate.
+ * Translates a given string or menu items into the target language.
+ * @param {string|Array} text - The text to translate or array of menu items.
  * @param {string} targetLang - Target language code (e.g., 'en', 'th').
- * @returns {Promise<string>} - The translated text.
+ * @returns {Promise<string|Array>} - The translated text or menu items.
  */
 export const translateText = async (text, targetLang = 'en') => {
   try {
-    const response = await fetch(API_URL, {
+    // Ensure text is properly formatted for the request
+    const textToTranslate = text;
+    
+    const response = await fetch(`${API_URL}/api/translate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        q: text,
-        target: targetLang,
-        format: 'text',
+        text: textToTranslate,
+        target_lang: targetLang,
       }),
     });
 
@@ -32,7 +33,7 @@ export const translateText = async (text, targetLang = 'en') => {
       return 'Translation failed';
     }
 
-    return data.data.translations[0].translatedText;
+    return data.translated_text;
   } catch (error) {
     console.error('Error during translation:', error);
     return 'Translation failed';

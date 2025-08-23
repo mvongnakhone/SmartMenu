@@ -1,73 +1,44 @@
 import * as FileSystem from 'expo-file-system';
-import { GOOGLE_VISION_API_KEY } from '@env';
+import Constants from 'expo-constants';
 
-// Use environment variable for API key
-const API_KEY = GOOGLE_VISION_API_KEY;
-const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
-
-/**
- * Converts an image file to base64
- * @param {string} uri - The file URI of the image
- * @returns {Promise<string>} - Base64 encoded image
- */
-export const imageToBase64 = async (uri) => {
-  try {
-    const base64 = await FileSystem.readAsStringAsync(uri, {
-      encoding: FileSystem.EncodingType.Base64,
-    });
-    return base64;
-  } catch (error) {
-    console.error('Error converting image to base64:', error);
-    throw error;
-  }
-};
+// Get the backend API URL from environment or use a default
+const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:5001';
 
 /**
- * Detects text in an image using Google Cloud Vision API
+ * Detects text in an image using the backend API
  * @param {string} imageUri - The file URI of the image
  * @returns {Promise<Object>} - The API response with detected text
  */
 export const detectText = async (imageUri) => {
   try {
-    // Convert image to base64
-    const base64Image = await imageToBase64(imageUri);
+    console.log('Sending request to Vision API via backend...');
+    console.log('Backend URL:', API_URL);
     
-    // Prepare request body
-    const body = {
-      requests: [
-        {
-          image: {
-            content: base64Image,
-          },
-          features: [
-            {
-              type: 'DOCUMENT_TEXT_DETECTION'
-            },
-          ],
-          imageContext: {
-            languageHints: ['th', 'en']
-          }
-        },
-      ],
-    };
-
-    console.log('Sending request to Vision API...');
+    // Create a FormData object to send the image
+    const formData = new FormData();
     
-    // Make API request
-    const response = await fetch(API_URL, {
+    // Append the image file to FormData
+    // Use the file URI directly instead of converting to base64 and creating a Blob
+    formData.append('image', {
+      uri: imageUri,
+      type: imageUri.endsWith('png') ? 'image/png' : 'image/jpeg',
+      name: imageUri.split('/').pop() || 'image.jpg',
+    });
+    
+    // Make API request to our backend
+    const response = await fetch(`${API_URL}/api/vision/detect`, {
       method: 'POST',
+      body: formData,
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       },
-      body: JSON.stringify(body),
     });
 
     // Parse response
     const result = await response.json();
     
     if (result.error) {
-      throw new Error(result.error.message || 'Error detecting text');
+      throw new Error(result.error || 'Error detecting text');
     }
     
     return result;
