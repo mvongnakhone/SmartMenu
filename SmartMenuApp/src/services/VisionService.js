@@ -68,4 +68,83 @@ export const getDetectedText = (visionResponse) => {
     console.error('Error getting detected text:', error);
     return "Error extracting text";
   }
+};
+
+/**
+ * Runs layout-aware OCR using the backend PubLayNet pipeline
+ * @param {string} imageUri - The file URI of the image
+ * @returns {Promise<Object>} - The API response with blocks
+ */
+export const layoutOcr = async (imageUri) => {
+  try {
+    console.log('Sending request to Layout OCR via backend...');
+    console.log('Backend URL:', API_URL);
+
+    const formData = new FormData();
+    formData.append('image', {
+      uri: imageUri,
+      type: imageUri.endsWith('png') ? 'image/png' : 'image/jpeg',
+      name: imageUri.split('/').pop() || 'image.jpg',
+    });
+
+    const response = await fetch(`${API_URL}/api/vision/layout-ocr`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    const result = await response.json();
+    if (result.error) {
+      throw new Error(result.error || 'Error during layout OCR');
+    }
+    
+    // Debug what we got back
+    console.log(`Layout OCR returned ${result.blocks?.length || 0} blocks with model: ${result.model || 'unknown'}`);
+    if (result.blocks?.length > 0) {
+      result.blocks.forEach((block, i) => {
+        console.log(`Block ${i+1} (${block.type}): ${block.text?.slice(0, 50)}${block.text?.length > 50 ? '...' : ''}`);
+      });
+    } else {
+      console.log('No layout blocks returned');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error in layout OCR:', error);
+    throw error;
+  }
+};
+
+/**
+ * Concatenate text from layout blocks in reading order
+ * @param {Object} layoutResult - Response from layout-ocr endpoint
+ * @returns {string} - Combined text content or "No text detected"
+ */
+export const getTextFromBlocks = (layoutResult) => {
+  try {
+    const blocks = layoutResult?.blocks || layoutResult?.result?.blocks || [];
+    if (!Array.isArray(blocks) || blocks.length === 0) {
+      console.log('No blocks found in layout result');
+      return 'No text detected';
+    }
+    const parts = blocks
+      .map((b) => (b?.text || '').trim())
+      .filter((t) => t.length > 0);
+      
+    console.log(`Found ${parts.length} text blocks out of ${blocks.length} total blocks`);
+    
+    if (parts.length === 0) {
+      console.log('No text content in any blocks');
+      return 'No text detected';
+    }
+    
+    const combined = parts.join('\n');
+    console.log(`Combined text (${combined.length} chars): ${combined.slice(0, 100)}...`);
+    return combined;
+  } catch (error) {
+    console.error('Error extracting text from blocks:', error);
+    return 'No text detected';
+  }
 }; 

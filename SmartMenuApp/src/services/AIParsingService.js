@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 
 // Get the backend API URL from environment or use a default
-const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:5000';
+const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:5001';
 
 /**
  * Parses OCR text using backend API to structure menu items

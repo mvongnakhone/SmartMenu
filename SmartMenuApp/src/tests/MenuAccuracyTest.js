@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, ScrollView, ActivityIndicator, Alert, Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
-import { detectText, getDetectedText } from '../services/VisionService';
+import { detectText, getDetectedText, layoutOcr, getTextFromBlocks } from '../services/VisionService';
 import { parseMenuWithAI } from '../services/AIParsingService';
 import { Image } from 'react-native';
 import stringSimilarity from 'string-similarity';
@@ -181,6 +181,7 @@ export default function MenuAccuracyTest() {
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
   const [availableMenus, setAvailableMenus] = useState([]);
+  const [ocrMethod, setOcrMethod] = useState(null);
 
   // Find available menus with expected parse files
   useEffect(() => {
@@ -193,6 +194,7 @@ export default function MenuAccuracyTest() {
     setLoading(true);
     setError(null);
     setResults(null);
+    setOcrMethod(null);
     
     try {
       // Get the menu image using the static mapping
@@ -214,10 +216,40 @@ export default function MenuAccuracyTest() {
         imageUri = `${assetInfo.uri}?timestamp=${new Date().getTime()}`;
       }
       
-      // Process the image
+      // Process the image with layout parsing first
       console.log(`Testing menu accuracy for ${menuName}`);
-      const visionResponse = await detectText(imageUri);
-      const text = getDetectedText(visionResponse);
+      let text = '';
+      let layoutUsed = false;
+      
+      try {
+        console.log('Attempting layout-aware OCR...');
+        const layoutResult = await layoutOcr(imageUri);
+        console.log(`Layout OCR response: ${JSON.stringify({
+          model: layoutResult.model,
+          blockCount: layoutResult.blocks?.length || 0
+        })}`);
+        
+        text = getTextFromBlocks(layoutResult);
+        console.log(`Layout text extracted (${text?.length || 0} chars): ${text ? 'Success' : 'Empty'}`);
+        
+        if (text && text !== 'No text detected') {
+          console.log('Using layout OCR results');
+          layoutUsed = true;
+          setOcrMethod('Layout-aware OCR with PubLayNet');
+        } else {
+          console.log('Layout OCR returned no usable text');
+        }
+      } catch (layoutErr) {
+        console.warn('Layout OCR failed, falling back to plain OCR:', layoutErr?.message || layoutErr);
+      }
+
+      if (!layoutUsed) {
+        console.log('Falling back to plain OCR...');
+        const visionResponse = await detectText(imageUri);
+        text = getDetectedText(visionResponse);
+        setOcrMethod('Standard OCR');
+        console.log(`Plain OCR text extracted (${text?.length || 0} chars)`);
+      }
       
       if (text === "No text detected") {
         setError('No text was detected in the image');
@@ -226,6 +258,7 @@ export default function MenuAccuracyTest() {
       }
       
       // Parse the menu text
+      console.log('Sending text to AI parser...');
       const parsed = await parseMenuWithAI(text);
       console.log('AI Parsed Result:', parsed);
       
@@ -295,6 +328,10 @@ export default function MenuAccuracyTest() {
       {results && (
         <View style={styles.resultsContainer}>
           <Text style={styles.sectionTitle}>Test Results</Text>
+          
+          {ocrMethod && (
+            <Text style={styles.ocrMethodText}>OCR Method: {ocrMethod}</Text>
+          )}
           
           <View style={styles.scoreCard}>
             <View style={styles.scoreItem}>
@@ -421,6 +458,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 15,
     marginBottom: 5
+  },
+  ocrMethodText: {
+    fontSize: 14,
+    fontStyle: 'italic',
+    color: '#0066cc',
+    marginBottom: 10
   },
   scoreCard: {
     flexDirection: 'column',

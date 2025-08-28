@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from app.services.vision_service import detect_text
 from app.services.ai_parsing_service import parse_menu_with_ai
 from app.services.translation_service import translate_text
+from app.services.layout_detection_service import detect_layout_and_ocr
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -44,6 +45,26 @@ def vision_detect():
         return jsonify(vision_response), 200
     except Exception as e:
         logger.exception(f"Error processing image: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/vision/layout-ocr', methods=['POST'])
+def vision_layout_ocr():
+    """Endpoint that runs PubLayNet layout detection and OCR per block"""
+    if 'image' not in request.files:
+        logger.error("No image file in request")
+        return jsonify({"error": "No image provided"}), 400
+
+    image_file = request.files['image']
+    if image_file.filename == '':
+        logger.error("Empty filename")
+        return jsonify({"error": "No image selected"}), 400
+
+    try:
+        logger.info(f"Layout OCR processing image: {image_file.filename}")
+        result = detect_layout_and_ocr(image_file)
+        return jsonify(result), 200
+    except Exception as e:
+        logger.exception(f"Error in layout OCR: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/parse', methods=['POST'])
