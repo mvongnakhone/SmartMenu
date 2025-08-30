@@ -1,10 +1,15 @@
 import os
 import requests
 import json
+import re
 
 # Use environment variable for API key
 API_KEY = os.environ.get('OPENAI_API_KEY')
 API_URL = 'https://api.openai.com/v1/chat/completions'
+
+# Constants for chunking
+MAX_CHUNK_LENGTH = 2500  # Characters per chunk
+MAX_TOKENS = 2000  # Max tokens per response
 
 def parse_menu_with_ai(text):
     """
@@ -20,7 +25,29 @@ def parse_menu_with_ai(text):
         # Skip if no text is available
         if not text:
             return 'No text to parse'
+            
+        # Check if text is too long and needs chunking
+        if len(text) > MAX_CHUNK_LENGTH:
+            print(f"Text is {len(text)} characters, exceeding {MAX_CHUNK_LENGTH}. Using chunked processing.")
+            return process_large_menu(text)
+        
+        return process_menu_chunk(text)
+    
+    except Exception as e:
+        print(f"Error during AI parsing: {e}")
+        return f'AI parsing failed: {str(e)}'
 
+def process_menu_chunk(chunk_text):
+    """
+    Process a single chunk of menu text
+    
+    Args:
+        chunk_text (str): The chunk of menu text to process
+        
+    Returns:
+        list: The parsed menu items for this chunk
+    """
+    try:
         response = requests.post(
             API_URL,
             headers={
@@ -65,11 +92,11 @@ def parse_menu_with_ai(text):
                     },
                     {
                         "role": "user",
-                        "content": f"Parse this Thai menu text into structured JSON:\n{text}"
+                        "content": f"Parse this Thai menu text into structured JSON:\n{chunk_text}"
                     }
                 ],
                 "temperature": 0.3,
-                "max_tokens": 2000
+                "max_tokens": MAX_TOKENS
             }
         )
 
@@ -80,7 +107,7 @@ def parse_menu_with_ai(text):
             return 'AI parsing failed'
         
         # Check if we're hitting token limits
-        if 'usage' in data and data['usage'].get('completion_tokens', 0) >= 1990:
+        if 'usage' in data and data['usage'].get('completion_tokens', 0) >= (MAX_TOKENS - 10):
             print('TOKEN LIMIT REACHED: The AI response was cut off due to token limitations.')
 
         # Parse the response to ensure it's valid JSON
@@ -98,5 +125,71 @@ def parse_menu_with_ai(text):
         # Return the parsed JSON directly without additional formatting
         return parsed_json
     except Exception as e:
-        print(f"Error during AI parsing: {e}")
-        return f'AI parsing failed: {str(e)}' 
+        print(f"Error during chunk processing: {e}")
+        return []
+
+def process_large_menu(text):
+    """
+    Process a large menu by splitting it into chunks
+    
+    Args:
+        text (str): The full menu text
+        
+    Returns:
+        list: The combined parsed menu items from all chunks
+    """
+    # Split text into chunks at appropriate boundaries (end of lines)
+    chunks = split_text_into_chunks(text, MAX_CHUNK_LENGTH)
+    
+    print(f"Split menu into {len(chunks)} chunks")
+    
+    # Process each chunk
+    all_results = []
+    for i, chunk in enumerate(chunks):
+        print(f"Processing chunk {i+1}/{len(chunks)}")
+        chunk_result = process_menu_chunk(chunk)
+        
+        # Skip failed chunks
+        if isinstance(chunk_result, str) and chunk_result.startswith('AI parsing failed'):
+            continue
+            
+        # Add chunk results to overall results
+        if isinstance(chunk_result, list):
+            all_results.extend(chunk_result)
+    
+    print(f"Completed processing {len(chunks)} chunks, extracted {len(all_results)} menu items")
+    return all_results
+
+def split_text_into_chunks(text, max_length):
+    """
+    Split text into chunks of approximately max_length characters,
+    breaking at sentence or line boundaries when possible
+    
+    Args:
+        text (str): The text to split
+        max_length (int): The maximum length for each chunk
+        
+    Returns:
+        list: List of text chunks
+    """
+    chunks = []
+    lines = text.split('\n')
+    current_chunk = ""
+    
+    for line in lines:
+        # If adding this line would exceed max_length, start a new chunk
+        if len(current_chunk) + len(line) + 1 > max_length and current_chunk:
+            chunks.append(current_chunk)
+            current_chunk = line
+        else:
+            # Add line to current chunk with a newline if the chunk isn't empty
+            if current_chunk:
+                current_chunk += '\n' + line
+            else:
+                current_chunk = line
+    
+    # Don't forget the last chunk
+    if current_chunk:
+        chunks.append(current_chunk)
+    
+    return chunks 
