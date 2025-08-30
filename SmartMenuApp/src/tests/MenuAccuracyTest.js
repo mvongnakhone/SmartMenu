@@ -16,7 +16,10 @@ const TEST_MENU_IMAGES = {
 
 // Import expected parse data
 const EXPECTED_PARSE_DATA = {
-  'ThaiMenu4': require('./expected_parse/ThaiMenu4.json')
+  'ThaiMenu4': require('./expected_parse/ThaiMenu4.json'),
+  'ThaiMenu3': require('./expected_parse/ThaiMenu3.json'),
+  'ThaiMenu2': require('./expected_parse/ThaiMenu2.json'),
+  'ThaiMenu1': require('./expected_parse/ThaiMenu1.json')
 };
 
 // Similarity threshold for name matching
