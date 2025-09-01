@@ -7,12 +7,14 @@ const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:500
 /**
  * Detects text in an image using the backend API
  * @param {string} imageUri - The file URI of the image
+ * @param {boolean} useBoundingBox - Whether to use bounding box text processing
  * @returns {Promise<Object>} - The API response with detected text
  */
-export const detectText = async (imageUri) => {
+export const detectText = async (imageUri, useBoundingBox = true) => {
   try {
     console.log('Sending request to Vision API via backend...');
     console.log('Backend URL:', API_URL);
+    console.log('Using bounding box processing:', useBoundingBox);
     
     // Create a FormData object to send the image
     const formData = new FormData();
@@ -24,6 +26,9 @@ export const detectText = async (imageUri) => {
       type: imageUri.endsWith('png') ? 'image/png' : 'image/jpeg',
       name: imageUri.split('/').pop() || 'image.jpg',
     });
+    
+    // Add bounding box preference as a parameter
+    formData.append('use_bounding_box', useBoundingBox ? 'true' : 'false');
     
     // Make API request to our backend
     const response = await fetch(`${API_URL}/api/vision/detect`, {
@@ -51,19 +56,22 @@ export const detectText = async (imageUri) => {
 /**
  * Extracts all detected text from Vision API response
  * @param {Object} visionResponse - The response from Google Cloud Vision API
+ * @param {boolean} useBoundingBox - Whether to use bounding box processed text
  * @returns {string} - All detected text as a single string
  */
-export const getDetectedText = (visionResponse) => {
+export const getDetectedText = (visionResponse, useBoundingBox = true) => {
   try {
-    // First, try to use the bounding box processed text if available
-    if (visionResponse?.bounding_box_text && typeof visionResponse.bounding_box_text === 'string' && 
+    // Use bounding box processed text if enabled and available
+    if (useBoundingBox && 
+        visionResponse?.bounding_box_text && 
+        typeof visionResponse.bounding_box_text === 'string' && 
         !visionResponse.bounding_box_text.startsWith("Error") && 
         !visionResponse.bounding_box_text.startsWith("No text")) {
       console.log('Using bounding box processed text:', visionResponse.bounding_box_text);
       return visionResponse.bounding_box_text;
     }
     
-    // Fall back to the original text extraction method
+    // Use original text when bounding box is disabled or not available
     if (!visionResponse?.responses?.[0]?.textAnnotations?.[0]?.description) {
       return "No text detected";
     }

@@ -5,6 +5,8 @@ import { detectText, getDetectedText } from '../services/VisionService';
 import { parseMenuWithAI } from '../services/AIParsingService';
 import { Image } from 'react-native';
 import stringSimilarity from 'string-similarity';
+import BoundingBoxToggle from '../components/BoundingBoxToggle';
+import { useBoundingBox } from '../context/BoundingBoxContext';
 
 // Static imports for test menu images
 const TEST_MENU_IMAGES = {
@@ -184,6 +186,9 @@ export default function MenuAccuracyTest() {
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
   const [availableMenus, setAvailableMenus] = useState([]);
+  
+  // Get bounding box state from context
+  const { boundingBoxEnabled } = useBoundingBox();
 
   // Find available menus with expected parse files
   useEffect(() => {
@@ -217,10 +222,11 @@ export default function MenuAccuracyTest() {
         imageUri = `${assetInfo.uri}?timestamp=${new Date().getTime()}`;
       }
       
-      // Process the image
+      // Process the image with bounding box toggle setting
       console.log(`Testing menu accuracy for ${menuName}`);
-      const visionResponse = await detectText(imageUri);
-      const text = getDetectedText(visionResponse);
+      console.log(`Bounding box processing: ${boundingBoxEnabled ? 'enabled' : 'disabled'}`);
+      const visionResponse = await detectText(imageUri, boundingBoxEnabled);
+      const text = getDetectedText(visionResponse, boundingBoxEnabled);
       
       if (text === "No text detected") {
         setError('No text was detected in the image');
@@ -257,6 +263,8 @@ export default function MenuAccuracyTest() {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Menu Accuracy Test</Text>
+      
+      <BoundingBoxToggle />
       
       <View style={styles.menuSelector}>
         <Text style={styles.sectionTitle}>Select Menu to Test:</Text>
@@ -328,6 +336,8 @@ export default function MenuAccuracyTest() {
           <Text style={styles.summaryText}>
             Parsed {results.totalParsed} items, expected {results.totalExpected} items.
             Using similarity threshold: {NAME_SIMILARITY_THRESHOLD * 100}%
+            {"\n"}
+            Bounding box processing: {boundingBoxEnabled ? 'enabled' : 'disabled'}
           </Text>
           
           <Text style={styles.sectionSubtitle}>Detailed Results:</Text>

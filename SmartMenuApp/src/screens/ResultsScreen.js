@@ -14,12 +14,19 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import { useCurrency } from '../context/CurrencyContext';
+import { useBoundingBox } from '../context/BoundingBoxContext';
+import BoundingBoxToggle from '../components/BoundingBoxToggle';
 
 const ResultsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { currency, exchangeRates } = useCurrency();
+  const { boundingBoxEnabled } = useBoundingBox();
   const [loading, setLoading] = useState(false);
   const photoUri = route?.params?.photoUri;
+  // Get useBoundingBox from route params if available, otherwise use context value
+  const useBoundingBox = route?.params?.useBoundingBox !== undefined 
+    ? route.params.useBoundingBox 
+    : boundingBoxEnabled;
 
   // This would be where we'd process the image with Google Cloud Vision API
   useEffect(() => {
@@ -28,11 +35,14 @@ const ResultsScreen = ({ route }) => {
       // Simulate API call delay
       const timer = setTimeout(() => {
         setLoading(false);
+        
+        console.log(`Processing image with bounding box: ${useBoundingBox ? 'enabled' : 'disabled'}`);
+        
       }, 1500);
       
       return () => clearTimeout(timer);
     }
-  }, [photoUri]);
+  }, [photoUri, useBoundingBox]);
 
   const translatedDishes = route?.params?.translatedDishes || [
     {

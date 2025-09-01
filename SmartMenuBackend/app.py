@@ -37,10 +37,14 @@ def vision_detect():
         logger.error("Empty filename")
         return jsonify({"error": "No image selected"}), 400
     
+    # Get the bounding box parameter (defaults to enabled if not specified)
+    use_bounding_box = request.form.get('use_bounding_box', 'true').lower() == 'true'
+    logger.info(f"Bounding box processing: {'enabled' if use_bounding_box else 'disabled'}")
+    
     try:
         # Process the image with Vision API
         logger.info(f"Processing image: {image_file.filename}")
-        vision_response = detect_text(image_file)
+        vision_response = detect_text(image_file, use_bounding_box)
         return jsonify(vision_response), 200
     except Exception as e:
         logger.exception(f"Error processing image: {str(e)}")

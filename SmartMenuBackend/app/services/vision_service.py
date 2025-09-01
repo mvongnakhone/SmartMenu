@@ -149,12 +149,13 @@ def image_to_base64(image_file):
         logger.error(f"Error converting image to base64: {e}")
         raise
 
-def detect_text(image_file):
+def detect_text(image_file, use_bounding_box=True):
     """
     Detects text in an image using Google Cloud Vision API
     
     Args:
         image_file: The image file object
+        use_bounding_box: Whether to use bounding box text processing
         
     Returns:
         dict: The API response with detected text
@@ -215,16 +216,22 @@ def detect_text(image_file):
             logger.error(f"API Error: {error_message}")
             raise Exception(error_message)
         
-        # Process text with bounding boxes
-        bbox_processed_text = process_text_with_bounding_boxes(result)
-        
-        # Include the bounding box processed text in the result
+        # Always save original text
         if 'responses' in result and len(result['responses']) > 0:
-            result['bounding_box_text'] = bbox_processed_text
-            
-            # Save a copy of the original text
             if 'textAnnotations' in result['responses'][0] and len(result['responses'][0]['textAnnotations']) > 0:
                 result['original_text'] = result['responses'][0]['textAnnotations'][0]['description']
+        
+        # Only process with bounding boxes if enabled
+        if use_bounding_box:
+            logger.info('Processing text with bounding boxes...')
+            bbox_processed_text = process_text_with_bounding_boxes(result)
+            
+            # Include the bounding box processed text in the result
+            if 'responses' in result and len(result['responses']) > 0:
+                result['bounding_box_text'] = bbox_processed_text
+                logger.info('Bounding box processing completed successfully')
+        else:
+            logger.info('Bounding box processing disabled, using original text')
         
         return result
     except Exception as e:
