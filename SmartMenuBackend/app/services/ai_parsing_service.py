@@ -89,7 +89,7 @@ def process_menu_chunk(chunk_text):
                 'Authorization': f'Bearer {API_KEY}'
             },
             json={
-                "model": "gpt-3.5-turbo",
+                "model": "gpt-4",
                 "messages": [
                     {
                         "role": "system",
@@ -108,12 +108,19 @@ def process_menu_chunk(chunk_text):
                             - "name": exact Thai menu item name from the text
                             - "price": integer (no quotes, no decimals). If not listed, use 0.
 
-                        2. If one menu line contains multiple dishes **with different prices**, split them into separate entries. For example:
-                            - "ไข่เจียว/ไข่เจียวหมูสับ 75/85" becomes:
-                            - {"name": "ไข่เจียว", "price": 75}
-                            - {"name": "ไข่เจียวหมูสับ", "price": 85}
+                        2. CRITICAL RULE ABOUT MENU ITEMS WITH SLASHES:
+                           a. DO NOT split a menu item when the slash indicates options of the same dish with the SAME price.
+                              Example: "กะเพราหมูสับ/ไก่สับ 95" MUST be kept as ONE item:
+                              {"name": "กะเพราหมูสับ/ไก่สับ", "price": 95}
 
-                        3. If one line contains multiple dishes **with the same price**, do not split them.
+                           b. Only split when dishes have DIFFERENT prices separated by slashes.
+                              Example: "ไข่เจียว/ไข่เจียวหมูสับ 75/85" becomes:
+                              {"name": "ไข่เจียว", "price": 75}
+                              {"name": "ไข่เจียวหมูสับ", "price": 85}
+
+                        3. Always keep these as SINGLE dish entries with the slash included in the name:
+                           - Dishes where slash indicates meat options (หมู/ไก่/เนื้อ/กุ้ง)
+                           - Dishes where slash indicates cooking styles with same price
 
                         4. Do not translate anything to English.
 
@@ -121,7 +128,11 @@ def process_menu_chunk(chunk_text):
 
                         6. Do not skip any menu items.
 
-                        7. If price is missing, use 0. """
+                        7. Keep in mind that OCR results are not perfect. (Price may be on a separate line.
+                        Or sometimes multiple dihes are extracted followed by multiple prices. Match the dish with 
+                        the price that appears first. Then the second dish to the next price that appears.)
+
+                        8. If price is missing, use 0. """
                     },
                     {
                         "role": "user",

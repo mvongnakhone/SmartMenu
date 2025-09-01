@@ -286,7 +286,7 @@ def process_text_with_bounding_boxes(vision_response):
             })
         
         # Group text elements by vertical position (center_y)
-        y_tolerance = 5  # Pixels of tolerance for grouping by vertical alignment
+        y_tolerance = 8  # Pixels of tolerance for grouping by vertical alignment
         line_groups = {}
         
         for element in text_elements:
@@ -308,7 +308,7 @@ def process_text_with_bounding_boxes(vision_response):
         processed_lines = []
         for group_y, elements in line_groups.items():
             sorted_elements = sorted(elements, key=lambda e: e['x_min'])
-            line_text = ' '.join([e['text'] for e in sorted_elements])
+            line_text = ''.join([e['text'] for e in sorted_elements])
             processed_lines.append((group_y, line_text))
         
         # Sort lines by y position (top to bottom)
