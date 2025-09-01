@@ -55,13 +55,22 @@ export const detectText = async (imageUri) => {
  */
 export const getDetectedText = (visionResponse) => {
   try {
+    // First, try to use the bounding box processed text if available
+    if (visionResponse?.bounding_box_text && typeof visionResponse.bounding_box_text === 'string' && 
+        !visionResponse.bounding_box_text.startsWith("Error") && 
+        !visionResponse.bounding_box_text.startsWith("No text")) {
+      console.log('Using bounding box processed text:', visionResponse.bounding_box_text);
+      return visionResponse.bounding_box_text;
+    }
+    
+    // Fall back to the original text extraction method
     if (!visionResponse?.responses?.[0]?.textAnnotations?.[0]?.description) {
       return "No text detected";
     }
 
     // Get the full text from the first annotation which contains all detected text
     const fullText = visionResponse.responses[0].textAnnotations[0].description;
-    console.log('Extracted text:', fullText);
+    console.log('Using original extracted text:', fullText);
     
     return fullText;
   } catch (error) {
