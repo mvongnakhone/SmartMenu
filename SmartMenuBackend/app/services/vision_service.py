@@ -105,7 +105,7 @@ def deskew_image(image_bytes):
                 best_angle = angle
         
         # If the improvement is minimal, skip deskewing
-        if max_variance / initial_variance < 1.05:  # Less than 5% improvement
+        if max_variance / initial_variance < 1.02:  # Less than 2% improvement
             logger.info('Skipping deskew - minimal improvement expected')
             return image_bytes, {"original_path": original_path}
         
@@ -215,10 +215,142 @@ def detect_text(image_file):
             logger.error(f"API Error: {error_message}")
             raise Exception(error_message)
         
+        # Process text with bounding boxes
+        bbox_processed_text = process_text_with_bounding_boxes(result)
+        
+        # Include the bounding box processed text in the result
+        if 'responses' in result and len(result['responses']) > 0:
+            result['bounding_box_text'] = bbox_processed_text
+            
+            # Save a copy of the original text
+            if 'textAnnotations' in result['responses'][0] and len(result['responses'][0]['textAnnotations']) > 0:
+                result['original_text'] = result['responses'][0]['textAnnotations'][0]['description']
+        
         return result
     except Exception as e:
         logger.exception(f"Error in text detection: {e}")
         raise
+
+def process_text_with_bounding_boxes(vision_response):
+    """
+    Processes the text from Vision API response using bounding boxes to group text by lines
+    
+    Args:
+        vision_response: The response from Google Cloud Vision API
+        
+    Returns:
+        str: Processed text with each line properly aligned and structured
+    """
+    try:
+        if not vision_response or 'responses' not in vision_response or not vision_response['responses'] or \
+           'textAnnotations' not in vision_response['responses'][0] or not vision_response['responses'][0]['textAnnotations']:
+            return "No text detected"
+        
+        # Skip the first annotation as it contains the entire text
+        text_annotations = vision_response['responses'][0]['textAnnotations'][1:]
+        
+        if not text_annotations:
+            return "No text elements found"
+        
+        # Extract all text elements with their bounding boxes
+        text_elements = []
+        for annotation in text_annotations:
+            text = annotation['description']
+            vertices = annotation['boundingPoly']['vertices']
+            
+            # Calculate bounding box coordinates
+            x_coords = [v.get('x', 0) for v in vertices if 'x' in v]
+            y_coords = [v.get('y', 0) for v in vertices if 'y' in v]
+            
+            if not x_coords or not y_coords:
+                continue
+                
+            # Calculate center of bounding box
+            x_min, x_max = min(x_coords), max(x_coords)
+            y_min, y_max = min(y_coords), max(y_coords)
+            center_x = (x_min + x_max) / 2
+            center_y = (y_min + y_max) / 2
+            
+            text_elements.append({
+                'text': text,
+                'center_x': center_x,
+                'center_y': center_y,
+                'x_min': x_min
+            })
+        
+        # Group text elements by vertical position (center_y)
+        y_tolerance = 5  # Pixels of tolerance for grouping by vertical alignment
+        line_groups = {}
+        
+        for element in text_elements:
+            center_y = element['center_y']
+            
+            # Check if this element can be added to an existing line group
+            found_group = False
+            for group_y in line_groups.keys():
+                if abs(center_y - group_y) <= y_tolerance:
+                    line_groups[group_y].append(element)
+                    found_group = True
+                    break
+            
+            # If no suitable group was found, create a new one
+            if not found_group:
+                line_groups[center_y] = [element]
+        
+        # Sort each line group by x position (left to right)
+        processed_lines = []
+        for group_y, elements in line_groups.items():
+            sorted_elements = sorted(elements, key=lambda e: e['x_min'])
+            line_text = ' '.join([e['text'] for e in sorted_elements])
+            processed_lines.append((group_y, line_text))
+        
+        # Sort lines by y position (top to bottom)
+        processed_lines.sort(key=lambda x: x[0])
+        
+        # Join all lines with newlines
+        result_text = '\n'.join([line for _, line in processed_lines])
+        
+        # Log the results to a file in the temp_images directory
+        try:
+            import os
+            import time
+            
+            # Create timestamp for unique filename
+            timestamp = int(time.time())
+            log_filename = os.path.join(TEMP_IMAGES_DIR, f"bounding_box_results_{timestamp}.txt")
+            
+            # Ensure the directory exists
+            os.makedirs(TEMP_IMAGES_DIR, exist_ok=True)
+            
+            # Write the results to the file
+            with open(log_filename, 'w', encoding='utf-8') as log_file:
+                # First, log the raw result
+                log_file.write("===== BOUNDING BOX PROCESSED TEXT =====\n\n")
+                log_file.write(result_text)
+                
+                # Add detailed information about the processing
+                log_file.write("\n\n===== PROCESSING DETAILS =====\n\n")
+                log_file.write(f"Total text elements: {len(text_elements)}\n")
+                log_file.write(f"Line groups created: {len(line_groups)}\n")
+                log_file.write(f"Vertical tolerance used: {y_tolerance} pixels\n\n")
+                
+                # Log original text for comparison
+                if len(vision_response['responses'][0]['textAnnotations']) > 0:
+                    original_text = vision_response['responses'][0]['textAnnotations'][0]['description']
+                    log_file.write("===== ORIGINAL TEXT =====\n\n")
+                    log_file.write(original_text)
+            
+            logger.info(f"Bounding box results logged to {log_filename}")
+            
+        except Exception as log_error:
+            logger.error(f"Error logging bounding box results: {log_error}")
+        
+        logger.info('Text successfully processed using bounding box alignment')
+        return result_text
+        
+    except Exception as e:
+        logger.exception(f"Error processing text with bounding boxes: {e}")
+        return "Error processing text with bounding boxes"
 
 def get_detected_text(vision_response):
     """
@@ -235,11 +367,16 @@ def get_detected_text(vision_response):
            'textAnnotations' not in vision_response['responses'][0] or not vision_response['responses'][0]['textAnnotations']:
             return "No text detected"
 
-        # Get the full text from the first annotation which contains all detected text
-        full_text = vision_response['responses'][0]['textAnnotations'][0]['description']
-        logger.info('Text successfully extracted from image')
-        
-        return full_text
+        # Process text using bounding box information for better line detection
+        processed_text = process_text_with_bounding_boxes(vision_response)
+        if processed_text.startswith("Error"):
+            # Fall back to original method if bounding box processing fails
+            full_text = vision_response['responses'][0]['textAnnotations'][0]['description']
+            logger.warning('Falling back to raw text extraction due to bounding box processing error')
+            return full_text
+            
+        logger.info('Text successfully extracted and processed from image')
+        return processed_text
     except Exception as e:
         logger.exception(f"Error getting detected text: {e}")
         return "Error extracting text" 

@@ -37,6 +37,37 @@ def parse_menu_with_ai(text):
         print(f"Error during AI parsing: {e}")
         return f'AI parsing failed: {str(e)}'
 
+def preprocess_menu_text(text):
+    """
+    Preprocesses the menu text to improve parsing accuracy
+    
+    Args:
+        text (str): Raw OCR text from vision service
+        
+    Returns:
+        str: Preprocessed text ready for AI parsing
+    """
+    # Remove extra spaces but preserve line breaks
+    lines = text.split('\n')
+    cleaned_lines = []
+    
+    for line in lines:
+        # Skip empty lines
+        if not line.strip():
+            continue
+            
+        # Clean up extra spaces
+        cleaned_line = re.sub(r'\s+', ' ', line).strip()
+        
+        # Skip lines that are too short (likely noise)
+        if len(cleaned_line) < 3:
+            continue
+            
+        cleaned_lines.append(cleaned_line)
+    
+    # Join back with newlines
+    return '\n'.join(cleaned_lines)
+
 def process_menu_chunk(chunk_text):
     """
     Process a single chunk of menu text
@@ -48,6 +79,9 @@ def process_menu_chunk(chunk_text):
         list: The parsed menu items for this chunk
     """
     try:
+        # Preprocess text to improve parsing accuracy
+        preprocessed_text = preprocess_menu_text(chunk_text)
+        
         response = requests.post(
             API_URL,
             headers={
@@ -59,7 +93,8 @@ def process_menu_chunk(chunk_text):
                 "messages": [
                     {
                         "role": "system",
-                        "content": """You are parsing a Thai restaurant menu into structured JSON.
+                        "content": """You are parsing a Thai restaurant menu into structured JSON that was extracted 
+                        from an image using google cloud vision. The text is a little messy and out of order. 
 
                         Format the output as:
                         [
@@ -78,21 +113,19 @@ def process_menu_chunk(chunk_text):
                             - {"name": "ไข่เจียว", "price": 75}
                             - {"name": "ไข่เจียวหมูสับ", "price": 85}
 
-                        3. If one line contains multiple dishes **with the same price**, do not split them. For example:
-                            - "กะเพราหมูสับ/ไก่สับ 95" becomes:
-                            - {"name": "กะเพราหมูสับ/ไก่สับ", "price": 95}
+                        3. If one line contains multiple dishes **with the same price**, do not split them.
 
                         4. Do not translate anything to English.
 
                         5. Do not add extra text — only output the JSON array.
 
-                        6. Do not combine or skip any menu items.
+                        6. Do not skip any menu items.
 
-                        7. If price is missing, use 0."""
+                        7. If price is missing, use 0. """
                     },
                     {
                         "role": "user",
-                        "content": f"Parse this Thai menu text into structured JSON:\n{chunk_text}"
+                        "content": f"Parse this Thai menu text into structured JSON:\n{preprocessed_text}"
                     }
                 ],
                 "temperature": 0.3,
@@ -138,8 +171,11 @@ def process_large_menu(text):
     Returns:
         list: The combined parsed menu items from all chunks
     """
+    # Preprocess text first
+    preprocessed_text = preprocess_menu_text(text)
+    
     # Split text into chunks at appropriate boundaries (end of lines)
-    chunks = split_text_into_chunks(text, MAX_CHUNK_LENGTH)
+    chunks = split_text_into_chunks(preprocessed_text, MAX_CHUNK_LENGTH)
     
     print(f"Split menu into {len(chunks)} chunks")
     
