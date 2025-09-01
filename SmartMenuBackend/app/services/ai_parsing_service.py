@@ -89,7 +89,7 @@ def process_menu_chunk(chunk_text):
                 'Authorization': f'Bearer {API_KEY}'
             },
             json={
-                "model": "gpt-3.5-turbo",
+                "model": "gpt-4",
                 "messages": [
                     {
                         "role": "system",
