@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Modal, F
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useCurrency, exchangeRates } from '../context/CurrencyContext';
+import BoundingBoxToggle from './BoundingBoxToggle';
 
 const Header = ({ leftIconType = 'menu', title = 'SmartMenu' }) => {
   const navigation = useNavigation();
@@ -76,8 +77,21 @@ const Header = ({ leftIconType = 'menu', title = 'SmartMenu' }) => {
           activeOpacity={1}
         >
           <View style={styles.menuContainer}>
+            {/* First menu item */}
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => handleMenuItemPress('VisionTest')}
+            >
+              <Ionicons name="eye-outline" size={24} color="#3366FF" style={styles.menuIcon} />
+              <Text style={styles.menuText}>Vision API Test</Text>
+            </TouchableOpacity>
+            
+            {/* Bounding Box Toggle - styled to match menu items */}
+            <BoundingBoxToggle inMenu={true} />
+            
+            {/* Other menu items */}
             <FlatList
-              data={menuItems}
+              data={menuItems.slice(1)} // Skip first item as we manually added it
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <TouchableOpacity
@@ -178,7 +192,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 10,
-    width: 250,
+    width: 280,
     marginTop: 100,
     marginLeft: 20,
     shadowColor: '#000',
@@ -210,8 +224,12 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   menuText: {
-    fontSize: 16,
+    fontSize: 14.5,
     color: '#333',
+  },
+  boundingBoxToggleContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
   },
   option: {
     paddingVertical: 10,

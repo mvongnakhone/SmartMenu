@@ -7,6 +7,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
 import Constants from 'expo-constants';
 import Header from '../components/Header';
+import { useBoundingBox } from '../context/BoundingBoxContext';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -14,6 +15,7 @@ const HomeScreen = () => {
   const cameraRef = useRef(null);
   const [photo, setPhoto] = useState(null);
   const [previewMode, setPreviewMode] = useState(false);
+  const { boundingBoxEnabled } = useBoundingBox();
 
   const handleCapture = async () => {
     if (!cameraRef.current) return;
@@ -50,7 +52,11 @@ const HomeScreen = () => {
 
   const handleUsePhoto = () => {
     if (photo) {
-      navigation.navigate('Results', { photoUri: photo.uri });
+      // Pass both photo URI and bounding box enabled state
+      navigation.navigate('Results', { 
+        photoUri: photo.uri,
+        useBoundingBox: boundingBoxEnabled
+      });
     }
   };
 
@@ -124,10 +130,13 @@ const HomeScreen = () => {
           <View style={styles.cameraContainer}>
             <CameraView style={styles.camera} facing="back" ref={cameraRef} />
             <View style={styles.mainContent}>
-              <View style={styles.cameraOverlay} />
+              <View style={styles.cameraOverlay}>
+                {/* BoundingBoxToggle removed from here */}
+              </View>
               <View style={styles.bottomSection}>
                 <View style={styles.overlayInstructions}>
                   <Text style={styles.cameraText}>Position menu in frame</Text>
+                  {/* BoundingBox status text removed from here */}
                 </View>
 
                 <View style={styles.controlsContainer}>
@@ -182,6 +191,13 @@ const styles = StyleSheet.create({
   },
   cameraOverlay: {
     flex: 1,
+    alignItems: 'flex-end',
+  },
+  settingsOverlay: {
+    marginTop: 16,
+    marginRight: 16,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   bottomSection: {
     alignItems: 'center',
@@ -200,6 +216,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  boundingBoxStatus: {
+    color: 'white',
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 4,
+    fontStyle: 'italic',
   },
   controlsContainer: {
     flexDirection: 'row',
