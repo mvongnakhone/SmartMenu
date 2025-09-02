@@ -89,50 +89,37 @@ def process_menu_chunk(chunk_text):
                 'Authorization': f'Bearer {API_KEY}'
             },
             json={
-                "model": "gpt-4",
+                "model": "gpt-3.5-turbo",
                 "messages": [
                     {
                         "role": "system",
-                        "content": """You are parsing a Thai restaurant menu into structured JSON that was extracted 
-                        from an image using google cloud vision. The text is a little messy and out of order. 
+                        "content": """
+                        Parse this messy Thai menu text (from OCR) into structured JSON:
 
-                        Format the output as:
                         [
-                            {"name": "ชื่อเมนู", "price": 120},
-                            ...
+                        {"name": "ชื่อเมนู", "price": 120},
+                        ...
                         ]
 
-                        Parsing Rules:
+                        Rules:
+                            1. Each item = one JSON object with:
+                                - name: exact Thai text
+                                - price: integer only (no quotes, no decimals). Use 0 if missing.
 
-                        1. Each item must be a separate JSON object with:
-                            - "name": exact Thai menu item name from the text
-                            - "price": integer (no quotes, no decimals). If not listed, use 0.
+                            2. Slashes or Commas:
+                                - Same price (e.g. "กะเพราหมูสับ/ไก่สับ 95") → ONE item.
+                                - Different prices (e.g. "ไข่เจียว/ไข่เจียวหมูสับ 75/85") → split into TWO items.
 
-                        2. CRITICAL RULE ABOUT MENU ITEMS WITH SLASHES:
-                           a. DO NOT split a menu item when the slash indicates options of the same dish with the SAME price.
-                              Example: "กะเพราหมูสับ/ไก่สับ 95" MUST be kept as ONE item:
-                              {"name": "กะเพราหมูสับ/ไก่สับ", "price": 95}
+                            3. Do NOT translate or add extra text.
 
-                           b. Only split when dishes have DIFFERENT prices separated by slashes.
-                              Example: "ไข่เจียว/ไข่เจียวหมูสับ 75/85" becomes:
-                              {"name": "ไข่เจียว", "price": 75}
-                              {"name": "ไข่เจียวหมูสับ", "price": 85}
+                            4. Do NOT skip items.
 
-                        3. Always keep these as SINGLE dish entries with the slash included in the name:
-                           - Dishes where slash indicates meat options (หมู/ไก่/เนื้อ/กุ้ง)
-                           - Dishes where slash indicates cooking styles with same price
+                            5. OCR may be messy; extract best-effort matches.
 
-                        4. Do not translate anything to English.
+                            6. If multiple dishes are on one line, split them.
 
-                        5. Do not add extra text — only output the JSON array.
-
-                        6. Do not skip any menu items.
-
-                        7. Keep in mind that OCR results are not perfect. (Price may be on a separate line.
-                        Or sometimes multiple dihes are extracted followed by multiple prices. Match the dish with 
-                        the price that appears first. Then the second dish to the next price that appears.)
-
-                        8. If price is missing, use 0. """
+                            Output ONLY the JSON array.
+                        """
                     },
                     {
                         "role": "user",
