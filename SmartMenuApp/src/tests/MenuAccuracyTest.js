@@ -186,6 +186,7 @@ export default function MenuAccuracyTest() {
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
   const [availableMenus, setAvailableMenus] = useState([]);
+  const [processingTime, setProcessingTime] = useState(null);
   
   // Get bounding box state from context
   const { boundingBoxEnabled } = useBoundingBox();
@@ -201,6 +202,10 @@ export default function MenuAccuracyTest() {
     setLoading(true);
     setError(null);
     setResults(null);
+    setProcessingTime(null);
+    
+    // Start the timer
+    const startTime = Date.now();
     
     try {
       // Get the menu image using the static mapping
@@ -236,6 +241,13 @@ export default function MenuAccuracyTest() {
       
       // Parse the menu text
       const parsed = await parseMenuWithAI(text);
+      
+      // Stop the timer once we have the results
+      const endTime = Date.now();
+      const totalTimeMs = endTime - startTime;
+      setProcessingTime(totalTimeMs);
+      
+      console.log(`AI Parsing completed in ${totalTimeMs}ms`);
       console.log('AI Parsed Result:', parsed);
       
       // Load expected menu items
@@ -255,9 +267,21 @@ export default function MenuAccuracyTest() {
     } catch (err) {
       console.error('Error running menu test:', err);
       setError(`Error running test: ${err.message}`);
+      
+      // Stop timer even if there's an error
+      const endTime = Date.now();
+      const totalTimeMs = endTime - startTime;
+      setProcessingTime(totalTimeMs);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Helper function to format time in seconds and milliseconds
+  const formatTime = (ms) => {
+    const seconds = Math.floor(ms / 1000);
+    const milliseconds = ms % 1000;
+    return `${seconds}.${milliseconds.toString().padStart(3, '0')}s`;
   };
 
   return (
@@ -300,12 +324,22 @@ export default function MenuAccuracyTest() {
       {error && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{error}</Text>
+          {processingTime && (
+            <Text style={styles.timingText}>Process failed after {formatTime(processingTime)}</Text>
+          )}
         </View>
       )}
       
       {results && (
         <View style={styles.resultsContainer}>
           <Text style={styles.sectionTitle}>Test Results</Text>
+          
+          {processingTime && (
+            <View style={styles.timingContainer}>
+              <Text style={styles.timingLabel}>Total Processing Time:</Text>
+              <Text style={styles.timingValue}>{formatTime(processingTime)}</Text>
+            </View>
+          )}
           
           <View style={styles.scoreCard}>
             <View style={styles.scoreItem}>
@@ -498,5 +532,31 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#888',
     fontStyle: 'italic'
+  },
+  timingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e6f7ff',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#91d5ff'
+  },
+  timingLabel: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '500'
+  },
+  timingValue: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#0066cc'
+  },
+  timingText: {
+    marginTop: 8,
+    fontSize: 14,
+    fontStyle: 'italic',
+    color: '#666'
   }
 }); 
