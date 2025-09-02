@@ -15,12 +15,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import { useCurrency } from '../context/CurrencyContext';
 import { useBoundingBox } from '../context/BoundingBoxContext';
+import { useAIModel } from '../context/AIModelContext';
 import BoundingBoxToggle from '../components/BoundingBoxToggle';
 
 const ResultsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { currency, exchangeRates } = useCurrency();
   const { boundingBoxEnabled } = useBoundingBox();
+  const { useAccurateModel } = useAIModel();
   const [loading, setLoading] = useState(false);
   const photoUri = route?.params?.photoUri;
   // Get useBoundingBox from route params if available, otherwise use context value
@@ -37,12 +39,13 @@ const ResultsScreen = ({ route }) => {
         setLoading(false);
         
         console.log(`Processing image with bounding box: ${useBoundingBox ? 'enabled' : 'disabled'}`);
+        console.log(`Using ${useAccurateModel ? 'accurate' : 'fast'} AI model`);
         
       }, 1500);
       
       return () => clearTimeout(timer);
     }
-  }, [photoUri, useBoundingBox]);
+  }, [photoUri, useBoundingBox, useAccurateModel]);
 
   const translatedDishes = route?.params?.translatedDishes || [
     {

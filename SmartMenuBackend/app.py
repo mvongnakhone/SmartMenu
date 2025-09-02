@@ -60,9 +60,13 @@ def parse_menu():
         return jsonify({"error": "No text provided"}), 400
     
     try:
+        # Get the accurate model parameter
+        use_accurate_model = data.get('useAccurateModel', False)
+        logger.info(f"Using {'accurate' if use_accurate_model else 'fast'} AI model for parsing")
+        
         # Parse the menu text
         logger.info("Parsing menu text")
-        parsed_result = parse_menu_with_ai(data['text'])
+        parsed_result = parse_menu_with_ai(data['text'], use_accurate_model)
         
         # Log the result in a clean, formatted way - each object on a single line
         if isinstance(parsed_result, list):

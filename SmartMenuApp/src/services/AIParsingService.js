@@ -6,9 +6,10 @@ const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:500
 /**
  * Parses OCR text using backend API to structure menu items
  * @param {string} translatedText - The translated OCR text
+ * @param {boolean} useAccurateModel - Whether to use the more accurate AI model
  * @returns {Promise<string>} - The structured menu data
  */
-export const parseMenuWithAI = async (translatedText) => {
+export const parseMenuWithAI = async (translatedText, useAccurateModel = false) => {
   try {
     // Skip if no translated text is available
     if (!translatedText) {
@@ -21,7 +22,8 @@ export const parseMenuWithAI = async (translatedText) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        text: translatedText
+        text: translatedText,
+        useAccurateModel: useAccurateModel
       })
     });
 

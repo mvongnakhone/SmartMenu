@@ -5,8 +5,8 @@ const BoundingBoxContext = createContext();
 
 // Context provider component
 export const BoundingBoxProvider = ({ children }) => {
-  // Default to enabled
-  const [boundingBoxEnabled, setBoundingBoxEnabled] = useState(true);
+  // Default to disabled
+  const [boundingBoxEnabled, setBoundingBoxEnabled] = useState(false);
 
   // Toggle function
   const toggleBoundingBox = () => {

@@ -8,6 +8,7 @@ import * as FileSystem from 'expo-file-system';
 import Constants from 'expo-constants';
 import Header from '../components/Header';
 import { useBoundingBox } from '../context/BoundingBoxContext';
+import { useAIModel } from '../context/AIModelContext';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -16,6 +17,7 @@ const HomeScreen = () => {
   const [photo, setPhoto] = useState(null);
   const [previewMode, setPreviewMode] = useState(false);
   const { boundingBoxEnabled } = useBoundingBox();
+  const { useAccurateModel } = useAIModel();
 
   const handleCapture = async () => {
     if (!cameraRef.current) return;
@@ -52,10 +54,11 @@ const HomeScreen = () => {
 
   const handleUsePhoto = () => {
     if (photo) {
-      // Pass both photo URI and bounding box enabled state
+      // Pass both photo URI, bounding box enabled state, and AI model preference
       navigation.navigate('Results', { 
         photoUri: photo.uri,
-        useBoundingBox: boundingBoxEnabled
+        useBoundingBox: boundingBoxEnabled,
+        useAccurateModel: useAccurateModel
       });
     }
   };

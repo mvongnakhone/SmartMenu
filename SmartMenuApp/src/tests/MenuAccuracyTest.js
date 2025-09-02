@@ -6,7 +6,9 @@ import { parseMenuWithAI } from '../services/AIParsingService';
 import { Image } from 'react-native';
 import stringSimilarity from 'string-similarity';
 import BoundingBoxToggle from '../components/BoundingBoxToggle';
+import AIModelToggle from '../components/AIModelToggle';
 import { useBoundingBox } from '../context/BoundingBoxContext';
+import { useAIModel } from '../context/AIModelContext';
 
 // Static imports for test menu images
 const TEST_MENU_IMAGES = {
@@ -190,6 +192,8 @@ export default function MenuAccuracyTest() {
   
   // Get bounding box state from context
   const { boundingBoxEnabled } = useBoundingBox();
+  // Get AI model preference from context
+  const { useAccurateModel } = useAIModel();
 
   // Find available menus with expected parse files
   useEffect(() => {
@@ -230,6 +234,7 @@ export default function MenuAccuracyTest() {
       // Process the image with bounding box toggle setting
       console.log(`Testing menu accuracy for ${menuName}`);
       console.log(`Bounding box processing: ${boundingBoxEnabled ? 'enabled' : 'disabled'}`);
+      console.log(`Using ${useAccurateModel ? 'accurate' : 'fast'} AI model`);
       const visionResponse = await detectText(imageUri, boundingBoxEnabled);
       const text = getDetectedText(visionResponse, boundingBoxEnabled);
       
@@ -239,8 +244,8 @@ export default function MenuAccuracyTest() {
         return;
       }
       
-      // Parse the menu text
-      const parsed = await parseMenuWithAI(text);
+      // Parse the menu text using the selected AI model
+      const parsed = await parseMenuWithAI(text, useAccurateModel);
       
       // Stop the timer once we have the results
       const endTime = Date.now();
@@ -288,7 +293,10 @@ export default function MenuAccuracyTest() {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Menu Accuracy Test</Text>
       
-      <BoundingBoxToggle />
+      <View style={styles.togglesContainer}>
+        <BoundingBoxToggle />
+        <AIModelToggle />
+      </View>
       
       <View style={styles.menuSelector}>
         <Text style={styles.sectionTitle}>Select Menu to Test:</Text>
@@ -372,6 +380,8 @@ export default function MenuAccuracyTest() {
             Using similarity threshold: {NAME_SIMILARITY_THRESHOLD * 100}%
             {"\n"}
             Bounding box processing: {boundingBoxEnabled ? 'enabled' : 'disabled'}
+            {"\n"}
+            AI model: {useAccurateModel ? 'ACCURATE' : 'FAST'}
           </Text>
           
           <Text style={styles.sectionSubtitle}>Detailed Results:</Text>
@@ -558,5 +568,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontStyle: 'italic',
     color: '#666'
+  },
+  togglesContainer: {
+    flexDirection: 'column',
+    marginBottom: 20,
+    gap: 10
   }
 }); 

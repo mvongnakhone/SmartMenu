@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useCurrency, exchangeRates } from '../context/CurrencyContext';
 import BoundingBoxToggle from './BoundingBoxToggle';
+import AIModelToggle from './AIModelToggle';
 
 const Header = ({ leftIconType = 'menu', title = 'SmartMenu' }) => {
   const navigation = useNavigation();
@@ -85,6 +86,9 @@ const Header = ({ leftIconType = 'menu', title = 'SmartMenu' }) => {
               <Ionicons name="eye-outline" size={24} color="#3366FF" style={styles.menuIcon} />
               <Text style={styles.menuText}>Vision API Test</Text>
             </TouchableOpacity>
+            
+            {/* AI Model Toggle */}
+            <AIModelToggle inMenu={true} />
             
             {/* Bounding Box Toggle - styled to match menu items */}
             <BoundingBoxToggle inMenu={true} />
