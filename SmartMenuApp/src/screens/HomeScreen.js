@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
 import * as ImageManipulator from 'expo-image-manipulator';
+import * as ImagePicker from 'expo-image-picker';
 import Slider from '@react-native-community/slider';
 import Constants from 'expo-constants';
 import Header from '../components/Header';
@@ -13,6 +14,7 @@ import { useBoundingBox } from '../context/BoundingBoxContext';
 import { useAIModel } from '../context/AIModelContext';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const IS_SMALL_DEVICE = SCREEN_WIDTH < 375;
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -122,6 +124,52 @@ const HomeScreen = () => {
       setPreviewMode(true);
     } catch (error) {
       console.error('Error capturing photo:', error);
+    }
+  };
+
+  const handleGalleryPick = async () => {
+    try {
+      // Request permission to access media library
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+        return;
+      }
+      
+      // Launch the image picker with simplified options
+      const result = await ImagePicker.launchImageLibraryAsync({
+        quality: 1,
+        allowsEditing: false,
+      });
+      
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        // Create a directory for temporary photos if it doesn't exist
+        const tempDir = `${FileSystem.cacheDirectory}photos/`;
+        const dirInfo = await FileSystem.getInfoAsync(tempDir);
+        
+        if (!dirInfo.exists) {
+          await FileSystem.makeDirectoryAsync(tempDir, { intermediates: true });
+        }
+        
+        // Generate a unique filename
+        const filename = `menu_${new Date().getTime()}.jpg`;
+        const fileUri = `${tempDir}${filename}`;
+        
+        // Copy the selected photo to our app's cache directory
+        await FileSystem.copyAsync({
+          from: result.assets[0].uri,
+          to: fileUri
+        });
+        
+        // Set the photo and enter preview mode
+        setPhoto({ uri: fileUri });
+        setRotationAngle(0);
+        setPreviewMode(true);
+      }
+    } catch (error) {
+      console.error('Error picking image from gallery:', error);
+      alert(`Could not load image: ${error.message}`);
     }
   };
 
@@ -363,7 +411,7 @@ const HomeScreen = () => {
                 style={styles.previewButton} 
                 onPress={handleRetake}
               >
-                <Ionicons name="refresh" size={24} color="white" />
+                <Ionicons name="refresh" size={22} color="white" />
                 <Text style={styles.previewButtonText}>Retake</Text>
               </TouchableOpacity>
               
@@ -376,19 +424,17 @@ const HomeScreen = () => {
               >
                 <MaterialIcons 
                   name="crop" 
-                  size={24} 
+                  size={22} 
                   color="white" 
                 />
-                <Text style={styles.previewButtonText}>
-                  {isCropMode ? "Cropping" : "Crop"}
-                </Text>
+                <Text style={styles.previewButtonText}>Crop</Text>
               </TouchableOpacity>
               
               <TouchableOpacity 
                 style={[styles.previewButton, styles.usePhotoButton]} 
                 onPress={handleUsePhoto}
               >
-                <Ionicons name="checkmark" size={24} color="white" />
+                <Ionicons name="checkmark" size={22} color="white" />
                 <Text style={styles.previewButtonText}>Use Photo</Text>
               </TouchableOpacity>
             </View>
@@ -407,7 +453,7 @@ const HomeScreen = () => {
                 </View>
 
                 <View style={styles.controlsContainer}>
-                  <TouchableOpacity style={styles.galleryButton}>
+                  <TouchableOpacity style={styles.galleryButton} onPress={handleGalleryPick}>
                     <MaterialIcons name="photo-library" size={28} color="white" />
                   </TouchableOpacity>
                   <TouchableOpacity 
@@ -566,28 +612,32 @@ const styles = StyleSheet.create({
   },
   previewControls: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    padding: IS_SMALL_DEVICE ? 10 : 15,
+    paddingBottom: IS_SMALL_DEVICE ? 25 : 35,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    width: '100%',
+    marginBottom: 15,
   },
   previewButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 12,
+    padding: IS_SMALL_DEVICE ? 8 : 10,
     borderRadius: 8,
     backgroundColor: 'rgba(52, 52, 52, 0.8)',
-    minWidth: 120,
+    flex: 1,
+    marginHorizontal: IS_SMALL_DEVICE ? 2 : 5,
   },
   usePhotoButton: {
     backgroundColor: '#3366FF',
   },
   previewButtonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: IS_SMALL_DEVICE ? 12 : 14,
     fontWeight: '600',
-    marginLeft: 8,
+    marginLeft: IS_SMALL_DEVICE ? 3 : 5,
   },
   sliderContainer: {
     flexDirection: 'row',

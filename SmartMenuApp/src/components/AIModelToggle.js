@@ -19,7 +19,7 @@ const AIModelToggle = ({ inMenu = false }) => {
           <Text style={labelStyle}>AI Model:</Text>
           {useAccurateModel && 
             <Text style={styles.modelInfo}>
-              (more accurate, slower)
+              (slower)
             </Text>
           }
         </View>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 120, // Increased width for "ACCURATE" text
+    width: 120, 
     justifyContent: 'flex-end',
     marginLeft: 10, // Add margin to separate from label
   },
