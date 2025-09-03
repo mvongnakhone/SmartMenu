@@ -14,6 +14,7 @@ import { useAIModel } from '../context/AIModelContext';
 const TEST_MENU_IMAGES = {
   'ThaiMenu1': require('../../assets/test_menus/ThaiMenu1.jpg'),
   'ThaiMenu2': require('../../assets/test_menus/ThaiMenu2.jpg'),
+  'ThaiMenu2_straight': require('../../assets/test_menus/ThaiMenu2_straight.jpg'),
   'ThaiMenu3': require('../../assets/test_menus/ThaiMenu3.jpg'),
   'ThaiMenu4': require('../../assets/test_menus/ThaiMenu4.jpg')
 };
@@ -23,6 +24,7 @@ const EXPECTED_PARSE_DATA = {
   'ThaiMenu4': require('./expected_parse/ThaiMenu4.json'),
   'ThaiMenu3': require('./expected_parse/ThaiMenu3.json'),
   'ThaiMenu2': require('./expected_parse/ThaiMenu2.json'),
+  'ThaiMenu2_straight': require('./expected_parse/ThaiMenu2.json'),
   'ThaiMenu1': require('./expected_parse/ThaiMenu1.json')
 };
 

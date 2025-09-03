@@ -5,6 +5,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
+import * as ImageManipulator from 'expo-image-manipulator';
+import Slider from '@react-native-community/slider';
 import Constants from 'expo-constants';
 import Header from '../components/Header';
 import { useBoundingBox } from '../context/BoundingBoxContext';
@@ -16,6 +18,7 @@ const HomeScreen = () => {
   const cameraRef = useRef(null);
   const [photo, setPhoto] = useState(null);
   const [previewMode, setPreviewMode] = useState(false);
+  const [rotationAngle, setRotationAngle] = useState(0);
   const { boundingBoxEnabled } = useBoundingBox();
   const { useAccurateModel } = useAIModel();
 
@@ -46,26 +49,45 @@ const HomeScreen = () => {
       
       // Set the photo and enter preview mode
       setPhoto({ uri: fileUri });
+      setRotationAngle(0);
       setPreviewMode(true);
     } catch (error) {
       console.error('Error capturing photo:', error);
     }
   };
 
-  const handleUsePhoto = () => {
+  const handleUsePhoto = async () => {
     if (photo) {
-      // Pass both photo URI, bounding box enabled state, and AI model preference
-      navigation.navigate('Results', { 
-        photoUri: photo.uri,
-        useBoundingBox: boundingBoxEnabled,
-        useAccurateModel: useAccurateModel
-      });
+      try {
+        // Only apply image manipulation when user chooses to use the photo
+        let finalPhotoUri = photo.uri;
+        
+        // Apply rotation if needed
+        if (rotationAngle !== 0) {
+          const manipResult = await ImageManipulator.manipulateAsync(
+            photo.uri,
+            [{ rotate: rotationAngle }],
+            { compress: 0.8, format: ImageManipulator.SaveFormat.JPEG }
+          );
+          finalPhotoUri = manipResult.uri;
+        }
+        
+        // Pass the final photo URI, bounding box enabled state, and AI model preference
+        navigation.navigate('Results', { 
+          photoUri: finalPhotoUri,
+          useBoundingBox: boundingBoxEnabled,
+          useAccurateModel: useAccurateModel
+        });
+      } catch (error) {
+        console.error('Error processing final image:', error);
+      }
     }
   };
 
   const handleRetake = () => {
     setPreviewMode(false);
     setPhoto(null);
+    setRotationAngle(0);
   };
 
   if (!permission) {
@@ -111,7 +133,40 @@ const HomeScreen = () => {
       <View style={styles.cameraWrapper}>
         {previewMode ? (
           <View style={styles.previewContainer}>
-            <Image source={photo} style={styles.previewImage} />
+            <Image 
+              source={photo} 
+              style={[
+                styles.previewImage,
+                { transform: [{ rotate: `${rotationAngle}deg` }] }
+              ]}
+            />
+            
+            {/* Rotation Slider */}
+            <View style={styles.sliderContainer}>
+              <MaterialIcons name="rotate-left" size={24} color="white" />
+              <View style={styles.sliderWrapper}>
+                <Slider
+                  style={styles.slider}
+                  minimumValue={-45}
+                  maximumValue={45}
+                  step={0.5}
+                  value={rotationAngle}
+                  onValueChange={setRotationAngle}
+                  minimumTrackTintColor="#3366FF"
+                  maximumTrackTintColor="#FFFFFF"
+                  thumbTintColor="#3366FF"
+                />
+                <Text style={styles.angleReadout}>{rotationAngle.toFixed(1)}°</Text>
+              </View>
+              <MaterialIcons name="rotate-right" size={24} color="white" />
+              <TouchableOpacity 
+                style={styles.resetButton} 
+                onPress={() => setRotationAngle(0)}
+              >
+                <Text style={styles.resetButtonText}>Reset</Text>
+              </TouchableOpacity>
+            </View>
+            
             <View style={styles.previewControls}>
               <TouchableOpacity 
                 style={styles.previewButton} 
@@ -290,6 +345,7 @@ const styles = StyleSheet.create({
   previewContainer: {
     flex: 1,
     backgroundColor: 'black',
+    justifyContent: 'space-between',
   },
   previewImage: {
     flex: 1,
@@ -319,7 +375,43 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     marginLeft: 8,
-  }
+  },
+  sliderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    position: 'relative',
+  },
+  sliderWrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  slider: {
+    flex: 1,
+    height: 40,
+    width: '100%',
+  },
+  angleReadout: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
+    marginTop: 5,
+  },
+  resetButton: {
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    marginLeft: 10,
+  },
+  resetButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });
 
 export default HomeScreen;

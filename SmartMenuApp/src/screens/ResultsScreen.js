@@ -25,8 +25,8 @@ const ResultsScreen = ({ route }) => {
   const { useAccurateModel } = useAIModel();
   const [loading, setLoading] = useState(false);
   const photoUri = route?.params?.photoUri;
-  // Get useBoundingBox from route params if available, otherwise use context value
-  const useBoundingBox = route?.params?.useBoundingBox !== undefined 
+  // Get showBoundingBox from route params if available, otherwise use context value
+  const showBoundingBox = route?.params?.useBoundingBox !== undefined 
     ? route.params.useBoundingBox 
     : boundingBoxEnabled;
 
@@ -38,14 +38,14 @@ const ResultsScreen = ({ route }) => {
       const timer = setTimeout(() => {
         setLoading(false);
         
-        console.log(`Processing image with bounding box: ${useBoundingBox ? 'enabled' : 'disabled'}`);
+        console.log(`Processing image with bounding box: ${showBoundingBox ? 'enabled' : 'disabled'}`);
         console.log(`Using ${useAccurateModel ? 'accurate' : 'fast'} AI model`);
         
       }, 1500);
       
       return () => clearTimeout(timer);
     }
-  }, [photoUri, useBoundingBox, useAccurateModel]);
+  }, [photoUri, showBoundingBox, useAccurateModel]);
 
   const translatedDishes = route?.params?.translatedDishes || [
     {
