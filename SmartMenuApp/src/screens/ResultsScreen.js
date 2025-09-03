@@ -24,6 +24,7 @@ const ResultsScreen = ({ route }) => {
   const { boundingBoxEnabled } = useBoundingBox();
   const { useAccurateModel } = useAIModel();
   const [loading, setLoading] = useState(false);
+  const [expandedItems, setExpandedItems] = useState({});
   const photoUri = route?.params?.photoUri;
   // Get showBoundingBox from route params if available, otherwise use context value
   const showBoundingBox = route?.params?.useBoundingBox !== undefined 
@@ -53,44 +54,56 @@ const ResultsScreen = ({ route }) => {
       thaiName: 'ผัดไทย',
       priceTHB: 120,
       image: require('../../assets/padthai.jpg'),
+      description: 'Stir-fried rice noodles with eggs, tofu, bean sprouts, and peanuts. A popular Thai street food.',
     },
     {
       name: 'Tom Yum Soup',
       thaiName: 'ต้มยำกุ้ง',
       priceTHB: 150,
       image: require('../../assets/tomyum.jpg'),
+      description: 'Hot and sour soup with shrimp, lemongrass, galangal, and kaffir lime leaves. Known for its distinct spicy and aromatic flavors.',
     },
     {
       name: 'Green Curry',
       thaiName: 'แกงเขียวหวาน',
       priceTHB: 130,
       image: require('../../assets/greencurry.jpg'),
+      description: 'Thai curry made with green curry paste, coconut milk, meat, and vegetables. Slightly sweet with a moderate spice level.',
     },
     {
       name: 'Mango Sticky Rice',
       thaiName: 'ข้าวเหนียวมะม่วง',
       priceTHB: 100,
       image: require('../../assets/mangorice.jpg'),
+      description: 'Traditional Thai dessert made with glutinous rice, fresh mango, and coconut milk. Sweet and refreshing.',
     },
     {
       name: 'Som Tum (Papaya Salad)',
       thaiName: 'ส้มตำ',
       priceTHB: 90,
       image: require('../../assets/somtum.jpg'),
+      description: 'Spicy salad made from shredded unripe papaya, tomatoes, chili, lime, and fish sauce. Fresh, crunchy, and intensely flavorful.',
     },
   ];
 
-  const renderItem = ({ item }) => (
+  const toggleExpand = (index) => {
+    setExpandedItems(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
+
+  const renderItem = ({ item, index }) => (
     <View style={styles.card}>
       {item.image && <Image source={item.image} style={styles.image} />}
       <View style={styles.detailsContainer}>
         <View style={styles.textGroup}>
           <Text style={styles.dishName}>{item.name}</Text>
           <Text style={styles.thaiName}>{item.thaiName}</Text>
-          <TouchableOpacity style={styles.moreInfoRow}>
+          <TouchableOpacity style={styles.moreInfoRow} onPress={() => toggleExpand(index)}>
             <Text style={styles.moreInfo}>More info</Text>
             <Ionicons
-              name="chevron-down"
+              name={expandedItems[index] ? "chevron-up" : "chevron-down"}
               size={16}
               color="#3366ff"
               style={{ marginLeft: 4 }}
@@ -106,6 +119,18 @@ const ResultsScreen = ({ route }) => {
           )}
         </View>
       </View>
+      {expandedItems[index] && (
+        <View style={styles.expandedContent}>
+          <Text style={styles.description}>{item.description || "No description available."}</Text>
+          <View style={styles.ingredientTags}>
+            {item.ingredients && item.ingredients.map((ingredient, i) => (
+              <View key={i} style={styles.tag}>
+                <Text style={styles.tagText}>{ingredient}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+      )}
     </View>
   );
 
@@ -116,7 +141,7 @@ const ResultsScreen = ({ route }) => {
       {/* Header Component */}
       <Header leftIconType="back" />
 
-      <SafeAreaView style={styles.safeArea}>
+      <View style={styles.contentContainer}>
         {/* Dish list */}
         {loading ? (
           <View style={styles.loader}>
@@ -129,9 +154,10 @@ const ResultsScreen = ({ route }) => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
             contentContainerStyle={styles.list}
+            showsVerticalScrollIndicator={false}
           />
         )}
-      </SafeAreaView>
+      </View>
     </View>
   );
 };
@@ -141,11 +167,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f2f4f7',
   },
-  safeArea: {
+  contentContainer: {
     flex: 1,
+    paddingTop: 0, // Remove top padding
   },
   list: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 8, // Reduced top padding
+    paddingBottom: 16,
   },
   card: {
     backgroundColor: 'white',
@@ -215,6 +244,34 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: '#666',
+  },
+  expandedContent: {
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+  },
+  description: {
+    fontSize: 14,
+    color: '#444',
+    lineHeight: 20,
+  },
+  ingredientTags: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 8,
+  },
+  tag: {
+    backgroundColor: '#f0f5ff',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+    marginRight: 8,
+    marginTop: 6,
+  },
+  tagText: {
+    color: '#3366ff',
+    fontSize: 12,
   }
 });
 
