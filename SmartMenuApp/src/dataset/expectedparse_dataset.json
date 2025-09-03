@@ -3,43 +3,43 @@
     "thai_name": "Pla Rad Thot Kratiem",
     "thai_script": "ปลาแรดทอดกระเทียม",
     "english_name": "Fried Giant Gourami with Garlic",
-    "description": "Golden fried giant gourami served with crispy garlic, offering a fragrant and savory flavor.",
+    "description": "A whole giant gourami is scored and deep-fried until the skin turns golden and crisp while the flesh inside remains moist and flaky. It is then generously topped with fried garlic and sometimes a drizzle of light soy-based sauce. This dish balances the natural sweetness of the freshwater fish with the aromatic crunch of garlic, making it a flavorful centerpiece often enjoyed with steamed rice.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2020/06/03/94c099838cac4dc0baddbbc3ab1b92f9.jpg",
     "category": "Seafood dishes"
   },
   {
     "thai_name": "Pla Rad Kua Prik Kluea",
     "thai_script": "ปลาแรดคั่วพริกเกลือ",
     "english_name": "Giant Gourami with Chili and Salt",
-    "description": "Crispy giant gourami stir-fried with garlic, chili, and salt for a spicy and aromatic taste.",
+    "description": "The giant gourami is first fried until its skin is crisp and golden, then stir-fried with a fragrant mix of garlic, fresh chilies, and coarse salt. The quick toss in the wok infuses the fish with a bold, spicy, and slightly salty flavor, while keeping the flesh tender inside. It is a lively, aromatic dish often paired with steamed rice to balance the heat.",
     "region": "Central",
-    "image_url": "",
-    "category": "Stir-fried dishes"
+    "image_url": "https://i.ytimg.com/vi/KJrTF3MvuJI/maxresdefault.jpg",
+    "category": "Seafood dishes"
   },
   {
     "thai_name": "Pla Rad Sos Makham",
     "thai_script": "ปลาแรดซอสมะขาม",
     "english_name": "Giant Gourami with Tamarind Sauce",
-    "description": "Fried giant gourami topped with a sweet and tangy tamarind sauce, garnished with fried shallots and chilies.",
+    "description": "A whole giant gourami is deep-fried until golden and crispy, then topped with a rich tamarind sauce that blends sweet, sour, and savory flavors. The sauce is often garnished with fried shallots, dried chilies, and crisp garlic, adding layers of aroma and texture. This dish offers a perfect balance between the crunchy fish and the tangy-sweet tamarind glaze, making it a popular centerpiece in Thai family meals.",
     "region": "Central",
-    "image_url": "",
-    "category": "Deep-fried dishes"
+    "image_url": "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanner1140x507-504.jpg",
+    "category": "Seafood dishes"
   },
   {
     "thai_name": "Chu Chi",
     "thai_script": "ผัดฉ่า/ฉู่ฉี่ปลาแรด",
-    "english_name": "Chu Chi Curry",
-    "description": "A rich Thai curry dish made with red curry paste, coconut milk, and fish or seafood. It is thick, aromatic, and slightly sweet with a spicy kick.",
+    "english_name": "Chu Chi Curry with Giant Gourami",
+    "description": "Giant gourami fried or lightly simmered, then coated in thick red curry (chu chi) made with coconut milk, kaffir lime leaves, and aromatic spices. Rich, creamy, and slightly sweet, often topped with sliced red chilies and lime leaf shreds.",
     "region": "Central",
-    "image_url": "https://www.ajinomoto.co.th/storage/photos/shares/Recipe/Menu/Lot5-15/61fa995f1a019.jpg",
-    "category": "Curries"
+    "image_url": "https://images.squarespace-cdn.com/content/v1/5ae2b8fdf93fd4d57303a71d/1725954949990-VK0423VB8Q8NK35Z01FI/Choo+chee+fish.jpg",
+    "category": "Seafood"
   },
   {
     "thai_name": "Tom Yam",
     "thai_script": "ต้มยำปลาแรด",
-    "english_name": "Tom Yam",
-    "description": "Thailand’s world-famous hot and sour soup, made with shrimp or other proteins, lemongrass, galangal, kaffir lime leaves, and chilies. It is spicy, tangy, and fragrant.",
+    "english_name": "Tom Yam with Giant Gourami",
+    "description": "Thailand’s world-famous hot and sour soup, made with tender gourmi fish, lemongrass, galangal, kaffir lime leaves, and chilies. It is spicy, tangy, and fragrant.",
     "region": "Central",
     "image_url": "https://assets.unileversolutions.com/recipes-v2/242154.png",
     "category": "Soups"
@@ -47,26 +47,26 @@
   {
     "thai_name": "Kaeng Paa",
     "thai_script": "แกงป่าปลาแรด",
-    "english_name": "Jungle Curry",
+    "english_name": "Jungle Curry with Giant Gourami",
     "description": "A traditional Thai curry without coconut milk, made with a variety of wild herbs, vegetables, and meat. It is intensely spicy, aromatic, and watery in texture, reflecting its forest origins.",
     "region": "Central",
-    "image_url": "https://img.wongnai.com/p/1968x0/2018/10/12/4c9d9603a08a4c1b9dbb8454101c96b0.jpg",
+    "image_url": "https://hot-thai-kitchen.com/wp-content/uploads/2021/04/jungle-curry-blog.jpg",
     "category": "Curries"
   },
   {
     "thai_name": "Gaeng Pla Rad Bai Yor",
     "thai_script": "แกงปลาแรดใบยอ",
     "english_name": "Curry with Giant Gourami and Moringa Leaves",
-    "description": "A spicy Thai curry made with giant gourami fish and moringa leaves, combining rich herbal notes with a slightly bitter undertone.",
-    "region": "Central",
-    "image_url": "",
+    "description": "A southern-style curry made with giant gourami and moringa leaves (bai yor). The curry paste is spicy and aromatic, cooked with turmeric, garlic, and fresh chilies, giving the broth a bold flavor that balances the mild bitterness of the moringa leaves with the tender flesh of the fish.",
+    "region": "South",
+    "image_url": "https://api2.krua.co/wp-content/uploads/2020/07/RT1326_SEOImage_1200x630_SEO.jpg",
     "category": "Curries"
   },
   {
     "thai_name": "Tom Yam",
     "thai_script": "ต้มยำปลาคัง",
-    "english_name": "Tom Yam",
-    "description": "Thailand’s world-famous hot and sour soup, made with shrimp or other proteins, lemongrass, galangal, kaffir lime leaves, and chilies. It is spicy, tangy, and fragrant.",
+    "english_name": "Tom Yam with Catfish",
+    "description": "Thailand’s world-famous hot and sour soup, made with catfish, lemongrass, galangal, kaffir lime leaves, and chilies. It is spicy, tangy, and fragrant.",
     "region": "Central",
     "image_url": "https://assets.unileversolutions.com/recipes-v2/242154.png",
     "category": "Soups"
@@ -75,9 +75,9 @@
     "thai_name": "Pla Kang Kua Prik Glua",
     "thai_script": "ปลาคังคั่วพริกเกลือ",
     "english_name": "Stir-fried Catfish with Chili and Salt",
-    "description": "Catfish stir-fried with garlic, chili, and salt for a spicy, savory flavor with a crispy texture.",
+    "description": "Catfish pieces fried until crisp, then stir-fried with garlic, fresh chilies, and coarse salt. Spicy, salty, and aromatic, with a crunchy exterior and tender flesh inside.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/KJrTF3MvuJI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDNgny7Yb3i9QrKNknkeXhUSejp6g",
     "category": "Seafood dishes"
   },
   {
@@ -86,7 +86,7 @@
     "english_name": "Deep-fried Catfish with Garlic",
     "description": "Catfish deep-fried until golden and crispy, topped with fried garlic for an aromatic finish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2020/09/18/a29ee74cbb374a0495ef96119e07acff.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -102,19 +102,10 @@
     "thai_name": "Pla Kang Luak Jim",
     "thai_script": "ปลาคังลวกจิ้ม",
     "english_name": "Blanched Catfish with Dipping Sauce",
-    "description": "Catfish lightly boiled and served with a spicy dipping sauce, highlighting the natural flavor of the fish.",
+    "description": "Catfish blanched in hot water until tender, served with a spicy, tangy seafood dipping sauce made from lime juice, garlic, chili, and fish sauce.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2017/11/25/50076a6abf704168ab0730db504081f9.jpg",
     "category": "Seafood dishes"
-  },
-  {
-    "thai_name": "Kaeng Paa",
-    "thai_script": "แกงป่าปลาคัง",
-    "english_name": "Jungle Curry",
-    "description": "A traditional Thai curry without coconut milk, made with a variety of wild herbs, vegetables, and meat. It is intensely spicy, aromatic, and watery in texture, reflecting its forest origins.",
-    "region": "Central",
-    "image_url": "https://img.wongnai.com/p/1968x0/2018/10/12/4c9d9603a08a4c1b9dbb8454101c96b0.jpg",
-    "category": "Curries"
   },
   {
     "thai_name": "Kaeng Khiao Wan",
@@ -129,27 +120,18 @@
     "thai_name": "Pla Kang Pad Haeng",
     "thai_script": "ปลาคังผัดแห้ง",
     "english_name": "Stir-fried Dry Catfish",
-    "description": "Catfish stir-fried without broth, seasoned with herbs and spices to create a dry and flavorful dish.",
+    "description": "Catfish stir-fried dry with chili, garlic, and herbs, creating a bold, spicy flavor without sauce, leaving the fish slightly crisp and aromatic.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/nNFLtnkkbQg/maxresdefault.jpg",
     "category": "Seafood dishes"
-  },
-  {
-    "thai_name": "Tom Yam",
-    "thai_script": "ต้มยำทะเลใส,ข้น",
-    "english_name": "Tom Yam",
-    "description": "Thailand’s world-famous hot and sour soup, made with shrimp or other proteins, lemongrass, galangal, kaffir lime leaves, and chilies. It is spicy, tangy, and fragrant.",
-    "region": "Central",
-    "image_url": "https://assets.unileversolutions.com/recipes-v2/242154.png",
-    "category": "Soups"
   },
   {
     "thai_name": "Goong Pad Kapi",
     "thai_script": "กุ้งผัดกะปิ",
     "english_name": "Shrimp Stir-fried with Shrimp Paste",
-    "description": "Shrimp stir-fried with aromatic shrimp paste, chili, and herbs for a bold and savory flavor.",
+    "description": "Shrimp stir-fried with aromatic shrimp paste, garlic, and chilies, giving a savory, salty flavor with a rich umami depth.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.siamfishing.com/_pictures/content/upload2022/202211/1669469264F.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -159,7 +141,7 @@
     "description": "A Thai stir-fried curry dish with curry powder, egg, onion, celery, and meat or seafood, most famously crab. It is rich, savory, and mildly spicy.",
     "region": "Central",
     "image_url": "https://img.wongnai.com/p/1920x0/2018/07/12/5342a685462c482ba182732eca9d0ceb.jpg",
-    "category": "Meat dishes"
+    "category": "Stir-fried dishes"
   },
   {
     "thai_name": "Goong Thot Kratiem",
@@ -167,16 +149,16 @@
     "english_name": "Fried Shrimp with Garlic",
     "description": "Shrimp fried until golden and tossed with crispy garlic for a fragrant and savory dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://cookinghub.in.th/wp-content/uploads/2024/12/กุ้งทอดกระเทียม-แบบ-แห้ง.jpg",
     "category": "Seafood dishes"
   },
   {
     "thai_name": "Goong Kua Prik Kluea",
     "thai_script": "กุ้งคั่วพริกเกลือ",
     "english_name": "Shrimp with Chili and Salt",
-    "description": "Juicy shrimp wok-fried with garlic, chili, and salt for a spicy, savory flavor.",
+    "description": "Shrimp stir-fried with garlic, fresh chilies, and coarse salt, creating a spicy, salty, and aromatic flavor with a slight crispness.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.maggi.co.th/sites/default/files/styles/home_stage_944_531/public/srh_recipes/37db95b702429f9394085fb84639f62c.jpg?h=5ce944c9&itok=QUqTpy_8",
     "category": "Seafood dishes"
   },
   {
@@ -185,7 +167,7 @@
     "english_name": "Fried Shrimp with Tamarind Sauce",
     "description": "Crispy fried shrimp topped with a sweet and tangy tamarind sauce, garnished with fried shallots and chilies.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.hongthongrice.com/v2/wp-content/uploads/2018/01/HTR-Deep-Fried-Shrimp-Cover.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -194,7 +176,7 @@
     "english_name": "Dry Green Curry with Seafood",
     "description": "A drier version of green curry stir-fried with assorted seafood, herbs, and curry paste for an intense flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/rYPJFDz3KIM/maxresdefault.jpg",
     "category": "Curry dish"
   },
   {
@@ -203,7 +185,7 @@
     "english_name": "Hydroponic Kale Stir-fried with Shrimp",
     "description": "Crisp hydroponic kale stir-fried with shrimp, combining freshness with the sweet taste of seafood.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/v7xMsiylp7M/maxresdefault.jpg",
     "category": "Vegetable dishes"
   },
   {
@@ -212,7 +194,7 @@
     "english_name": "Spicy Giant Gourami Salad",
     "description": "A flavorful Thai salad featuring crispy fried giant gourami topped with chili, lime juice, fish sauce, and fresh herbs.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanner1140x507-646.jpg",
     "category": "Salads"
   },
   {
@@ -221,17 +203,17 @@
     "english_name": "Spicy Catfish Salad",
     "description": "A bold Thai salad made with tender pieces of catfish mixed with lime juice, chili, fish sauce, and fresh herbs.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/uV0cR2jF2s8/maxresdefault.jpg",
     "category": "Salads"
   },
   {
     "thai_name": "Laab",
     "thai_script": "ลาบทะเล",
-    "english_name": "Laab",
-    "description": "Minced meat salad+fish sauce+garlic",
+    "english_name": "Crispy Pork Laab",
+    "description": "Crispy pork belly chopped and dressed in laab spices—lime juice, fish sauce, chilies, herbs, and toasted rice powder—for a crunchy, spicy, and tangy salad. It is spicy, tangy, and aromatic, typically enjoyed with sticky rice and fresh vegetables.",
     "region": "Northeast",
     "image_url": "https://hot-thai-kitchen.com/wp-content/uploads/2023/08/laab-moo.jpg",
-    "category": "main dish"
+    "category": "Salads"
   },
   {
     "thai_name": "Yam Mama Thale",
@@ -239,17 +221,8 @@
     "english_name": "Seafood Instant Noodle Salad",
     "description": "A spicy salad made with Mama instant noodles mixed with shrimp, squid, and herbs in a lime and chili dressing.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/DebtpL1sJcQ/maxresdefault.jpg",
     "category": "Salads"
-  },
-  {
-    "thai_name": "Laab",
-    "thai_script": "ลาบหมูกรอบ",
-    "english_name": "Laab",
-    "description": "Minced meat salad+fish sauce+garlic",
-    "region": "Northeast",
-    "image_url": "https://hot-thai-kitchen.com/wp-content/uploads/2023/08/laab-moo.jpg",
-    "category": "main dish"
   },
   {
     "thai_name": "Yam Moo Mak",
@@ -257,17 +230,17 @@
     "english_name": "Marinated Pork Spicy Salad",
     "description": "A tangy and savory salad prepared with marinated pork, tossed with chili, lime juice, and herbs for bold flavors.",
     "region": "Northeastern",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/qy9eVcH1zIA/maxresdefault.jpg",
     "category": "Salads"
   },
   {
     "thai_name": "Laab",
     "thai_script": "ลาบหมูคั่ว",
-    "english_name": "Laab",
-    "description": "Minced meat salad+fish sauce+garlic",
+    "english_name": "Seafood Laab",
+    "description": "A Northeastern-style minced salad made with mixed seafood tossed with lime juice, fish sauce, chilies, fresh herbs, and roasted rice powder; bright, spicy, and aromatic.",
     "region": "Northeast",
     "image_url": "https://hot-thai-kitchen.com/wp-content/uploads/2023/08/laab-moo.jpg",
-    "category": "main dish"
+    "category": "Salads"
   },
   {
     "thai_name": "Moo Manao",
@@ -308,8 +281,8 @@
   {
     "thai_name": "Tom Yam",
     "thai_script": "ต้มยำปลาย่างเห็ดรวม",
-    "english_name": "Tom Yam",
-    "description": "Thailand’s world-famous hot and sour soup, made with shrimp or other proteins, lemongrass, galangal, kaffir lime leaves, and chilies. It is spicy, tangy, and fragrant.",
+    "english_name": "Tom Yam with Grilled Fish and Mixed Mushrooms",
+    "description": "Thailand’s world-famous hot and sour soup, made with fish, lemongrass, galangal, kaffir lime leaves, and chilies. It is spicy, tangy, and fragrant.",
     "region": "Central",
     "image_url": "https://assets.unileversolutions.com/recipes-v2/242154.png",
     "category": "Soups"
@@ -320,7 +293,7 @@
     "english_name": "Mixed Hot Pot Outside the Pot",
     "description": "A variety of meats, seafood, and vegetables cooked separately but served in the style of a Thai hot pot meal.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/f6JD8n3lsgk/maxresdefault.jpg",
     "category": "Hot pot dishes"
   },
   {
@@ -329,7 +302,7 @@
     "english_name": "Fresh Shrimp Chili Paste",
     "description": "A spicy Thai chili paste made with fresh shrimp, chili, garlic, and lime, typically served with fresh or steamed vegetables.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/qCaRectE-2o/maxresdefault.jpg",
     "category": "Dipping sauces and pastes"
   },
   {
@@ -338,14 +311,14 @@
     "english_name": "Chili Paste with Crispy Pork",
     "description": "A flavorful dish made with Thai roasted chili paste stir-fried with crispy pork belly, creating a balance of spicy, sweet, and savory flavors.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1968x0/2018/06/13/89ebd97287654f5e946470f91a6e4a6a.jpg",
     "category": "Deep-fried dishes"
   },
   {
     "thai_name": "Lon",
     "thai_script": "หลนเห็ด",
-    "english_name": "Lon",
-    "description": "A Central Thai dish of minced pork or shrimp simmered in coconut milk with fermented soybeans or shrimp paste, eaten with fresh vegetables.",
+    "english_name": "Lon with Bamboo Shoots and Shrimp",
+    "description": "A mild coconut-based dip simmered with shrimp paste, bamboo shoots, shrimp, and aromatics. Creamy, savory, and slightly sweet, served with fresh vegetables for dipping.",
     "region": "Central",
     "image_url": "https://img.wongnai.com/p/1920x0/2018/12/02/5a7dc11f548b4aeca1b29641b6434441.jpg",
     "category": "Meat dishes"
@@ -354,10 +327,10 @@
     "thai_name": "Lon",
     "thai_script": "หลนหน่อไม้กุ้ง",
     "english_name": "Lon",
-    "description": "A Central Thai dish of minced pork or shrimp simmered in coconut milk with fermented soybeans or shrimp paste, eaten with fresh vegetables.",
+    "description": "A vegetarian version of the coconut-based dip, made with assorted mushrooms cooked in coconut milk with shrimp paste or soy-based seasoning, garlic, and herbs. Earthy, rich, and paired with raw or steamed vegetables.",
     "region": "Central",
     "image_url": "https://img.wongnai.com/p/1920x0/2018/12/02/5a7dc11f548b4aeca1b29641b6434441.jpg",
-    "category": "Meat dishes"
+    "category": "Dipping sauces and pastes"
   },
   {
     "thai_name": "Nam Prik Jaew Moo",
@@ -365,7 +338,7 @@
     "english_name": "Jaew Chili Dip with Pork",
     "description": "A northeastern Thai chili dip (nam prik jaew) made with roasted chili, herbs, and pork, typically enjoyed with sticky rice and fresh vegetables.",
     "region": "Northeast (Isan)",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/JO6YdkzU3Dc/maxresdefault.jpg",
     "category": "Dipping sauces and pastes"
   },
   {
@@ -374,7 +347,7 @@
     "english_name": "Crispy Pork with Chili and Salt",
     "description": "Golden crispy pork belly wok-fried with garlic, chili, and salt for a spicy, aromatic, and crunchy flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/sZ7Kx3FMotg/maxresdefault.jpg",
     "category": "Deep-fried dishes"
   },
   {
@@ -389,8 +362,8 @@
   {
     "thai_name": "Chu Chi",
     "thai_script": "ฉู่ฉี่หมูกรอบ",
-    "english_name": "Chu Chi Curry",
-    "description": "A rich Thai curry dish made with red curry paste, coconut milk, and fish or seafood. It is thick, aromatic, and slightly sweet with a spicy kick.",
+    "english_name": "Chu Chi Curry with Crispy Pork",
+    "description": "Crispy pork belly cooked in thick chu chi red curry with coconut milk, kaffir lime leaves, and chilies. The sauce is rich, creamy, and aromatic, coating the crunchy pork pieces with a balance of spicy, sweet, and savory flavors.",
     "region": "Central",
     "image_url": "https://www.ajinomoto.co.th/storage/photos/shares/Recipe/Menu/Lot5-15/61fa995f1a019.jpg",
     "category": "Curries"
@@ -401,16 +374,16 @@
     "english_name": "Crispy Pork with Chili Paste",
     "description": "Crispy pork belly stir-fried with Thai roasted chili paste, creating a rich, spicy, and slightly sweet flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.pholfoodmafia.com/wp-content/uploads/2021/03/5Crispy-Pork-in-Thai-Chilli-Jam.jpg",
     "category": "Deep-fried dishes"
   },
   {
     "thai_name": "Kana Hydro Moo Krob",
     "thai_script": "คะน้าไฮโดรหมูกรอบ",
     "english_name": "Hydroponic Kale with Crispy Pork",
-    "description": "Hydroponic kale stir-fried with crispy pork belly, balancing crunchy vegetables with rich, savory pork.",
+    "description": "Fresh hydroponic kale stir-fried with garlic, soy-based seasoning, and crunchy pork belly. The tender greens pair with the savory, crispy pork for a flavorful and textural balance, often served with steamed rice.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.deksomboon.com/thumb.html?w=900&h=450&src=media_center/recipe/2016/4/4/749/recipe749201604046334.jpg&type=auto",
     "category": "Vegetable dishes"
   },
   {
@@ -419,52 +392,52 @@
     "english_name": "Fried Pork Belly with Fish Sauce",
     "description": "Crispy pork belly deep-fried until golden and seasoned with fish sauce for a salty, savory flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/FoHjU3ZUe3w/maxresdefault.jpg",
     "category": "Deep-fried dishes"
   },
   {
     "thai_name": "Sam Chan Pad Kapi",
     "thai_script": "สามชั้นผัดกะปิ",
     "english_name": "Pork Belly Stir-fried with Shrimp Paste",
-    "description": "Rich pork belly stir-fried with aromatic shrimp paste, chili, and herbs, giving it a bold and pungent taste.",
+    "description": "Pork belly stir-fried with aromatic shrimp paste, garlic, and chilies. The rich, salty flavor of the shrimp paste coats the crispy pork belly pieces, creating a bold and savory dish best enjoyed with steamed rice.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/Ie4YIxB0C-A/maxresdefault.jpg",
     "category": "Deep-fried dishes"
   },
   {
     "thai_name": "Tom Yam",
     "thai_script": "ต้มยำหมูสามชั้น",
-    "english_name": "Tom Yam",
-    "description": "Thailand’s world-famous hot and sour soup, made with shrimp or other proteins, lemongrass, galangal, kaffir lime leaves, and chilies. It is spicy, tangy, and fragrant.",
+    "english_name": "Tom Yam with Pork Belly",
+    "description": "Thailand’s world-famous hot and sour soup, made with crispy pork belly, lemongrass, galangal, kaffir lime leaves, and chilies. It is creamy, spicy, tangy, and savory.",
     "region": "Central",
-    "image_url": "https://assets.unileversolutions.com/recipes-v2/242154.png",
+    "image_url": "https://img-global.cpcdn.com/recipes/481f91f12b45318f/1200x630cq80/photo.jpg",
     "category": "Soups"
   },
   {
     "thai_name": "Pad Phet Moo Pa Nor Mai Dong",
     "thai_script": "ผัดเผ็ดหมูป่าหน่อไม้ดอง",
     "english_name": "Stir-fried Spicy Wild Boar with Pickled Bamboo Shoots",
-    "description": "A rustic stir-fry of wild boar meat with spicy curry paste and pickled bamboo shoots for an earthy, tangy taste.",
+    "description": "Wild boar meat stir-fried with red curry paste, pickled bamboo shoots, garlic, and fresh herbs. The dish is intensely spicy, aromatic, and savory, with a chewy texture from the boar meat balanced by the tang of bamboo shoots.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2019/03/21/f8841845057043568dd94242d907cd52.jpg",
     "category": "Stir-fried dishes"
   },
   {
     "thai_name": "Krapao Moo Pa",
     "thai_script": "กระเพราหมูป่า",
     "english_name": "Stir-fried Wild Boar with Holy Basil",
-    "description": "A spicy stir-fry of wild boar meat with holy basil, chili, and garlic, known for its bold flavors.",
+    "description": "Wild boar meat stir-fried with garlic, chilies, and holy basil leaves. Spicy, fragrant, and savory, with the chewy texture of boar meat adding depth to this classic Thai basil stir-fry.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/dcZZtHvXxZw/maxresdefault.jpg",
     "category": "Stir-fried dishes"
   },
   {
     "thai_name": "Kaeng Paa",
     "thai_script": "แกงป่าหมูป่า",
-    "english_name": "Jungle Curry",
-    "description": "A traditional Thai curry without coconut milk, made with a variety of wild herbs, vegetables, and meat. It is intensely spicy, aromatic, and watery in texture, reflecting its forest origins.",
+    "english_name": "Jungle Curry with Wild Boar",
+    "description": "Wild boar simmered in spicy jungle curry with fresh herbs, chilies, and vegetables, delivering a bold, fiery flavor without coconut milk.",
     "region": "Central",
-    "image_url": "https://img.wongnai.com/p/1968x0/2018/10/12/4c9d9603a08a4c1b9dbb8454101c96b0.jpg",
+    "image_url": "https://assets.unileversolutions.com/recipes-v2/117856.jpg",
     "category": "Curries"
   },
   {
@@ -509,7 +482,7 @@
     "english_name": "Rice Plate",
     "description": "A general serving of rice presented on a plate, often accompanied by various side dishes or curries.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://lisergia.org/wp-content/uploads/2020/10/ข้าว-อาหารจานหลัก.jpg",
     "category": "Rice dishes"
   },
   {
@@ -518,7 +491,7 @@
     "english_name": "Small Hotpot",
     "description": "A small portion of Thai-style hotpot, suitable for one or two people, served with soup and sides.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://static.vecteezy.com/system/resources/previews/020/706/502/non_2x/hot-pot-thai-style-hot-pot-with-clear-soup-in-the-clay-cooking-pot-photo.jpg",
     "category": "Soups"
   },
   {
@@ -527,7 +500,7 @@
     "english_name": "Medium Hotpot",
     "description": "A medium-sized Thai hotpot portion, served with broth, meat, or seafood and vegetables.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://static.vecteezy.com/system/resources/previews/020/706/502/non_2x/hot-pot-thai-style-hot-pot-with-clear-soup-in-the-clay-cooking-pot-photo.jpg",
     "category": "Soups"
   },
   {
@@ -536,7 +509,7 @@
     "english_name": "Large Hotpot",
     "description": "A large serving of Thai-style hotpot, typically filled with broth, meat, seafood, and vegetables for sharing.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://static.vecteezy.com/system/resources/previews/020/706/502/non_2x/hot-pot-thai-style-hot-pot-with-clear-soup-in-the-clay-cooking-pot-photo.jpg",
     "category": "Hotpot"
   },
   {
@@ -554,34 +527,34 @@
     "english_name": "Deep-fried Gourami or Tilapia with Garlic and Black Pepper",
     "description": "Gourami or tilapia deep-fried and seasoned with garlic and black pepper for a fragrant, crispy dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1968x0/2019/02/19/74f6b573c10c4dff81b2ff791046cae1.jpg",
     "category": "Seafood dishes"
   },
   {
     "thai_name": "Pla Rad/Pla Tubtim Tod Yum Mamuang",
     "thai_script": "ปลาแรด, ปลาทับทิม ทอดยำมะม่วง",
     "english_name": "Deep-fried Gourami or Tilapia with Mango Salad",
-    "description": "Crispy fried fish topped with a tangy and spicy Thai green mango salad.",
+    "description": "Deep-fried fish served crisp and golden, topped with a refreshing salad of shredded green mango, chilies, shallots, and herbs in a tangy, spicy dressing",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/-zKlZ2aXZDk/maxresdefault.jpg",
     "category": "Seafood dishes"
   },
   {
     "thai_name": "Pla Rad/Pla Tubtim Sam Ros",
     "thai_script": "ปลาแรด, ปลาทับทิม สามรส",
     "english_name": "Deep-fried Gourami or Tilapia with Three-flavor Sauce",
-    "description": "Crispy fried fish dressed with a sweet, sour, and spicy sauce for a perfectly balanced Thai flavor.",
+    "description": "Whole gourami or tilapia deep-fried until crispy, then topped with a three-flavor sauce that is sweet, sour, and spicy for a perfectly balanced flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/kuQ0ibdf7eI/maxresdefault.jpg",
     "category": "Seafood dishes"
   },
   {
     "thai_name": "Pla Rad/Pla Tubtim Rad Prik",
     "thai_script": "ปลาแรด, ปลาทับทิม ราดพริก",
     "english_name": "Deep-fried Gourami or Tilapia with Chili Sauce",
-    "description": "Crispy fried fish topped with a sweet and spicy chili sauce.",
+    "description": "Whole gourami or tilapia deep-fried until crispy, topped with a sweet chili sauce for a bold, savory flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.easycookingmenu.com/media/k2/items/cache/0aa2526f21d94ec0cf0dfc24eb7661b7_XL.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -590,7 +563,7 @@
     "english_name": "Deep-fried Gourami or Tilapia with Herbs",
     "description": "Whole fish deep-fried until crispy, topped with fried Thai herbs like lemongrass and kaffir lime leaves.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://thumbs.dreamstime.com/b/delicious-deep-fried-fish-giant-gourami-topping-crispy-garlic-herb-salad-spicy-green-ceramic-authentic-thai-food-top-258348201.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -599,7 +572,7 @@
     "english_name": "Deep-fried Gourami or Tilapia with Black Pepper Stir-fry",
     "description": "Crispy gourami or tilapia stir-fried with black pepper and aromatics for a bold, savory flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://previews.123rf.com/images/tae208/tae2081211/tae208121100101/16524954-deep-fried-gourami-fish-with-garlic.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -608,7 +581,7 @@
     "english_name": "Gourami or Tilapia with Garden-style Dressing",
     "description": "Deep-fried fish topped with a mix of fresh herbs, lime, garlic, and chili, known as 'garden style' dressing.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://d3h1lg3ksw6i6b.cloudfront.net/media/image/2023/03/14/1356989ba5df439cb0705574a4d811d3_How_Do_MICHELIN_Restaurant_Chefs_Elevate_Local_Thai_Gourami_Fish3.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -626,7 +599,7 @@
     "english_name": "Steamed Gourami or Tilapia with Lime",
     "description": "Steamed fish served in a tangy and spicy lime, chili, and garlic sauce, a refreshing Thai classic.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://static.vecteezy.com/system/resources/previews/014/232/661/large_2x/steamed-tilapia-fish-with-chili-and-lime-lemon-sauce-with-herb-and-vegetable-on-plate-fish-steam-lime-thai-food-free-photo.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -635,7 +608,7 @@
     "english_name": "Grilled Giant Gourami or Tilapia with Salt",
     "description": "Whole gourami or tilapia coated with salt and grilled over charcoal, keeping the fish moist and flavorful.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://delishglobe.com/wp-content/uploads/2024/10/Thai-Pla-Pao.png",
     "category": "Grilled dishes"
   },
   {
@@ -644,7 +617,7 @@
     "english_name": "Grilled Pork Spicy Salad",
     "description": "A zesty Thai salad made with slices of grilled pork mixed with lime juice, chili, fish sauce, and fresh herbs.",
     "region": "Northeastern",
-    "image_url": "",
+    "image_url": "https://assets.unileversolutions.com/recipes-v2/117443.jpg",
     "category": "Salads"
   },
   {
@@ -662,7 +635,7 @@
     "english_name": "Grilled Pork with Jaew Dipping Sauce",
     "description": "Slices of marinated grilled pork served with jaew, a smoky and spicy dipping sauce made from roasted chili and tamarind.",
     "region": "Northeastern",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2021/09/15/581b11b1ed6541829d73f668b566b69c.jpg",
     "category": "Grilled dishes"
   },
   {
@@ -680,7 +653,7 @@
     "english_name": "Fried Chicken Wings with Jaew Sauce",
     "description": "Deep-fried chicken wings served with jaew, a smoky and spicy dipping sauce from Northeastern Thailand.",
     "region": "Northeastern",
-    "image_url": "",
+    "image_url": "https://f.ptcdn.info/829/060/000/pi4k3l4vz0YC3OAH19dZ-o.jpg",
     "category": "Deep-fried dishes"
   },
   {
@@ -689,7 +662,7 @@
     "english_name": "French Fries",
     "description": "Deep-fried potato sticks, crispy on the outside and fluffy inside, served as a popular snack or side dish.",
     "region": "International",
-    "image_url": "",
+    "image_url": "https://www.inspiredtaste.net/wp-content/uploads/2022/10/Baked-French-Fries-Recipe-1200.jpg",
     "category": "Deep-fried dishes"
   },
   {
@@ -698,16 +671,16 @@
     "english_name": "Chicken Nuggets",
     "description": "Deep-fried breaded chicken pieces, a popular snack and side dish influenced by Western fast food.",
     "region": "International/Western-influenced",
-    "image_url": "",
+    "image_url": "https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2024/01/Screenshot-2024-01-12-alle-16.22.29-1.jpg",
     "category": "Snack dishes"
   },
   {
     "thai_name": "Goong Roll",
     "thai_script": "กุ้งโรล",
     "english_name": "Shrimp Roll",
-    "description": "Shrimp wrapped in a crispy pastry roll and deep-fried until golden, served with sweet chili sauce.",
+    "description": "Shrimp mixed with vegetables and herbs, wrapped in fresh rice paper rolls and served with a light dipping sauce.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/g29V9m4OY0E/maxresdefault.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -716,7 +689,7 @@
     "english_name": "Chicken with Lemon Cream Sauce",
     "description": "Tender pieces of chicken cooked in a creamy lemon sauce, combining richness with a refreshing citrus tang.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2017/12/26/8bee42552c284a49af9fc1db0ff185ff.jpg",
     "category": "Meat dishes"
   },
   {
@@ -725,8 +698,8 @@
     "english_name": "Stir-fried Mushrooms with Oyster Sauce",
     "description": "Tender mushrooms stir-fried with oyster sauce and garlic, creating a savory and aromatic side dish.",
     "region": "Central",
-    "image_url": "",
-    "category": "Stir-fried dishes"
+    "image_url": "https://img.wongnai.com/p/1920x0/2019/03/04/e3f0cb4547de4efe9203dfd16f303e43.jpg",
+    "category": "Vegetable dishes"
   },
   {
     "thai_name": "Pad Phak Tam Rue Doo Kan",
@@ -734,7 +707,7 @@
     "english_name": "Stir-fried Seasonal Vegetables",
     "description": "Fresh seasonal vegetables stir-fried with oyster sauce, garlic, and light seasoning for a simple, flavorful dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://inwfile.com/s-dp/b2xmoz.jpg",
     "category": "Vegetable dishes"
   },
   {
@@ -743,7 +716,7 @@
     "english_name": "Spicy and Sour Soup with Stewed Pork",
     "description": "A northeastern Thai (Isan) style hot and sour soup made with slow-stewed pork, enhanced with herbs, lime, and chili for a bold flavor.",
     "region": "Northeast (Isan)",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/mXrer4Rjx9o/maxresdefault.jpg",
     "category": "Soup dishes"
   },
   {
@@ -752,7 +725,7 @@
     "english_name": "Spicy Pork Bone Soup",
     "description": "A fiery and tangy soup made from pork spine bones simmered with lime juice, chilies, and herbs, known for its bold and zesty flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/074_Fh2rzY8/maxresdefault.jpg",
     "category": "Soups"
   },
   {
@@ -761,7 +734,7 @@
     "english_name": "Pork Rib Soup",
     "description": "A light and fragrant soup made with pork ribs simmered with Thai herbs, often flavored with lime, chili, and fish sauce.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/cOE_xBQsXvE/maxresdefault.jpg",
     "category": "Soup dishes"
   },
   {
@@ -770,7 +743,7 @@
     "english_name": "Stir-fried Chicken or Pork with Holy Basil",
     "description": "A classic Thai dish of chicken or pork stir-fried with holy basil, chili, and garlic, served over rice.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://recipe.sgethai.com/wp-content/uploads/2025/04/cover-kapraow-chicken.webp",
     "category": "Stir-fried dishes"
   },
   {
@@ -842,17 +815,8 @@
     "english_name": "Sesame Shrimp Toast",
     "description": "Minced shrimp spread on crispy bread squares, topped with sesame seeds, and deep-fried until golden.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.maggi.co.th/sites/default/files/srh_recipes/b04c5db00858f71c48c509afbd2ebe24.jpeg",
     "category": "Savoury snacks and starters"
-  },
-  {
-    "thai_name": "Pla Kod Luak Jim",
-    "thai_script": "ปลากดลวกจิ้ม",
-    "english_name": "Blanched Catfish with Dipping Sauce",
-    "description": "Catfish lightly boiled and served with a spicy dipping sauce, highlighting the fish’s natural flavor.",
-    "region": "Central",
-    "image_url": "",
-    "category": "Seafood dishes"
   },
   {
     "thai_name": "Kung Chae Nam Pla",
@@ -869,7 +833,7 @@
     "english_name": "Stir-fried Squid with Ground Chili",
     "description": "Tender squid stir-fried with ground dried chili, garlic, and Thai seasonings for a spicy and aromatic dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/YgsPwFNTEkE/maxresdefault.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -887,7 +851,7 @@
     "english_name": "Stir-fried Sea Bass with Black Pepper",
     "description": "Sea bass fillets stir-fried with black pepper, garlic, and vegetables, creating a bold and aromatic dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/XKnvYWoEjFk/maxresdefault.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -896,7 +860,7 @@
     "english_name": "Stir-fried Fried Fish with Holy Basil",
     "description": "Crispy fried fish stir-fried with holy basil, garlic, and chili for a fragrant and spicy dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/7E07tpoJCFQ/maxresdefault.jpg",
     "category": "Deep-fried dishes"
   },
   {
@@ -905,8 +869,8 @@
     "english_name": "Stir-fried Spicy Fried Fish",
     "description": "Crispy fried fish stir-fried with curry paste, chili, and herbs for a bold and spicy flavor.",
     "region": "Central",
-    "image_url": "",
-    "category": "Stir-fried dishes"
+    "image_url": "https://img.wongnai.com/p/1920x0/2024/03/04/d4d8ff850c0c4038af140b8e07b53d44.jpg",
+    "category": "Seafood dishes"
   },
   {
     "thai_name": "Khoi Moo Yang Jim Jaew",
@@ -914,7 +878,7 @@
     "english_name": "Grilled Pork with Spicy Dipping Sauce",
     "description": "Slices of marinated pork, grilled until tender and smoky, served with a northeastern Thai dipping sauce (nam jim jaew) made of roasted rice powder, chili, and lime.",
     "region": "Northeast (Isan)",
-    "image_url": "",
+    "image_url": "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu/recipes/TH-recipes/red-meats-&-red-meat-dishes/grilled-pork-collar-with-northeastern-thai-style-spicy-dipping-sauce/main-header.jpg",
     "category": "Meat dishes"
   },
   {
@@ -923,7 +887,7 @@
     "english_name": "Pot-baked Shrimp with Glass Noodles",
     "description": "A larger clay pot version of baked shrimp with glass noodles, cooked with soy sauce, pepper, and fresh herbs.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/LLU7TP96_Zw/maxresdefault.jpg",
     "category": "Noodle dishes"
   },
   {
@@ -932,7 +896,7 @@
     "english_name": "Baked Shrimp with Glass Noodles",
     "description": "Shrimp baked with glass noodles, soy sauce, ginger, and herbs in a clay pot, giving it a fragrant and savory flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://samprasvsraonic.com/wp-content/uploads/2022/11/d3160fbe-ca6e-4bb4-a299-48c419b994d2.jpg",
     "category": "Noodle dishes"
   },
   {
@@ -941,7 +905,7 @@
     "english_name": "Oyster Omelette",
     "description": "A crispy and chewy omelet made with oysters and starch batter, often served sizzling with bean sprouts.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/R3tMFKuO5-0/maxresdefault.jpg",
     "category": "Egg dish"
   },
   {
@@ -950,7 +914,7 @@
     "english_name": "Fried Shrimp Salad",
     "description": "A refreshing salad topped with crispy fried shrimp, fresh vegetables, and tangy dressing for a mix of crunchy and zesty flavors.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://recipe.sgethai.com/wp-content/uploads/2025/04/cover-fried-shrimp-salad_result.webp",
     "category": "Salads"
   },
   {
@@ -959,7 +923,7 @@
     "english_name": "Shrimp with Lemon Cream Sauce",
     "description": "Tender shrimp coated in a creamy lemon sauce that balances richness with citrus freshness.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2017/06/17/8f1c7cc43b824672bc8d789469db842e.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -968,7 +932,7 @@
     "english_name": "Soft-Shell Crab Salad",
     "description": "A vibrant salad featuring deep-fried soft-shell crab served with fresh greens, herbs, and a light, tangy dressing.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.tramaekrua.com/wp-content/uploads/2018/05/tramaekrua_18-04-17-2-1024x683.jpg",
     "category": "Salads"
   },
   {
@@ -977,7 +941,7 @@
     "english_name": "Stir-fried Soft-shell Crab with Salted Egg Sauce",
     "description": "Crispy soft-shell crab stir-fried in a rich and creamy salted egg yolk sauce, giving it a savory and slightly sweet flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.uncledeng.com/wp-content/uploads/2019/08/Sessions_08.jpg",
     "category": "Stir-fried dishes"
   },
   {
@@ -1004,7 +968,7 @@
     "english_name": "Deep-fried Sea Bass with Fish Sauce",
     "description": "Whole sea bass deep-fried until crispy, topped with a savory fish sauce glaze and served with fresh herbs.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/Q6OsfkOQRsc/maxresdefault.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -1013,7 +977,7 @@
     "english_name": "Steamed Sea Bass with Soy Sauce or Lime",
     "description": "Whole sea bass steamed and served either with a savory soy sauce base or a tangy lime, garlic, and chili dressing.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2018/02/21/a3b0ebd641604f36a6a2b4b622d4b2cd.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -1022,7 +986,7 @@
     "english_name": "Deep-fried Sea Bass with Chili and Salt",
     "description": "Crispy fried sea bass stir-fried with salt, garlic, and fresh chilies for a spicy and aromatic flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://assets.unileversolutions.com/recipes-v2/117660.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -1031,7 +995,7 @@
     "english_name": "Deep-fried Pork Ribs with Garlic",
     "description": "Pork ribs marinated and deep-fried until golden, topped with crispy fried garlic for a savory and aromatic flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/GQFusgWjtls/maxresdefault.jpg",
     "category": "Meat dishes"
   },
   {
@@ -1040,7 +1004,7 @@
     "english_name": "Spicy Shrimp Salad",
     "description": "A fiery and tangy Thai salad made with shrimp, fresh herbs, chili, and lime juice for a bold flavor.",
     "region": "Northeast",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/vtuyJ1gsAWg/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBRwu59_nrlXkWNa1c2v9iV2IVmCw",
     "category": "Salads"
   },
   {
@@ -1049,8 +1013,8 @@
     "english_name": "Stir-fried Blue Crab with Garlic",
     "description": "Blue crab stir-fried with garlic and light seasoning, creating a simple yet aromatic dish.",
     "region": "Central",
-    "image_url": "",
-    "category": "Stir-fried dishes"
+    "image_url": "https://img.wongnai.com/p/1920x0/2020/07/21/e16803b5c9754aa1a13b27c74d26fda5.jpg",
+    "category": "Seafood dishes"
   },
   {
     "thai_name": "Pad Kra Pao Khai Yiew Ma",
@@ -1058,7 +1022,7 @@
     "english_name": "Stir Fried Minced Pork with Century Eggs",
     "description": "Stir-Fried Minced Pork with Century Eggs is a spicy Thai dish made with minced pork, garlic, chilies, and holy basil, then topped with wedges of creamy, pungent century eggs. The rich eggs balance the heat and savory pork, creating a bold mix of textures and flavors.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu/recipes/TH-recipes/rice-dishes/rice-with-fried-egg-and-crispy-basil/main-header.jpg",
     "category": "Stir-fried dish"
   },
   {
@@ -1085,7 +1049,7 @@
     "english_name": "Stir-fried Crab with Black Pepper",
     "description": "Crab stir-fried with black pepper, garlic, and onions for a bold and peppery flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://f.ptcdn.info/222/059/000/pdl4bcd98KmL4t0XDLf-o.jpg",
     "category": "Stir-fried dishes"
   },
   {
@@ -1094,17 +1058,17 @@
     "english_name": "Braised Tofu with Mixed Toppings",
     "description": "Soft tofu topped with minced pork, mushrooms, and vegetables, simmered in a flavorful sauce.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://images.aws.nestle.recipes/original/991639ef7abd1cfb431ba33b4ab4be4f_artboard_8.jpg",
     "category": "Tofu dish"
   },
   {
     "thai_name": "Laab",
     "thai_script": "ลาบปลาทูทอด",
-    "english_name": "Laab",
-    "description": "Minced meat salad+fish sauce+garlic",
+    "english_name": "Fried Mackerel Laab",
+    "description": "A creative laab made with crispy fried mackerel, combined with lime juice, chili, fish sauce, herbs, and toasted rice powder. Balances crunchy fish texture with tangy and spicy flavors.",
     "region": "Northeast",
-    "image_url": "https://hot-thai-kitchen.com/wp-content/uploads/2023/08/laab-moo.jpg",
-    "category": "main dish"
+    "image_url": "https://images.squarespace-cdn.com/content/v1/5db239c14644543229502b74/9f9601c2-a1fd-4ced-a418-21715bb48e35/EP13+S2+-+Spicy+Fish+Larb.jpg",
+    "category": "Salads"
   },
   {
     "thai_name": "Phat Khi Mao",
@@ -1121,7 +1085,7 @@
     "english_name": "Stir-fried Minced Pork or Chicken with Holy Basil",
     "description": "A classic Thai street food made with minced pork or chicken stir-fried with holy basil, chili, and garlic.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.maggi.co.th/sites/default/files/styles/home_stage_944_531/public/srh_recipes/c07747088f182ba6cfabe8be6724229e.jpg?h=74b9fe57&itok=Uz4HIxlX",
     "category": "Stir-fried dishes"
   },
   {
@@ -1130,7 +1094,7 @@
     "english_name": "Stir-fried Cabbage with Fish Sauce",
     "description": "A simple yet flavorful stir-fry of cabbage with garlic and fish sauce, often served as a side dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/h3iwdEzqQWk/maxresdefault.jpg",
     "category": "Vegetable dishes"
   },
   {
@@ -1139,7 +1103,7 @@
     "english_name": "Deep-fried Sea Bass with Three-flavor Sauce",
     "description": "Crispy fried sea bass topped with a sweet, sour, and spicy sauce, creating a balanced and flavorful Thai classic.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://images.aws.nestle.recipes/original/9a1bfcc0b5bc2eb40a5b382ddc3f485c_artboard_9.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -1148,7 +1112,7 @@
     "english_name": "Steamed Ruby Fish with Lime or Soy Sauce",
     "description": "Ruby fish (tilapia) steamed and served with either a tangy lime, garlic, and chili dressing or a savory soy sauce base.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/yBYks21ArQ8/maxresdefault.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -1157,7 +1121,7 @@
     "english_name": "Enoki Mushroom Spicy Salad",
     "description": "A light and tangy salad made with enoki mushrooms tossed in lime juice, chili, fish sauce, and fresh herbs.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/odEHnVLrHjo/maxresdefault.jpg",
     "category": "Salads"
   },
   {
@@ -1166,7 +1130,7 @@
     "english_name": "Crispy Morning Glory Salad",
     "description": "Deep-fried morning glory tossed with chili, lime, fish sauce, and herbs for a crunchy and tangy salad.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2017/09/01/e9834096913e42b8804541e89f2ca0e5.jpg",
     "category": "Salads"
   },
   {
@@ -1175,7 +1139,7 @@
     "english_name": "Crispy Enoki Mushroom Spicy Salad",
     "description": "Deep-fried enoki mushrooms mixed with chili, lime juice, and herbs for a crunchy and zesty Thai-style salad.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/1XCHT65TzwU/maxresdefault.jpg",
     "category": "Salads"
   },
   {
@@ -1184,7 +1148,7 @@
     "english_name": "Sea Bass with Spicy Garden-style Dressing",
     "description": "Deep-fried sea bass topped with a zesty mix of fresh herbs, garlic, lime, and chilies, known as 'garden style' dressing.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img-global.cpcdn.com/recipes/741cb1b2916a963a/1200x630cq80/photo.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -1193,7 +1157,7 @@
     "english_name": "Fish Maw in Red Gravy",
     "description": "A savory soup made with fish maw stewed in a thick red-brown sauce with mushrooms and seasonings.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://api2.krua.co/wp-content/uploads/2020/07/RI1454_Gallery_-03-scaled.jpg",
     "category": "Soups"
   },
   {
@@ -1202,7 +1166,7 @@
     "english_name": "Stir-fried Dry Fish Maw",
     "description": "Fish maw stir-fried without broth, cooked with vegetables, soy sauce, and garlic for a savory and chewy texture.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://cheewajit.com/app/uploads/2021/09/กระเพาะปลาผัดแห้ง.jpg",
     "category": "Stir-fried dishes"
   },
   {
@@ -1211,17 +1175,17 @@
     "english_name": "Stir-fried Fish Maw with Shrimp",
     "description": "Fish maw stir-fried with shrimp, vegetables, and light seasonings for a chewy and savory dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://api2.krua.co/wp-content/uploads/2020/07/RI1456_Gallery_-03-scaled.jpg",
     "category": "Stir-fried dishes"
   },
   {
     "thai_name": "Chu Chi",
     "thai_script": "ฉู่ฉี่ปลาคังคัง",
-    "english_name": "Chu Chi Curry",
-    "description": "A rich Thai curry dish made with red curry paste, coconut milk, and fish or seafood. It is thick, aromatic, and slightly sweet with a spicy kick.",
+    "english_name": "Chu Chi Curry with Catfish",
+    "description": "Catfish cooked in thick chu chi red curry with coconut milk, kaffir lime leaves, and chilies, creating a rich, aromatic, and slightly sweet flavor.",
     "region": "Central",
-    "image_url": "https://www.ajinomoto.co.th/storage/photos/shares/Recipe/Menu/Lot5-15/61fa995f1a019.jpg",
-    "category": "Curries"
+    "image_url": "https://images.squarespace-cdn.com/content/v1/5ae2b8fdf93fd4d57303a71d/1725954949990-VK0423VB8Q8NK35Z01FI/Choo+chee+fish.jpg",
+    "category": "Seafood dishes"
   },
   {
     "thai_name": "Peek Gai Thot Kluea",
@@ -1229,7 +1193,7 @@
     "english_name": "Fried Chicken Wings with Salt",
     "description": "Simple and crispy deep-fried chicken wings lightly seasoned with salt for a savory snack or side dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/oDFdyZSsezU/maxresdefault.jpg",
     "category": "Deep-fried dishes"
   },
   {
@@ -1238,7 +1202,7 @@
     "english_name": "Fried Chicken Wings with Chili and Salt",
     "description": "Crispy chicken wings stir-fried with garlic, chili, and salt for a spicy and aromatic flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://cdn-cms.cpbrandsite.com/web/recipe/rzsi3fmczjl6nlrhem1amvqnfod1em9t7zwjtmwl.jpg",
     "category": "Deep-fried dishes"
   },
   {
@@ -1247,7 +1211,7 @@
     "english_name": "Stir-fried Crab with Chili and Salt",
     "description": "Fresh crab stir-fried with garlic, chili, and salt, giving it a spicy, savory, and fragrant taste.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/16LfosSwdpo/maxresdefault.jpg",
     "category": "Stir-fried dishes"
   },
   {
@@ -1256,7 +1220,7 @@
     "english_name": "Bamboo Pith in Red Soup",
     "description": "A nourishing Chinese-influenced soup made with bamboo pith stewed in a savory red broth with vegetables and seasonings.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanne_RI0020_1140x507.jpg",
     "category": "Soup"
   },
   {
@@ -1265,7 +1229,7 @@
     "english_name": "Stir-fried Baby Corn with Shrimp",
     "description": "A light and savory stir-fry of tender baby corn and shrimp, cooked with garlic and oyster sauce.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/w_9OADvkxWc/maxresdefault.jpg",
     "category": "Stir-fried dishes"
   },
   {
@@ -1274,7 +1238,7 @@
     "english_name": "Stir-fried Mixed Vegetables",
     "description": "A healthy stir-fry of assorted seasonal vegetables cooked with garlic and oyster sauce.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://images.aws.nestle.recipes/original/9a335435945f06cc5379513b5f7f6042_artboard_1.jpg",
     "category": "Vegetable dishes"
   },
   {
@@ -1283,7 +1247,7 @@
     "english_name": "Stir-fried Chinese Kale with Oyster Sauce",
     "description": "Fresh Chinese kale stir-fried with oyster sauce and garlic, a simple and savory Thai side dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/XlxW9PgOJqA/maxresdefault.jpg",
     "category": "Vegetable dishes"
   },
   {
@@ -1292,7 +1256,7 @@
     "english_name": "Chinese Kale with Salted Fish",
     "description": "Chinese kale stir-fried with pieces of salted fish, creating a salty, aromatic flavor popular in Thai home cooking.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://www.sgethai.com/wp-content/uploads/2022/09/9-23.jpg",
     "category": "Vegetable dishes"
   },
   {
@@ -1301,7 +1265,7 @@
     "english_name": "Egg Noodles with Shrimp",
     "description": "A noodle dish featuring egg noodles served with shrimp, often garnished with vegetables and light seasoning.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.taste.com.au/OA5IlXdG/taste/2016/11/prawn-stir-fry-with-egg-noodles-89880-1.jpeg",
     "category": "Noodle dishes"
   },
   {
@@ -1310,7 +1274,7 @@
     "english_name": "Stir-fried chicken with cashew nuts",
     "description": "A savory stir-fry of chicken, cashew nuts, and vegetables in a sweet and slightly spicy sauce.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2021/02/07/7160220f629b4d9cb3cbc486b565ed93.jpg",
     "category": "Meat dishes"
   },
   {
@@ -1319,7 +1283,7 @@
     "english_name": "Shrimp Stir-fried with Cashew Nuts",
     "description": "A savory stir-fry of shrimp with crunchy cashew nuts, onions, and dried chili in a sweet-salty sauce.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/BIxKfuu2zxs/maxresdefault.jpg",
     "category": "Stir-fried dish"
   },
   {
@@ -1328,7 +1292,7 @@
     "english_name": "Mixed Seafood Spicy Salad",
     "description": "A zesty salad of assorted seafood such as shrimp, squid, and mussels combined with lime, chili, and fresh herbs.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/-XrcwsUGmmE/maxresdefault.jpg",
     "category": "Salads"
   },
   {
@@ -1346,7 +1310,7 @@
     "english_name": "Stir-fried Squid with Salted Egg",
     "description": "Squid stir-fried with salted egg yolk, chili, and curry leaves, creating a rich, creamy, and savory flavor.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://recipe.sgethai.com/wp-content/uploads/2025/06/cover-25062025-stir-fried-squid-with-salted-egg-yolk_result.webp",
     "category": "Seafood dishes"
   },
   {
@@ -1355,7 +1319,7 @@
     "english_name": "Steamed Snow Fish with Soy Sauce",
     "description": "Snow fish delicately steamed and served with a savory soy sauce dressing, highlighting its soft and buttery texture.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpPZO12XJ_8GDIdFULu8AAuRXB5TJbYXKrug&s",
     "category": "Seafood dishes"
   },
   {
@@ -1364,7 +1328,7 @@
     "english_name": "Stir-fried Napa Cabbage with Oyster Sauce",
     "description": "Tender napa cabbage stir-fried with garlic and oyster sauce for a simple yet flavorful side dish.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/ZPr9jLcu2M4/maxresdefault.jpg",
     "category": "Stir-fried dishes"
   },
   {
@@ -1373,7 +1337,7 @@
     "english_name": "Braised Abalone Mushrooms with Kale",
     "description": "Tender abalone mushrooms simmered with crisp kale in a flavorful sauce, balancing earthy and slightly bitter notes.",
     "region": "Central Thailand",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2017/12/01/71bdebc6e98345a5a6c74b29f7ef4637.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -1382,7 +1346,7 @@
     "english_name": "Stir-fried Abalone Mushrooms with Shrimp",
     "description": "A light and savory stir-fry of abalone mushrooms and shrimp, cooked with garlic and oyster sauce for a delicate flavor.",
     "region": "Central Thailand",
-    "image_url": "",
+    "image_url": "https://img.wongnai.com/p/1920x0/2018/08/05/3b3dd0e8a2014ad7a336bdc69743dcea.jpg",
     "category": "Seafood dishes"
   },
   {
@@ -1418,7 +1382,7 @@
     "english_name": "Seafood Glass Noodle Salad",
     "description": "A refreshing salad of glass noodles mixed with shrimp, squid, and herbs, tossed in a spicy lime dressing.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://i.ytimg.com/vi/y_5n_HxUlck/maxresdefault.jpg",
     "category": "Salads"
   },
   {
@@ -1427,7 +1391,7 @@
     "english_name": "Stir-fried Four Friends Vegetables",
     "description": "A colorful stir-fry featuring four types of vegetables, often mushrooms, baby corn, carrots, and snow peas.",
     "region": "Central",
-    "image_url": "",
+    "image_url": "https://img-global.cpcdn.com/recipes/678f188111501459/1200x630cq80/photo.jpg",
     "category": "Stir-fried dishes"
   }
 ]
