@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Image } from 'react-native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import React, { useRef, useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Image, PanResponder, Dimensions } from 'react-native';
+import { Ionicons, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
@@ -12,6 +12,8 @@ import Header from '../components/Header';
 import { useBoundingBox } from '../context/BoundingBoxContext';
 import { useAIModel } from '../context/AIModelContext';
 
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [permission, requestPermission] = useCameraPermissions();
@@ -19,8 +21,75 @@ const HomeScreen = () => {
   const [photo, setPhoto] = useState(null);
   const [previewMode, setPreviewMode] = useState(false);
   const [rotationAngle, setRotationAngle] = useState(0);
+  const [isCropMode, setIsCropMode] = useState(false);
+  const [cropCoords, setCropCoords] = useState({
+    x: 50,
+    y: 100,
+    width: SCREEN_WIDTH - 100,
+    height: SCREEN_WIDTH,
+  });
+  const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const { boundingBoxEnabled } = useBoundingBox();
   const { useAccurateModel } = useAIModel();
+
+  // Get image dimensions when photo is set
+  useEffect(() => {
+    if (photo) {
+      Image.getSize(photo.uri, (width, height) => {
+        setImageSize({ width, height });
+      });
+    }
+  }, [photo]);
+
+  // Create pan responders for crop handles
+  const createPanResponder = (handleType) => {
+    return PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, gesture) => {
+        const { dx, dy } = gesture;
+        
+        setCropCoords(prev => {
+          let newCoords = { ...prev };
+          
+          switch (handleType) {
+            case 'topLeft':
+              newCoords.x = Math.max(0, Math.min(prev.x + dx, prev.x + prev.width - 100));
+              newCoords.y = Math.max(0, Math.min(prev.y + dy, prev.y + prev.height - 100));
+              newCoords.width = Math.max(100, prev.width - dx);
+              newCoords.height = Math.max(100, prev.height - dy);
+              break;
+            case 'topRight':
+              newCoords.y = Math.max(0, Math.min(prev.y + dy, prev.y + prev.height - 100));
+              newCoords.width = Math.max(100, prev.width + dx);
+              newCoords.height = Math.max(100, prev.height - dy);
+              break;
+            case 'bottomLeft':
+              newCoords.x = Math.max(0, Math.min(prev.x + dx, prev.x + prev.width - 100));
+              newCoords.width = Math.max(100, prev.width - dx);
+              newCoords.height = Math.max(100, prev.height + dy);
+              break;
+            case 'bottomRight':
+              newCoords.width = Math.max(100, prev.width + dx);
+              newCoords.height = Math.max(100, prev.height + dy);
+              break;
+            case 'move':
+              newCoords.x = Math.max(0, Math.min(SCREEN_WIDTH - prev.width, prev.x + dx));
+              newCoords.y = Math.max(0, Math.min(SCREEN_HEIGHT - prev.height, prev.y + dy));
+              break;
+          }
+          
+          return newCoords;
+        });
+      },
+      onPanResponderRelease: () => { /* Handle release if needed */ }
+    });
+  };
+  
+  const topLeftResponder = createPanResponder('topLeft');
+  const topRightResponder = createPanResponder('topRight');
+  const bottomLeftResponder = createPanResponder('bottomLeft');
+  const bottomRightResponder = createPanResponder('bottomRight');
+  const moveResponder = createPanResponder('move');
 
   const handleCapture = async () => {
     if (!cameraRef.current) return;
@@ -56,17 +125,62 @@ const HomeScreen = () => {
     }
   };
 
+  const resetCrop = () => {
+    // Reset crop to default (full image)
+    setCropCoords({
+      x: 50,
+      y: 100,
+      width: SCREEN_WIDTH - 100,
+      height: SCREEN_WIDTH,
+    });
+  };
+
+  const toggleCropMode = () => {
+    setIsCropMode(!isCropMode);
+    // Remove the rotation reset
+  };
+
   const handleUsePhoto = async () => {
     if (photo) {
       try {
         // Only apply image manipulation when user chooses to use the photo
         let finalPhotoUri = photo.uri;
+        let actions = [];
         
-        // Apply rotation if needed
+        // Apply crop and rotation in the correct order for best results
+        
+        // Add rotation first if needed (better for cropping)
         if (rotationAngle !== 0) {
+          actions.push({ rotate: rotationAngle });
+        }
+        
+        // Add crop action if in crop mode
+        if (isCropMode) {
+          // Convert crop coordinates to original image scale
+          const scaleX = imageSize.width / SCREEN_WIDTH;
+          const scaleY = imageSize.height / SCREEN_HEIGHT;
+          
+          const originX = Math.floor(cropCoords.x * scaleX);
+          const originY = Math.floor(cropCoords.y * scaleY);
+          const cropWidth = Math.floor(cropCoords.width * scaleX);
+          const cropHeight = Math.floor(cropCoords.height * scaleY);
+          
+          actions.push({
+            crop: {
+              originX,
+              originY,
+              width: cropWidth,
+              height: cropHeight
+            }
+          });
+        }
+        
+        // Apply manipulations if there are any
+        if (actions.length > 0) {
+          console.log('Applying image manipulations:', actions);
           const manipResult = await ImageManipulator.manipulateAsync(
             photo.uri,
-            [{ rotate: rotationAngle }],
+            actions,
             { compress: 0.8, format: ImageManipulator.SaveFormat.JPEG }
           );
           finalPhotoUri = manipResult.uri;
@@ -88,6 +202,8 @@ const HomeScreen = () => {
     setPreviewMode(false);
     setPhoto(null);
     setRotationAngle(0);
+    setIsCropMode(false);
+    resetCrop();
   };
 
   if (!permission) {
@@ -133,40 +249,115 @@ const HomeScreen = () => {
       <View style={styles.cameraWrapper}>
         {previewMode ? (
           <View style={styles.previewContainer}>
-            <Image 
-              source={photo} 
-              style={[
-                styles.previewImage,
-                { transform: [{ rotate: `${rotationAngle}deg` }] }
-              ]}
-            />
-            
-            {/* Rotation Slider */}
-            <View style={styles.sliderContainer}>
-              <MaterialIcons name="rotate-left" size={24} color="white" />
-              <View style={styles.sliderWrapper}>
-                <Slider
-                  style={styles.slider}
-                  minimumValue={-45}
-                  maximumValue={45}
-                  step={0.5}
-                  value={rotationAngle}
-                  onValueChange={setRotationAngle}
-                  minimumTrackTintColor="#3366FF"
-                  maximumTrackTintColor="#FFFFFF"
-                  thumbTintColor="#3366FF"
-                />
-                <Text style={styles.angleReadout}>{rotationAngle.toFixed(1)}°</Text>
-              </View>
-              <MaterialIcons name="rotate-right" size={24} color="white" />
-              <TouchableOpacity 
-                style={styles.resetButton} 
-                onPress={() => setRotationAngle(0)}
-              >
-                <Text style={styles.resetButtonText}>Reset</Text>
-              </TouchableOpacity>
+            <View style={styles.imageContainer}>
+              <Image 
+                source={photo} 
+                style={[
+                  styles.previewImage,
+                  { transform: [{ rotate: `${rotationAngle}deg` }] }
+                ]}
+              />
+              
+              {/* Crop Overlay */}
+              {isCropMode && (
+                <View style={styles.cropOverlay}>
+                  {/* Four dark rectangles to create the "outside" effect */}
+                  {/* Top rectangle */}
+                  <View style={[styles.cropShade, {
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: cropCoords.y
+                  }]} />
+                  
+                  {/* Bottom rectangle */}
+                  <View style={[styles.cropShade, {
+                    top: cropCoords.y + cropCoords.height,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
+                  }]} />
+                  
+                  {/* Left rectangle */}
+                  <View style={[styles.cropShade, {
+                    top: cropCoords.y,
+                    left: 0,
+                    width: cropCoords.x,
+                    height: cropCoords.height
+                  }]} />
+                  
+                  {/* Right rectangle */}
+                  <View style={[styles.cropShade, {
+                    top: cropCoords.y,
+                    left: cropCoords.x + cropCoords.width,
+                    right: 0,
+                    height: cropCoords.height
+                  }]} />
+
+                  {/* Crop Rectangle */}
+                  <View 
+                    style={[
+                      styles.cropRect, 
+                      {
+                        left: cropCoords.x, 
+                        top: cropCoords.y, 
+                        width: cropCoords.width, 
+                        height: cropCoords.height
+                      }
+                    ]}
+                    {...moveResponder.panHandlers}
+                  >
+                    {/* Corner Handles */}
+                    <View style={[styles.handle, styles.topLeftHandle]} {...topLeftResponder.panHandlers} />
+                    <View style={[styles.handle, styles.topRightHandle]} {...topRightResponder.panHandlers} />
+                    <View style={[styles.handle, styles.bottomLeftHandle]} {...bottomLeftResponder.panHandlers} />
+                    <View style={[styles.handle, styles.bottomRightHandle]} {...bottomRightResponder.panHandlers} />
+                  </View>
+                </View>
+              )}
             </View>
             
+            {/* Edit Controls - Show either rotation or crop controls based on mode */}
+            {!isCropMode ? (
+              /* Rotation Slider */
+              <View style={styles.sliderContainer}>
+                <MaterialIcons name="rotate-left" size={24} color="white" />
+                <View style={styles.sliderWrapper}>
+                  <Slider
+                    style={styles.slider}
+                    minimumValue={-45}
+                    maximumValue={45}
+                    step={0.5}
+                    value={rotationAngle}
+                    onValueChange={setRotationAngle}
+                    minimumTrackTintColor="#3366FF"
+                    maximumTrackTintColor="#FFFFFF"
+                    thumbTintColor="#3366FF"
+                  />
+                  <Text style={styles.angleReadout}>{rotationAngle.toFixed(1)}°</Text>
+                </View>
+                <MaterialIcons name="rotate-right" size={24} color="white" />
+                <TouchableOpacity 
+                  style={styles.resetButton} 
+                  onPress={() => setRotationAngle(0)}
+                >
+                  <Text style={styles.resetButtonText}>Reset</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              /* Crop Controls */
+              <View style={styles.cropControlsContainer}>
+                <TouchableOpacity 
+                  style={styles.cropControlButton} 
+                  onPress={resetCrop}
+                >
+                  <AntDesign name="reload1" size={20} color="white" />
+                  <Text style={styles.cropControlText}>Reset</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            
+            {/* Mode Toggle and Action Buttons */}
             <View style={styles.previewControls}>
               <TouchableOpacity 
                 style={styles.previewButton} 
@@ -175,6 +366,24 @@ const HomeScreen = () => {
                 <Ionicons name="refresh" size={24} color="white" />
                 <Text style={styles.previewButtonText}>Retake</Text>
               </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={[
+                  styles.previewButton, 
+                  isCropMode ? styles.activeButton : null
+                ]} 
+                onPress={toggleCropMode}
+              >
+                <MaterialIcons 
+                  name="crop" 
+                  size={24} 
+                  color="white" 
+                />
+                <Text style={styles.previewButtonText}>
+                  {isCropMode ? "Cropping" : "Crop"}
+                </Text>
+              </TouchableOpacity>
+              
               <TouchableOpacity 
                 style={[styles.previewButton, styles.usePhotoButton]} 
                 onPress={handleUsePhoto}
@@ -347,6 +556,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'space-between',
   },
+  imageContainer: {
+    flex: 1,
+    position: 'relative',
+  },
   previewImage: {
     flex: 1,
     resizeMode: 'contain',
@@ -411,6 +624,71 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
     fontWeight: '600',
+  },
+  cropOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent', // Changed from rgba(0, 0, 0, 0.5) to transparent
+  },
+  cropShade: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Darker shade for outside areas
+  },
+  cropRect: {
+    borderWidth: 2,
+    borderColor: 'white',
+    position: 'absolute',
+  },
+  handle: {
+    width: 20,
+    height: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    position: 'absolute',
+  },
+  topLeftHandle: {
+    top: -10,
+    left: -10,
+  },
+  topRightHandle: {
+    top: -10,
+    right: -10,
+  },
+  bottomLeftHandle: {
+    bottom: -10,
+    left: -10,
+  },
+  bottomRightHandle: {
+    bottom: -10,
+    right: -10,
+  },
+  cropControlsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 15,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  cropControlButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+  },
+  cropControlText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
+    marginLeft: 8,
+  },
+  activeButton: {
+    backgroundColor: '#3366FF', // Example active state color
   },
 });
 
