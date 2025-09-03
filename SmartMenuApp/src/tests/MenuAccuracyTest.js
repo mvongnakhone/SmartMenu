@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, ScrollView, ActivityIndicator, Alert, Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
-import { detectText, getDetectedText } from '../services/VisionService';
-import { parseMenuWithAI } from '../services/AIParsingService';
+import { detectText, getDetectedText } from '../services/VisionService.ts';
+import { parseMenuWithAI } from '../services/AIParsingService.ts';
 import { Image } from 'react-native';
 import stringSimilarity from 'string-similarity';
 import BoundingBoxToggle from '../components/BoundingBoxToggle';

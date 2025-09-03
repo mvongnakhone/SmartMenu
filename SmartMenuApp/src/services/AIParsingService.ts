@@ -9,7 +9,7 @@ const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:500
  * @param {boolean} useAccurateModel - Whether to use the more accurate AI model
  * @returns {Promise<string>} - The structured menu data
  */
-export const parseMenuWithAI = async (translatedText, useAccurateModel = false) => {
+export const parseMenuWithAI = async (translatedText: string, useAccurateModel: boolean = false): Promise<string> => {
   try {
     // Skip if no translated text is available
     if (!translatedText) {
@@ -27,7 +27,7 @@ export const parseMenuWithAI = async (translatedText, useAccurateModel = false) 
       })
     });
 
-    const data = await response.json();
+    const data: { result: string; error?: string } = await response.json();
 
     if (data.error) {
       console.error('AI parsing API error:', data.error);
@@ -38,6 +38,6 @@ export const parseMenuWithAI = async (translatedText, useAccurateModel = false) 
     return data.result;
   } catch (error) {
     console.error('Error during AI parsing:', error);
-    return 'AI parsing failed: ' + error.message;
+    return `AI parsing failed: ${(error as Error).message}`;
   }
 }; 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, Image, ScrollView, ActivityIndicator, Alert, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { detectText, getDetectedText } from '../services/VisionService';
-import { translateText } from '../services/TranslationService';
-import { parseMenuWithAI } from '../services/AIParsingService';
+import { detectText, getDetectedText } from '../services/VisionService.ts';
+import { translateText } from '../services/TranslationService.ts';
+import { parseMenuWithAI } from '../services/AIParsingService.ts';
 import * as FileSystem from 'expo-file-system';
 import { useNavigation } from '@react-navigation/native';
 

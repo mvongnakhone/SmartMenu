@@ -4,13 +4,27 @@ import Constants from 'expo-constants';
 // Get the backend API URL from environment or use a default
 const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:5001';
 
+// Type definitions for Vision API response
+interface VisionResponse {
+  bounding_box_text?: string;
+  responses?: Array<{
+    textAnnotations?: Array<{
+      description?: string;
+    }>;
+  }>;
+  error?: string;
+}
+
 /**
  * Detects text in an image using the backend API
  * @param {string} imageUri - The file URI of the image
  * @param {boolean} useBoundingBox - Whether to use bounding box text processing
  * @returns {Promise<Object>} - The API response with detected text
  */
-export const detectText = async (imageUri, useBoundingBox = true) => {
+export const detectText = async (
+  imageUri: string, 
+  useBoundingBox: boolean = true
+): Promise<VisionResponse> => {
   try {
     console.log('Sending request to Vision API via backend...');
     console.log('Backend URL:', API_URL);
@@ -25,7 +39,7 @@ export const detectText = async (imageUri, useBoundingBox = true) => {
       uri: imageUri,
       type: imageUri.endsWith('png') ? 'image/png' : 'image/jpeg',
       name: imageUri.split('/').pop() || 'image.jpg',
-    });
+    } as any);
     
     // Add bounding box preference as a parameter
     formData.append('use_bounding_box', useBoundingBox ? 'true' : 'false');
@@ -40,7 +54,7 @@ export const detectText = async (imageUri, useBoundingBox = true) => {
     });
 
     // Parse response
-    const result = await response.json();
+    const result: VisionResponse = await response.json();
     
     if (result.error) {
       throw new Error(result.error || 'Error detecting text');
@@ -59,7 +73,10 @@ export const detectText = async (imageUri, useBoundingBox = true) => {
  * @param {boolean} useBoundingBox - Whether to use bounding box processed text
  * @returns {string} - All detected text as a single string
  */
-export const getDetectedText = (visionResponse, useBoundingBox = true) => {
+export const getDetectedText = (
+  visionResponse: VisionResponse, 
+  useBoundingBox: boolean = true
+): string => {
   try {
     // Use bounding box processed text if enabled and available
     if (useBoundingBox && 

@@ -1,5 +1,6 @@
-// services/TranslationService.js
+// services/TranslationService.ts
 import Constants from 'expo-constants';
+import { ParsedItem } from './MenuMatchService';
 
 // Get the backend API URL from environment or use a default
 const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:5000';
@@ -10,7 +11,10 @@ const API_URL = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:500
  * @param {string} targetLang - Target language code (e.g., 'en', 'th').
  * @returns {Promise<string|Array>} - The translated text or menu items.
  */
-export const translateText = async (text, targetLang = 'en') => {
+export const translateText = async (
+  text: string | ParsedItem[], 
+  targetLang: string = 'en'
+): Promise<string | ParsedItem[]> => {
   try {
     // Ensure text is properly formatted for the request
     const textToTranslate = text;
@@ -26,7 +30,10 @@ export const translateText = async (text, targetLang = 'en') => {
       }),
     });
 
-    const data = await response.json();
+    const data: { 
+      translated_text: string | ParsedItem[];
+      error?: string;
+    } = await response.json();
 
     if (data.error) {
       console.error('Translation API error:', data.error);
@@ -38,4 +45,4 @@ export const translateText = async (text, targetLang = 'en') => {
     console.error('Error during translation:', error);
     return 'Translation failed';
   }
-};
+}; 
