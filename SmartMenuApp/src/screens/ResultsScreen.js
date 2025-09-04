@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StatusBar,
-  Alert,
+  ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -45,6 +45,7 @@ const ResultsScreen = ({ route }) => {
   const [error, setError] = useState(null);
   const [expandedItems, setExpandedItems] = useState({});
   const [menuItems, setMenuItems] = useState([]);
+  const [unmatchedItems, setUnmatchedItems] = useState([]);
   const [rawOcrText, setRawOcrText] = useState('');
   
   // Get photo URI and bounding box setting from route params
@@ -163,8 +164,16 @@ const ResultsScreen = ({ route }) => {
           matchConfidence: item.matchConfidence
         }));
         
+        // Separate matched and unmatched items
+        const matched = processedItems.filter(item => item.matchSource);
+        const unmatched = processedItems.filter(item => !item.matchSource);
+        
         console.log('Menu processing complete!', processedItems.length);
-        setMenuItems(processedItems);
+        console.log('Matched items:', matched.length);
+        console.log('Unmatched items:', unmatched.length);
+        
+        setMenuItems(matched);
+        setUnmatchedItems(unmatched);
         setCurrentStep(STEPS.COMPLETE);
       } catch (err) {
         console.error('Error in menu processing pipeline:', err);
@@ -280,6 +289,25 @@ const ResultsScreen = ({ route }) => {
     </View>
   );
 
+  const renderUnmatchedItems = () => (
+    <View style={styles.unmatchedContainer}>
+      <Text style={styles.unmatchedTitle}>Unidentified Menu Items</Text>
+      <View style={styles.unmatchedContent}>
+        {unmatchedItems.map((item, index) => (
+          <View key={index} style={styles.unmatchedItem}>
+            <Text style={styles.unmatchedName}>{item.name}</Text>
+            {!!item.thaiName && <Text style={styles.unmatchedThaiName}>{item.thaiName}</Text>}
+            {!!item.priceTHB && item.priceTHB !== 0 && (
+              <Text style={styles.unmatchedPrice}>
+                {"฿" + item.priceTHB}
+              </Text>
+            )}
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
@@ -292,7 +320,7 @@ const ResultsScreen = ({ route }) => {
         {currentStep !== STEPS.COMPLETE ? (
           renderLoading()
         ) : (
-          menuItems.length === 0 ? (
+          menuItems.length === 0 && unmatchedItems.length === 0 ? (
             <View style={styles.noResultsContainer}>
               <Text style={styles.noResultsText}>No menu items found</Text>
               <TouchableOpacity 
@@ -303,13 +331,33 @@ const ResultsScreen = ({ route }) => {
               </TouchableOpacity>
             </View>
           ) : (
-            <FlatList
-              data={menuItems}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItem}
-              contentContainerStyle={styles.list}
+            <ScrollView 
+              contentContainerStyle={styles.scrollContainer}
               showsVerticalScrollIndicator={false}
-            />
+            >
+              {menuItems.length > 0 ? (
+                <FlatList
+                  data={menuItems}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItem}
+                  contentContainerStyle={styles.list}
+                  scrollEnabled={false}
+                />
+              ) : (
+                <View style={styles.noMatchedContainer}>
+                  <Text style={styles.noMatchedText}>No identified menu items found in our database</Text>
+                </View>
+              )}
+              
+              {unmatchedItems.length > 0 && renderUnmatchedItems()}
+              
+              <View style={styles.summaryContainer}>
+                <Text style={styles.summaryText}>
+                  Total menu items: {menuItems.length + unmatchedItems.length} 
+                  ({menuItems.length} identified, {unmatchedItems.length} unidentified)
+                </Text>
+              </View>
+            </ScrollView>
           )
         )}
       </View>
@@ -326,10 +374,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 0, // Remove top padding
   },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingBottom: 16,
+  },
   list: {
     paddingHorizontal: 16,
     paddingTop: 8, // Reduced top padding
-    paddingBottom: 16,
   },
   card: {
     backgroundColor: 'white',
@@ -453,6 +504,69 @@ const styles = StyleSheet.create({
   retryText: {
     color: 'white',
     fontSize: 16,
+    fontWeight: '500',
+  },
+  unmatchedContainer: {
+    marginHorizontal: 16,
+    marginTop: 16,
+  },
+  unmatchedTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 8,
+  },
+  unmatchedContent: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 16,
+    shadowColor: '#999',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  unmatchedItem: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  unmatchedName: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#333',
+  },
+  unmatchedThaiName: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 2,
+  },
+  unmatchedPrice: {
+    fontSize: 14,
+    color: '#22aa44',
+    marginTop: 2,
+  },
+  noMatchedContainer: {
+    padding: 16,
+    alignItems: 'center',
+  },
+  noMatchedText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+  },
+  summaryContainer: {
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 8,
+    padding: 12,
+    backgroundColor: '#f0f5ff',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  summaryText: {
+    fontSize: 14,
+    color: '#3366ff',
     fontWeight: '500',
   }
 });
