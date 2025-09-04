@@ -16,15 +16,14 @@
 {"name": "Omelet rice ", "thaiName": "ข้าวไข่เจียว", "price": 70}
 {"name": "Minced pork omelet rice ", "thaiName": "ข้าวไข่เจียวหมูสับ", "price": 70}
 {"name": "French fries ", "thaiName": "เฟรนฟราย", "price": 70}
-{"name": "Fried eggs ", "thaiName": "ไข่ดาว", "price": 10}
+{"name": "Fried egg ", "thaiName": "ไข่ดาว", "price": 10}
 {"name": "Nuggets ", "thaiName": "นักเก็ต", "price": 70}
 {"name": "Na Go news ", "thaiName": "ข่าว นาโก่", "price": 70}
 {"name": "Shrimp rolls ", "thaiName": "กุ้งโรล", "price": 100}
 {"name": "Chicken with lemon cream ", "thaiName": "ไก่ครีมมะนาว", "price": 120}
 {"name": "Stir-fried ", "thaiName": "ผัด", "price": 0}
-{"name": "Stir-fried mushrooms with oyster sauce ", "thaiName": "ผัดเห็ดนํ้ามันหอย", "price": 80}
+{"name": "Stir-fried mushrooms in oyster sauce ", "thaiName": "ผัดเห็ดนํ้ามันหอย", "price": 80}
 {"name": "Seasonal vegetable stir-fry ", "thaiName": "ผัดผักตามฤดูกาล", "price": 80}
-{"name": "Boiled ", "thaiName": "ต้ม", "price": 0}
-{"name": "Spicy stewed pork soup ", "thaiName": "ต้มแซบหมูตุ๋น", "price": 150}
+{"name": "Stewed pork in spicy soup ", "thaiName": "ต้มแซบหมูตุ๋น", "price": 150}
 {"name": "Super pork rib soup ", "thaiName": "เล้งซุปเปอร์", "price": 150}
 {"name": "Pork bone soup", "thaiName": "ซุปกระดูกหมู", "price": 80}
