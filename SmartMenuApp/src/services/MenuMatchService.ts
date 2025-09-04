@@ -99,7 +99,7 @@ function findMatchInDataset(
     for (const dish of dataset) {
       if (dish.english_name) {
         const confidence = calculateSimilarity(item.name, dish.english_name);
-        if (confidence > 0.6) {
+        if (confidence > 0.8) {
           return { dish, confidence, source: datasetName };
         }
       }

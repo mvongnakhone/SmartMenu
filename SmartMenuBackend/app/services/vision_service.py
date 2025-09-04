@@ -10,6 +10,7 @@ import numpy as np
 import shutil
 import time
 from scipy.signal import find_peaks
+import json
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -232,6 +233,20 @@ def detect_text(image_file, use_bounding_box=True):
                 logger.info('Bounding box processing completed successfully')
         else:
             logger.info('Bounding box processing disabled, using original text')
+        
+        # Log OCR original text and full Vision response to files, regardless of settings
+        try:
+            os.makedirs(TEMP_IMAGES_DIR, exist_ok=True)
+            ts = int(time.time())
+            
+            # Save original OCR text if available
+            if 'original_text' in result and isinstance(result['original_text'], str):
+                ocr_text_path = os.path.join(TEMP_IMAGES_DIR, f"ocr_original_{ts}.txt")
+                with open(ocr_text_path, 'w', encoding='utf-8') as f:
+                    f.write(result['original_text'])
+                logger.info(f"OCR original text logged to {ocr_text_path}")
+        except Exception as log_err:
+            logger.error(f"Error logging Vision results: {log_err}")
         
         return result
     except Exception as e:

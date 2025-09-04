@@ -2,6 +2,8 @@ import os
 import requests
 import json
 import re
+import time
+import logging
 
 # Use environment variable for API key
 API_KEY = os.environ.get('OPENAI_API_KEY')
@@ -10,6 +12,10 @@ API_URL = 'https://api.openai.com/v1/chat/completions'
 # Constants for chunking
 MAX_CHUNK_LENGTH = 2500  # Characters per chunk
 MAX_TOKENS = 2000  # Max tokens per response
+
+# Define the path for temp images/logs
+TEMP_IMAGES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'temp_images')
+logger = logging.getLogger(__name__)
 
 def parse_menu_with_ai(text, use_accurate_model=False):
     """
@@ -212,6 +218,18 @@ def process_menu_chunk(chunk_text, use_accurate_model=False):
             
             print(f"Formatted JSON for logs: {formatted_json_for_logs}")
             
+            # Persist logs to files
+            try:
+                os.makedirs(TEMP_IMAGES_DIR, exist_ok=True)
+                ts = int(time.time())
+                # Save raw AI response text
+                raw_path = os.path.join(TEMP_IMAGES_DIR, f"ai_parse_raw_{ts}.txt")
+                with open(raw_path, 'w', encoding='utf-8') as f:
+                    f.write(result)
+                logger.info(f"AI raw response logged to {raw_path}")
+            except Exception as log_err:
+                logger.error(f"Error logging AI parsing results: {log_err}")
+            
             # Return the parsed JSON directly without additional formatting
             return parsed_json
             
@@ -270,6 +288,7 @@ def process_large_menu(text, use_accurate_model=False):
             all_results.extend(chunk_result)
     
     print(f"Completed processing {len(chunks)} chunks, extracted {len(all_results)} menu items")
+    
     return all_results
 
 def split_text_into_chunks(text, max_length):

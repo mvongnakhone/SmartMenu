@@ -21,18 +21,23 @@ const HomeScreen = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef(null);
   const [photo, setPhoto] = useState(null);
+  const [originalPhotoUri, setOriginalPhotoUri] = useState(null);
   const [previewMode, setPreviewMode] = useState(false);
   const [rotationAngle, setRotationAngle] = useState(0);
+  const [lastRotationAngle, setLastRotationAngle] = useState(0);
   const [isCropMode, setIsCropMode] = useState(false);
   const [cropCoords, setCropCoords] = useState({
-    x: 50,
-    y: 100,
-    width: SCREEN_WIDTH - 100,
-    height: SCREEN_WIDTH,
+    x: 0,
+    y: 0,
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
   });
+  const [lastCropCoords, setLastCropCoords] = useState(null);
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+  const [containerSize, setContainerSize] = useState({ width: SCREEN_WIDTH, height: SCREEN_HEIGHT });
   const { boundingBoxEnabled } = useBoundingBox();
   const { useAccurateModel } = useAIModel();
+  const [editStage, setEditStage] = useState(null); // 'crop' | 'rotate'
 
   // Get image dimensions when photo is set
   useEffect(() => {
@@ -43,44 +48,104 @@ const HomeScreen = () => {
     }
   }, [photo]);
 
+  // Helper: compute displayed image rect within container for resizeMode "contain"
+  const getDisplayedImageRect = () => {
+    const containerW = containerSize.width || SCREEN_WIDTH;
+    const containerH = containerSize.height || SCREEN_HEIGHT;
+    const imgW = imageSize.width || 1;
+    const imgH = imageSize.height || 1;
+    const containerAspect = containerW / containerH;
+    const imageAspect = imgW / imgH;
+    let displayedW, displayedH, offsetX, offsetY;
+    if (containerAspect > imageAspect) {
+      // container is wider than image; height fills, width letterboxed
+      displayedH = containerH;
+      displayedW = displayedH * imageAspect;
+      offsetX = (containerW - displayedW) / 2;
+      offsetY = 0;
+    } else {
+      // container is taller; width fills, height letterboxed
+      displayedW = containerW;
+      displayedH = displayedW / imageAspect;
+      offsetX = 0;
+      offsetY = (containerH - displayedH) / 2;
+    }
+    return { x: offsetX, y: offsetY, width: displayedW, height: displayedH };
+  };
+
+  // Set default crop to the displayed image bounds when entering crop stage
+  useEffect(() => {
+    if (editStage === 'crop' && imageSize.width && imageSize.height && containerSize.width && containerSize.height) {
+      if (lastCropCoords) {
+        setCropCoords(lastCropCoords);
+      } else {
+        const rect = getDisplayedImageRect();
+        setCropCoords({ x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height) });
+      }
+    }
+  }, [editStage, imageSize, containerSize, lastCropCoords]);
+
   // Create pan responders for crop handles
   const createPanResponder = (handleType) => {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (_, gesture) => {
         const { dx, dy } = gesture;
+        const rect = getDisplayedImageRect();
+        const minSize = 100;
         
         setCropCoords(prev => {
-          let newCoords = { ...prev };
+          let nextX = prev.x;
+          let nextY = prev.y;
+          let nextW = prev.width;
+          let nextH = prev.height;
           
           switch (handleType) {
             case 'topLeft':
-              newCoords.x = Math.max(0, Math.min(prev.x + dx, prev.x + prev.width - 100));
-              newCoords.y = Math.max(0, Math.min(prev.y + dy, prev.y + prev.height - 100));
-              newCoords.width = Math.max(100, prev.width - dx);
-              newCoords.height = Math.max(100, prev.height - dy);
+              nextX = prev.x + dx;
+              nextY = prev.y + dy;
+              nextW = prev.width - dx;
+              nextH = prev.height - dy;
               break;
             case 'topRight':
-              newCoords.y = Math.max(0, Math.min(prev.y + dy, prev.y + prev.height - 100));
-              newCoords.width = Math.max(100, prev.width + dx);
-              newCoords.height = Math.max(100, prev.height - dy);
+              nextX = prev.x;
+              nextY = prev.y + dy;
+              nextW = prev.width + dx;
+              nextH = prev.height - dy;
               break;
             case 'bottomLeft':
-              newCoords.x = Math.max(0, Math.min(prev.x + dx, prev.x + prev.width - 100));
-              newCoords.width = Math.max(100, prev.width - dx);
-              newCoords.height = Math.max(100, prev.height + dy);
+              nextX = prev.x + dx;
+              nextY = prev.y;
+              nextW = prev.width - dx;
+              nextH = prev.height + dy;
               break;
             case 'bottomRight':
-              newCoords.width = Math.max(100, prev.width + dx);
-              newCoords.height = Math.max(100, prev.height + dy);
+              nextX = prev.x;
+              nextY = prev.y;
+              nextW = prev.width + dx;
+              nextH = prev.height + dy;
               break;
             case 'move':
-              newCoords.x = Math.max(0, Math.min(SCREEN_WIDTH - prev.width, prev.x + dx));
-              newCoords.y = Math.max(0, Math.min(SCREEN_HEIGHT - prev.height, prev.y + dy));
+              nextX = prev.x + dx;
+              nextY = prev.y + dy;
               break;
           }
           
-          return newCoords;
+          // Enforce minimum size
+          nextW = Math.max(minSize, nextW);
+          nextH = Math.max(minSize, nextH);
+          
+          // Clamp position within displayed image rect
+          const maxX = rect.x + rect.width - nextW;
+          const maxY = rect.y + rect.height - nextH;
+          nextX = Math.min(Math.max(rect.x, nextX), maxX);
+          nextY = Math.min(Math.max(rect.y, nextY), maxY);
+          
+          // Ensure size does not exceed rect
+          nextW = Math.min(nextW, rect.width);
+          nextH = Math.min(nextH, rect.height);
+          
+          return { x: Math.round(nextX), y: Math.round(nextY), width: Math.round(nextW), height: Math.round(nextH) };
         });
       },
       onPanResponderRelease: () => { /* Handle release if needed */ }
@@ -120,8 +185,13 @@ const HomeScreen = () => {
       
       // Set the photo and enter preview mode
       setPhoto({ uri: fileUri });
+      setOriginalPhotoUri(fileUri);
+      setLastCropCoords(null);
       setRotationAngle(0);
+      setLastRotationAngle(0);
       setPreviewMode(true);
+      setEditStage('crop');
+      setIsCropMode(true);
     } catch (error) {
       console.error('Error capturing photo:', error);
     }
@@ -164,8 +234,13 @@ const HomeScreen = () => {
         
         // Set the photo and enter preview mode
         setPhoto({ uri: fileUri });
+        setOriginalPhotoUri(fileUri);
+        setLastCropCoords(null);
         setRotationAngle(0);
+        setLastRotationAngle(0);
         setPreviewMode(true);
+        setEditStage('crop');
+        setIsCropMode(true);
       }
     } catch (error) {
       console.error('Error picking image from gallery:', error);
@@ -174,12 +249,12 @@ const HomeScreen = () => {
   };
 
   const resetCrop = () => {
-    // Reset crop to default (full image)
+    const rect = getDisplayedImageRect();
     setCropCoords({
-      x: 50,
-      y: 100,
-      width: SCREEN_WIDTH - 100,
-      height: SCREEN_WIDTH,
+      x: Math.round(rect.x),
+      y: Math.round(rect.y),
+      width: Math.round(rect.width),
+      height: Math.round(rect.height),
     });
   };
 
@@ -195,32 +270,9 @@ const HomeScreen = () => {
         let finalPhotoUri = photo.uri;
         let actions = [];
         
-        // Apply crop and rotation in the correct order for best results
-        
-        // Add rotation first if needed (better for cropping)
+        // Rotation stage applies rotation only
         if (rotationAngle !== 0) {
           actions.push({ rotate: rotationAngle });
-        }
-        
-        // Add crop action if in crop mode
-        if (isCropMode) {
-          // Convert crop coordinates to original image scale
-          const scaleX = imageSize.width / SCREEN_WIDTH;
-          const scaleY = imageSize.height / SCREEN_HEIGHT;
-          
-          const originX = Math.floor(cropCoords.x * scaleX);
-          const originY = Math.floor(cropCoords.y * scaleY);
-          const cropWidth = Math.floor(cropCoords.width * scaleX);
-          const cropHeight = Math.floor(cropCoords.height * scaleY);
-          
-          actions.push({
-            crop: {
-              originX,
-              originY,
-              width: cropWidth,
-              height: cropHeight
-            }
-          });
         }
         
         // Apply manipulations if there are any
@@ -246,11 +298,73 @@ const HomeScreen = () => {
     }
   };
 
+  const handleContinueCrop = async () => {
+    if (!photo) return;
+    try {
+      // Persist last crop in displayed coordinates for restoring later
+      setLastCropCoords(cropCoords);
+
+      // Commit crop by applying it to the image and updating the URI
+      const rect = getDisplayedImageRect();
+      const displayedW = rect.width;
+      const displayedH = rect.height;
+      const offsetX = rect.x;
+      const offsetY = rect.y;
+
+      // Translate crop from container space to displayed image space
+      const cropXInDisplayed = Math.max(0, cropCoords.x - offsetX);
+      const cropYInDisplayed = Math.max(0, cropCoords.y - offsetY);
+      const cropWInDisplayed = Math.min(cropCoords.width, displayedW - cropXInDisplayed);
+      const cropHInDisplayed = Math.min(cropCoords.height, displayedH - cropYInDisplayed);
+
+      // Scale to original image pixels
+      const scaleX = (imageSize.width || 1) / displayedW;
+      const scaleY = (imageSize.height || 1) / displayedH;
+      const originX = Math.floor(cropXInDisplayed * scaleX);
+      const originY = Math.floor(cropYInDisplayed * scaleY);
+      const cropWidth = Math.floor(cropWInDisplayed * scaleX);
+      const cropHeight = Math.floor(cropHInDisplayed * scaleY);
+
+      const manipResult = await ImageManipulator.manipulateAsync(
+        photo.uri,
+        [{
+          crop: {
+            originX,
+            originY,
+            width: cropWidth,
+            height: cropHeight,
+          }
+        }],
+        { compress: 0.8, format: ImageManipulator.SaveFormat.JPEG }
+      );
+
+      setPhoto({ uri: manipResult.uri });
+      setEditStage('rotate');
+      setIsCropMode(false);
+      setRotationAngle(lastRotationAngle);
+    } catch (error) {
+      console.error('Error committing crop:', error);
+    }
+  };
+
+  const handleBackToCrop = () => {
+    if (originalPhotoUri) {
+      setPhoto({ uri: originalPhotoUri });
+    }
+    setLastRotationAngle(rotationAngle);
+    setEditStage('crop');
+    setIsCropMode(true);
+  };
+
   const handleRetake = () => {
     setPreviewMode(false);
     setPhoto(null);
+    setOriginalPhotoUri(null);
+    setLastCropCoords(null);
     setRotationAngle(0);
+    setLastRotationAngle(0);
     setIsCropMode(false);
+    setEditStage(null);
     resetCrop();
   };
 
@@ -297,17 +411,20 @@ const HomeScreen = () => {
       <View style={styles.cameraWrapper}>
         {previewMode ? (
           <View style={styles.previewContainer}>
-            <View style={styles.imageContainer}>
+            <View style={styles.imageContainer} onLayout={(e) => {
+              const { width, height } = e.nativeEvent.layout;
+              setContainerSize({ width, height });
+            }}>
               <Image 
                 source={photo} 
                 style={[
                   styles.previewImage,
-                  { transform: [{ rotate: `${rotationAngle}deg` }] }
+                  { transform: editStage === 'rotate' ? [{ rotate: `${rotationAngle}deg` }] : [] }
                 ]}
               />
               
               {/* Crop Overlay */}
-              {isCropMode && (
+              {editStage === 'crop' && isCropMode && (
                 <View style={styles.cropOverlay}>
                   {/* Four dark rectangles to create the "outside" effect */}
                   {/* Top rectangle */}
@@ -365,8 +482,8 @@ const HomeScreen = () => {
               )}
             </View>
             
-            {/* Edit Controls - Show either rotation or crop controls based on mode */}
-            {!isCropMode ? (
+            {/* Edit Controls - Show rotation only after crop is committed */}
+            {editStage === 'rotate' ? (
               /* Rotation Slider */
               <View style={styles.sliderContainer}>
                 <MaterialIcons name="rotate-left" size={24} color="white" />
@@ -405,38 +522,33 @@ const HomeScreen = () => {
               </View>
             )}
             
-            {/* Mode Toggle and Action Buttons */}
+            {/* Action Buttons */}
             <View style={styles.previewControls}>
               <TouchableOpacity 
                 style={styles.previewButton} 
-                onPress={handleRetake}
+                onPress={editStage === 'rotate' ? handleBackToCrop : handleRetake}
               >
-                <Ionicons name="refresh" size={22} color="white" />
-                <Text style={styles.previewButtonText}>Retake</Text>
+                <Ionicons name={editStage === 'rotate' ? 'chevron-back' : 'refresh'} size={22} color="white" />
+                <Text style={styles.previewButtonText}>{editStage === 'rotate' ? 'Back' : 'Retake'}</Text>
               </TouchableOpacity>
               
-              <TouchableOpacity 
-                style={[
-                  styles.previewButton, 
-                  isCropMode ? styles.activeButton : null
-                ]} 
-                onPress={toggleCropMode}
-              >
-                <MaterialIcons 
-                  name="crop" 
-                  size={22} 
-                  color="white" 
-                />
-                <Text style={styles.previewButtonText}>Crop</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={[styles.previewButton, styles.usePhotoButton]} 
-                onPress={handleUsePhoto}
-              >
-                <Ionicons name="checkmark" size={22} color="white" />
-                <Text style={styles.previewButtonText}>Use Photo</Text>
-              </TouchableOpacity>
+              {editStage === 'crop' ? (
+                <TouchableOpacity 
+                  style={[styles.previewButton, styles.usePhotoButton]} 
+                  onPress={handleContinueCrop}
+                >
+                  <Ionicons name="chevron-forward" size={22} color="white" />
+                  <Text style={styles.previewButtonText}>Continue</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity 
+                  style={[styles.previewButton, styles.usePhotoButton]} 
+                  onPress={handleUsePhoto}
+                >
+                  <Ionicons name="checkmark" size={22} color="white" />
+                  <Text style={styles.previewButtonText}>Use Photo</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         ) : (

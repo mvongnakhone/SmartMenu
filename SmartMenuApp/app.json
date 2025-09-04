@@ -13,20 +13,22 @@
       "backgroundColor": "#3366FF"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.movongna.SmartMenuApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#3366FF"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.movongna.SmartMenuApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "backendUrl": "http://192.168.1.39:5002"
+      "backendUrl": "http://100.121.3.254:5002"
     }
   }
 }

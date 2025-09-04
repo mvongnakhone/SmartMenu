@@ -249,9 +249,12 @@ const ResultsScreen = ({ route }) => {
         </View>
         <View style={styles.priceGroup}>
           <Text style={styles.convertedPrice}>
-            {currency + " " + (item.priceTHB * (exchangeRates[currency] || 1)).toFixed(2)}
+            {!item.priceTHB || item.priceTHB === 0 ? 
+              "Price Unknown" : 
+              currency + " " + (item.priceTHB * (exchangeRates[currency] || 1)).toFixed(2)
+            }
           </Text>
-          {currency !== 'THB' && !!item.priceTHB && (
+          {currency !== 'THB' && !!item.priceTHB && item.priceTHB !== 0 && (
             <Text style={styles.originalPrice}>{"฿" + item.priceTHB}</Text>
           )}
         </View>

@@ -1,10 +1,16 @@
 import os
 import requests
 import json
+import time
+import logging
 
 # Use environment variable for API key
 API_KEY = os.environ.get('GOOGLE_TRANSLATE_API_KEY')
 API_URL = f"https://translation.googleapis.com/language/translate/v2?key={API_KEY}"
+
+# Define the path for temp images/logs
+TEMP_IMAGES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'temp_images')
+logger = logging.getLogger(__name__)
 
 def translate_text(text, target_lang='en'):
     """
@@ -58,6 +64,18 @@ def translate_text(text, target_lang='en'):
                         "price": item['price']
                     })
             
+            # Persist translation results as text
+            try:
+                os.makedirs(TEMP_IMAGES_DIR, exist_ok=True)
+                ts = int(time.time())
+                out_path = os.path.join(TEMP_IMAGES_DIR, f"translations_menu_{target_lang}_{ts}.txt")
+                with open(out_path, 'w', encoding='utf-8') as f:
+                    for item in translated_menu:
+                        f.write(json.dumps(item, ensure_ascii=False) + "\n")
+                logger.info(f"Menu translations logged to {out_path}")
+            except Exception as log_err:
+                logger.error(f"Error logging menu translations: {log_err}")
+            
             return translated_menu
         else:
             # Handle regular text translation
@@ -83,7 +101,23 @@ def translate_text(text, target_lang='en'):
                 print(f"Translation API error: {data.get('error')}")
                 return 'Translation failed'
             
-            return data['data']['translations'][0]['translatedText']
+            translated_text = data['data']['translations'][0]['translatedText']
+            
+            # Persist text translation
+            try:
+                os.makedirs(TEMP_IMAGES_DIR, exist_ok=True)
+                ts = int(time.time())
+                out_path = os.path.join(TEMP_IMAGES_DIR, f"translation_text_{target_lang}_{ts}.txt")
+                with open(out_path, 'w', encoding='utf-8') as f:
+                    f.write("===== ORIGINAL =====\n\n")
+                    f.write(text_to_translate if isinstance(text_to_translate, str) else str(text_to_translate))
+                    f.write("\n\n===== TRANSLATED =====\n\n")
+                    f.write(translated_text)
+                logger.info(f"Text translation logged to {out_path}")
+            except Exception as log_err:
+                logger.error(f"Error logging text translation: {log_err}")
+            
+            return translated_text
     except Exception as e:
         print(f"Error during translation: {e}")
         return 'Translation failed' 
