@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Modal, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useCurrency, exchangeRates } from '../context/CurrencyContext';
+import { useCurrency, exchangeRates, currencySymbols } from '../context/CurrencyContext';
 import BoundingBoxToggle from './BoundingBoxToggle';
 import AIModelToggle from './AIModelToggle';
 
@@ -61,7 +61,7 @@ const Header = ({ leftIconType = 'menu', title = 'SmartMenu' }) => {
         <Text style={styles.title}>{title}</Text>
         <TouchableOpacity style={styles.currencyButton} onPress={handleCurrencyPress}>
           <Ionicons name="globe-outline" size={24} color="white" />
-          <Text style={styles.currencyText}>{currency}</Text>
+          <Text style={styles.currencyText}>{currencySymbols[currency]} {currency}</Text>
         </TouchableOpacity>
       </View>
 
@@ -132,7 +132,7 @@ const Header = ({ leftIconType = 'menu', title = 'SmartMenu' }) => {
                   style={styles.option}
                   onPress={() => handleCurrencySelect(item)}
                 >
-                  <Text style={styles.optionText}>{item}</Text>
+                  <Text style={styles.optionText}>{currencySymbols[item]} {item}</Text>
                 </TouchableOpacity>
               )}
             />

@@ -36,7 +36,7 @@ const STEPS = {
 
 const ResultsScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { currency, exchangeRates } = useCurrency();
+  const { currency, exchangeRates, currencySymbols } = useCurrency();
   const { boundingBoxEnabled } = useBoundingBox();
   const { useAccurateModel } = useAIModel();
   
@@ -260,11 +260,11 @@ const ResultsScreen = ({ route }) => {
           <Text style={styles.convertedPrice}>
             {!item.priceTHB || item.priceTHB === 0 ? 
               "Price Unknown" : 
-              currency + " " + (item.priceTHB * (exchangeRates[currency] || 1)).toFixed(2)
+              currencySymbols[currency] + " " + (item.priceTHB * (exchangeRates[currency] || 1)).toFixed(2)
             }
           </Text>
           {currency !== 'THB' && !!item.priceTHB && item.priceTHB !== 0 && (
-            <Text style={styles.originalPrice}>{"฿" + item.priceTHB}</Text>
+            <Text style={styles.originalPrice}>{currencySymbols['THB'] + item.priceTHB}</Text>
           )}
         </View>
       </View>
@@ -299,7 +299,7 @@ const ResultsScreen = ({ route }) => {
             {!!item.thaiName && <Text style={styles.unmatchedThaiName}>{item.thaiName}</Text>}
             {!!item.priceTHB && item.priceTHB !== 0 && (
               <Text style={styles.unmatchedPrice}>
-                {"฿" + item.priceTHB}
+                {currencySymbols['THB'] + item.priceTHB}
               </Text>
             )}
           </View>

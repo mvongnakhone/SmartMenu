@@ -1,0 +1,71 @@
+{"name": "Catfish with Holy Basil ", "thaiName": "กะเพราปลากด", "price": 0}
+{"name": " Spicy Catfish Stir-Fry ", "thaiName": "ผัดเผ็ดปลากด", "price": 0}
+{"name": " Grilled Pork Neck with Jaew Sauce ", "thaiName": "คอหมูย่าง จิ้มแจ่ว", "price": 0}
+{"name": " Fried Shrimp in Batter ", "thaiName": "กุ้งชุบแป้งทอด", "price": 0}
+{"name": " Baked Shrimp with Glass Noodles ", "thaiName": "กุ้งอบวุ้นเส้น", "price": 180}
+{"name": " Fish Maw in Red Sauce ", "thaiName": "กระเพาะปลาน้ำแดง", "price": 120}
+{"name": "MANU ", "thaiName": "MANU", "price": 0}
+{"name": "Shrimp with Sesame Sauce ", "thaiName": "กุ้งกระเบื้องโรยงา", "price": 0}
+{"name": " Stir-fried Cabbage with Fish Sauce ", "thaiName": "กะหล่ำปลีผัดน้ำปลา", "price": 0}
+{"name": " Boiled Catfish with Dipping Sauce ", "thaiName": "ปลากดลวกจิ้ม", "price": 0}
+{"name": " Shrimp in Fish Sauce ", "thaiName": "กุ้งแช่น้ำปลา", "price": 150}
+{"name": " Stir-fried Squid with Chili Powder ", "thaiName": "ปลาหมึกผัดพริกป่น", "price": 160}
+{"name": " Golden Needle Mushroom Salad ", "thaiName": "ยำเห็ดเข็มทอง", "price": 0}
+{"name": " Shrimp Cakes ", "thaiName": "ทอดมันกุ้ง", "price": 0}
+{"name": " Crispy Morning Glory Salad ", "thaiName": "ยำผักบุ้งกรอบ", "price": 160}
+{"name": " Stir-fried Sea Bass with Black Pepper ", "thaiName": "ปลากระพงผัดพริกไทยดำ", "price": 0}
+{"name": " Fried Tilapia with Three Flavors ", "thaiName": "ปลาทับทิมทอดสามรส", "price": 180}
+{"name": " Steamed Tilapia with Lime and Soy Sauce ", "thaiName": "ปลาทับทิมนึ่งมะนาว นึ่งซีอิ้ว", "price": 180}
+{"name": " Crispy Fried Enoki Mushroom Salad ", "thaiName": "ยำเห็ดเข็มทองทอดกรอบ", "price": 180}
+{"name": " Three Flavors Sea Bass ", "thaiName": "ปลากระพงสามรส", "price": 180}
+{"name": "FOOD STYLIST", "thaiName": "FOOD STYLIST", "price": 0}
+{"name": "Minced Pork with Holy Basil", "thaiName": "กะเพราหมูสับ", "price": 250}
+{"name": "Minced Chicken with Holy Basil", "thaiName": "กะเพราไก่สับ", "price": 250}
+{"name": "Dry-Fried Fish Maw", "thaiName": "กระเพาะปลาผัดแห้ง", "price": 250}
+{"name": "Stir-Fried Fish Maw with Shrimp", "thaiName": "กระเพาะปลาผัดกุ้ง", "price": 160}
+{"name": "Chu Chee with Catfish", "thaiName": "ฉู่ฉี่ปลากดคัง", "price": 180}
+{"name": "Pork with Lemon", "thaiName": "หมูมะนาว", "price": 0}
+{"name": "Oyster Omelet", "thaiName": "ออส่วน", "price": 0}
+{"name": "Fried Shrimp Salad", "thaiName": "สลัดกุ้งทอด", "price": 160}
+{"name": "Soft-Shell Crab with Chili and Salt", "thaiName": "ปูนิ่มคั่วพริกเกลือ", "price": 120}
+{"name": "Fried Chicken Wings with Salt", "thaiName": "ปีกไก่ทอดเกลือ", "price": 120}
+{"name": "Fried Chicken Wings with Chili and Salt", "thaiName": "ปีกไก่คั่วพริกเกลือ", "price": 160}
+{"name": "Shrimp in Lemon Cream Sauce", "thaiName": "กุ้งซอสครีมมะนาว", "price": 0}
+{"name": "Braised Bamboo Shoots in Red Sauce", "thaiName": "เยื่อไผ่ตุ๋นน้ำแดง", "price": 95}
+{"name": "Soft-Shell Crab Salad", "thaiName": "สลัดปูนิ่ม", "price": 190}
+{"name": "Stir-Fried Corn Shoots with Shrimp", "thaiName": "ยอดข้าวโพดผัดกุ้ง", "price": 150}
+{"name": "Soft-Shell Crab with Salted Egg Sauce", "thaiName": "ปูนิ่มผัดซอสไข่เค็ม", "price": 0}
+{"name": "Omelet", "thaiName": "ไข่เจียว", "price": 75}
+{"name": "Minced Pork Omelet", "thaiName": "ไข่เจียวหมูสับ", "price": 85}
+{"name": "Stuffed Eggs", "thaiName": "ไข่ยัดไส้", "price": 0}
+{"name": "Stir-Fried Mixed Vegetables", "thaiName": "ผัดผักรวมมิตร", "price": 190}
+{"name": "Middle Eastern Kale with Oyster Sauce", "thaiName": "คะน้าน้ำมันหอย", "price": 95}
+{"name": "Middle Eastern Kale with Salted Fish", "thaiName": "คะน้าปลาเค็ม", "price": 0}
+{"name": "Fried Sea Bass with Fish Sauce", "thaiName": "ปลากระพงทอดน้ำปลา", "price": 350}
+{"name": "Steamed Sea Bass with Soy Sauce", "thaiName": "ปลากระพงนึ่งซีอิ้ว", "price": 350}
+{"name": "Baked Shrimp Noodles", "thaiName": "บะหมี่อบกุ้ง", "price": 0}
+{"name": "Stir-Fried Chicken with Cashew Nuts ", "thaiName": "ไก่ผัดเม็ดมะม่วง", "price": 0}
+{"name": "Fried Sea Bass with Chili and Salt", "thaiName": "ปลากระพงทอดผัดพริกเกลือ", "price": 350}
+{"name": "Fried Pork Ribs with Garlic", "thaiName": "โครงหมูทอดกระเทียม", "price": 120}
+{"name": "Stir-fried Shrimp with Cashew Nuts", "thaiName": "กุ้งผัดเม็ดมะม่วง", "price": 0}
+{"name": "Seafood Salad", "thaiName": "ยำรวมมิตรทะเล", "price": 180}
+{"name": "Hakee", "thaiName": "แฮ่กิ๊น", "price": 0}
+{"name": "Crispy Three-Tone Salad", "thaiName": "ยำสามกรอบ", "price": 160}
+{"name": "Fried Soft-Shell Crab with Garlic", "thaiName": "ปูนิ่มทอดกระเทียม", "price": 150}
+{"name": "Crispy Salted Egg with Preserved Eggs", "thaiName": "ไข่เยี่ยวม้ากะเพรากรอบ", "price": 190}
+{"name": "Steamed Seafood Hor Mok", "thaiName": "ห่อหมกทะเล", "price": 0}
+{"name": "Steamed Snow Fish with Soy Sauce", "thaiName": "ปลาหิมะนึ่งซีอิ๊ว", "price": 120}
+{"name": "Chinese Cabbage in Oyster Sauce", "thaiName": "ผักกาดขาวน้ำมันหอย", "price": 180}
+{"name": "Stir-fried Squid with Salted Egg", "thaiName": "ปลาหมึกผัดไข่เค็ม", "price": 160}
+{"name": "By Weight", "thaiName": "ตามน้ำหนัก", "price": 0}
+{"name": "Stir-fried Soft-Shell Crab with Curry Powder", "thaiName": "ปูนิ่มผัดผงกระหรี่", "price": 190}
+{"name": "Fried Abalone Mushrooms with Chinese Kale", "thaiName": "เห็ดเป๋าฮือเจียนคะน้า", "price": 150}
+{"name": "Stir-fried Soft-Shell Crab with Black Pepper Sauce", "thaiName": "ปูนิ่มผัดพริกไทยด่า", "price": 0}
+{"name": "Tofu with Assorted Ingredients", "thaiName": "เต้าหู้ทรงเครื่อง", "price": 0}
+{"name": "Fried Tofu Salad", "thaiName": "ลาบเต้าหู้ทอด", "price": 0}
+{"name": "Stir-fried Catfish with Chili Paste", "thaiName": "ปลากดผัดฉ่า", "price": 190}
+{"name": "Stir-fried Abalone Mushrooms and Shrimp", "thaiName": "เห็ดเป๋าฮือผัดกุ้ง", "price": 180}
+{"name": "Crab Omelet||Oyster Omelet", "thaiName": "ไข่เจียวปู", "price": 180}
+{"name": "Fried Morning Glory with Red Chili Paste", "thaiName": "ไข่เจียวหอยนางรม", "price": 150}
+{"name": "Seafood Glass Noodle Salad", "thaiName": "ผักบุ้งไฟแดง", "price": 120}
+{"name": "Stir-fried Four Vegetables", "thaiName": "ยำวุ้นเส้นทะเล", "price": 180}

@@ -5,12 +5,22 @@ const CurrencyContext = createContext();
 
 // Exchange rates for currency conversion
 export const exchangeRates = {
-  USD: 0.0282,
-  GBP: 0.022,
-  EUR: 0.0257,
-  JPY: 4.47,
-  CNY: 0.204,
+  USD: 0.031,
+  GBP: 0.023,
+  EUR: 0.027,
+  JPY: 4.49,
+  CNY: 0.22,
   THB: 1,
+};
+
+// Currency symbols
+export const currencySymbols = {
+  USD: '$',
+  GBP: '£',
+  EUR: '€',
+  JPY: '¥',
+  CNY: '¥',
+  THB: '฿',
 };
 
 // Provider component that wraps your app and makes currency object available to any
@@ -22,7 +32,8 @@ export const CurrencyProvider = ({ children }) => {
   const currencyValue = {
     currency,
     setCurrency,
-    exchangeRates
+    exchangeRates,
+    currencySymbols
   };
 
   return (
