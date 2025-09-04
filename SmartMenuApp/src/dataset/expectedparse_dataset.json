@@ -515,10 +515,10 @@
   {
     "thai_name": "Khao Phat",
     "thai_script": "ข้าวผัดกุ้งจานใหญ่",
-    "english_name": "Thai Fried Rice",
-    "description": "A classic Thai fried rice dish stir-fried with garlic, soy sauce, egg, and a choice of meat or seafood. Often served with cucumber slices and lime on the side.",
+    "english_name": "Thai Fried Rice with Shrimp (Large)",
+    "description": "A classic Thai fried rice dish stir-fried with garlic, soy sauce, egg, and large shrimp. Often served with cucumber slices and lime on the side.",
     "region": "Central",
-    "image_url": "https://recipe.sgethai.com/wp-content/uploads/2025/06/23062025-fried-rice-with-pork04.webp",
+    "image_url": "https://img.wongnai.com/p/1920x0/2018/02/14/021350fce478468b98c775abd057a3c0.jpg",
     "category": "Rice dishes"
   },
   {
@@ -702,10 +702,28 @@
     "category": "Vegetable dishes"
   },
   {
-    "thai_name": "Pad Phak Tam Rue Doo Kan",
-    "thai_script": "ผัดผักตามฤดูกาล",
-    "english_name": "Stir-fried Seasonal Vegetables",
-    "description": "Fresh seasonal vegetables stir-fried with oyster sauce, garlic, and light seasoning for a simple, flavorful dish.",
+    "thai_name": "Pad Hed Nam Man Hoi",
+    "thai_script": "ผัดเห็ดนํ้ามันหอย",
+    "english_name": "Stir-fried Mushrooms with Oyster Sauce",
+    "description": "Tender mushrooms stir-fried with oyster sauce and garlic, creating a savory and aromatic side dish.",
+    "region": "Central",
+    "image_url": "https://img.wongnai.com/p/1920x0/2019/03/04/e3f0cb4547de4efe9203dfd16f303e43.jpg",
+    "category": "Vegetable dishes"
+  },
+  {
+    "thai_name": "Yam Wun Sen",
+    "thai_script": "ยำวุ่นเส้น",
+    "english_name": "Glass Noodle Salad",
+    "description": "A popular Thai salad made with glass noodles (mung bean vermicelli) mixed with minced pork, shrimp, squid, or other proteins. It’s flavored with lime juice, fish sauce, chili, and sugar, giving a perfect balance of spicy, sour, salty, and slightly sweet. Fresh herbs like cilantro, onions, and tomatoes are added for fragrance and crunch.",
+    "region": "Central",
+    "image_url": "https://inwfile.com/s-dp/b2xmoz.jpg",
+    "category": "Salads"
+  },
+  {
+    "thai_name": "Phat Het Nam Man Hoi",
+    "thai_script": "ผัดเห็ดน้ำมันหอย",
+    "english_name": "Stir-fried Mushrooms with Oyster Sauce",
+    "description": "A simple Thai stir-fry made with fresh mushrooms cooked in oyster sauce, giving it a savory and umami-rich flavor. Often includes garlic and vegetables, served with steamed rice.",
     "region": "Central",
     "image_url": "https://inwfile.com/s-dp/b2xmoz.jpg",
     "category": "Vegetable dishes"
@@ -758,26 +776,26 @@
   {
     "thai_name": "Khao Phat",
     "thai_script": "ข้าวผัดไก่,หมู",
-    "english_name": "Thai Fried Rice",
-    "description": "A classic Thai fried rice dish stir-fried with garlic, soy sauce, egg, and a choice of meat or seafood. Often served with cucumber slices and lime on the side.",
+    "english_name": "Thai Fried Rice with Pork",
+    "description": "A classic Thai fried rice dish stir-fried with garlic, soy sauce, egg, and pork. Often served with cucumber slices and lime on the side.",
     "region": "Central",
-    "image_url": "https://recipe.sgethai.com/wp-content/uploads/2025/06/23062025-fried-rice-with-pork04.webp",
+    "image_url": "https://img.wongnai.com/p/1920x0/2019/03/24/f7fa87e9479f46ad86be3f773f079fb9.jpg",
     "category": "Rice dishes"
   },
   {
     "thai_name": "Khao Phat",
     "thai_script": "ข้าวผัดปู",
-    "english_name": "Thai Fried Rice",
-    "description": "A classic Thai fried rice dish stir-fried with garlic, soy sauce, egg, and a choice of meat or seafood. Often served with cucumber slices and lime on the side.",
+    "english_name": "Thai Fried Rice with Crab",
+    "description": "A classic Thai fried rice dish stir-fried with garlic, soy sauce, egg, and crab. Often served with cucumber slices and lime on the side.",
     "region": "Central",
-    "image_url": "https://recipe.sgethai.com/wp-content/uploads/2025/06/23062025-fried-rice-with-pork04.webp",
+    "image_url": "https://recipe.sgethai.com/wp-content/uploads/2025/05/140525-crab-fried-rice-cover.webp",
     "category": "Rice dishes"
   },
   {
     "thai_name": "Khao Phat",
     "thai_script": "ข้าวผัดไก่",
-    "english_name": "Thai Fried Rice",
-    "description": "A classic Thai fried rice dish stir-fried with garlic, soy sauce, egg, and a choice of meat or seafood. Often served with cucumber slices and lime on the side.",
+    "english_name": "Thai Fried Rice with Chicken",
+    "description": "A classic Thai fried rice dish stir-fried with garlic, soy sauce, egg, and chicken. Often served with cucumber slices and lime on the side.",
     "region": "Central",
     "image_url": "https://recipe.sgethai.com/wp-content/uploads/2025/06/23062025-fried-rice-with-pork04.webp",
     "category": "Rice dishes"
@@ -1393,5 +1411,24 @@
     "region": "Central",
     "image_url": "https://img-global.cpcdn.com/recipes/678f188111501459/1200x630cq80/photo.jpg",
     "category": "Stir-fried dishes"
+  },
+  {
+    "thai_name": "Khao Na Gai",
+    "thai_script": "ข้าวหน้าไก่",
+    "english_name": "Khao Na Gai",
+    "description": "a classic Thai-Chinese style rice dish. It’s a plate of steamed white rice topped with tender chicken pieces cooked in a savory, slightly sweet gravy thickened with cornstarch. Often it includes shiitake mushrooms or peas, and is garnished with fresh cilantro or sliced chili.",
+    "region": "Central",
+    "image_url": "https://img-global.cpcdn.com/recipes/678f188111501459/1200x630cq80/photo.jpg",
+    "category": "Rice dishes"
+  },
+  {
+    "thai_name": "Khao Pad Rot Fai",
+    "thai_script": "ข้าวผัดรถไฟ",
+    "english_name": "Train Fried Rice",
+    "description": "Thai Railway Fried Rice  is a vintage, budget-friendly dish originating from Thai train stations, featuring jasmine rice stir-fried with tomatoes, eggs, and Chinese greens like Chinese kale or cabbage.",
+    "region": "Central",
+    "image_url": "https://i.ytimg.com/vi/HTV-KQJbOQg/maxresdefault.jpg",
+    "category": "Stir-fried dishes"
   }
 ]
+

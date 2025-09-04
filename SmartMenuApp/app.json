@@ -28,7 +28,7 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "backendUrl": "http://100.121.3.254:5002"
+      "backendUrl": "http://192.168.1.39:5002"
     }
   }
 }
